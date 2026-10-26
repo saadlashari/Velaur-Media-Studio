@@ -37,3 +37,35 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
 .site-topbar .site-nav [hidden],.site-topbar .site-nav>a[hidden],.site-topbar .site-nav>button[hidden]{display:none!important}
 .site-topbar .site-nav .nav-login:focus-visible,.site-topbar .site-nav .nav-signout:focus-visible{outline:3px solid #04bde7!important}
 @media(max-width:760px){.site-topbar .site-nav [hidden],.site-topbar .site-nav>a[hidden],.site-topbar .site-nav>button[hidden]{display:none!important}}
+
+/* v2 — contrast and hover corrections, after legacy theme overrides */
+.site-topbar{background:linear-gradient(110deg,#b3e7fc 0%,#789bdf 47%,#514292 100%)!important;border:1px solid #a6bcebe8!important;box-shadow:0 12px 33px #182e6480,inset 0 1px #ffffff80!important}
+.site-topbar .site-nav>a,.site-topbar .site-nav>button{color:#fff!important;text-shadow:0 1px 2px #15265070!important}
+.site-topbar .site-nav>a:hover,.site-topbar .site-nav>button:hover,.site-topbar .site-nav [aria-current=page]{color:#112959!important;text-shadow:none!important;background:#eaf6fff0!important;box-shadow:0 5px 17px #132f6c45!important}
+.site-topbar .site-nav .nav-login{background:#e7f5ff!important;color:#17346c!important;text-shadow:none!important;border:1px solid #fff!important}
+.site-topbar .site-nav .nav-signout{background:#ffedf5!important;color:#853552!important;text-shadow:none!important}
+.site-topbar .nav-login::before,.site-topbar .nav-signout::before{content:none!important;display:none!important}
+.site-topbar .site-nav [hidden]{display:none!important}
+.site-topbar .site-menu span{background:#203b7e!important}
+.web-shell .hero-actions a.action{position:relative!important;cursor:pointer!important;pointer-events:auto!important;transition:transform .2s ease,background .2s ease,box-shadow .2s ease!important}
+.web-shell .hero-actions a.action:hover{transform:translateY(-5px) scale(1.035)!important;box-shadow:0 17px 32px #334dab59!important}
+.web-shell .hero-actions a.action.primary:hover{background:linear-gradient(110deg,#087aa9,#2850d1 55%,#622cb3)!important;color:#fff!important}
+.web-shell .hero-actions a.action.secondary:hover{background:#e2e9ff!important;border-color:#6540c2!important;color:#322078!important}
+.web-shell .hero-actions a.action:active{transform:translateY(-1px) scale(.99)!important}
+.web-shell .benefits article,.web-shell .steps-grid .step-card,.web-shell .seo-workflows .benefits article{transition:transform .26s ease,box-shadow .26s ease,border-color .26s ease,background .26s ease!important;transform-origin:center!important}
+.web-shell .benefits article:hover,.web-shell .steps-grid .step-card:hover,.web-shell .seo-workflows .benefits article:hover{transform:translateY(-8px) rotate(-.7deg)!important;border-color:#7c8cdf!important;background:linear-gradient(135deg,#ffffffed,#dbe6ffd9)!important;box-shadow:0 24px 43px #344e9470!important}
+.web-shell .benefits article:nth-child(2):hover,.web-shell .steps-grid .step-card:nth-child(2):hover{transform:translateY(-8px) rotate(.7deg)!important}
+.web-shell .pricing-grid .price-card,.web-shell .pricing-grid .price-card a,.web-shell .pricing-grid .price-card button{transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease,filter .25s ease!important}
+.web-shell .pricing-grid .price-card:hover{transform:translateY(-10px) rotate(-.7deg)!important;border-color:#758dd7!important;box-shadow:0 29px 48px #364d9463,inset 0 2px #fff!important}
+.web-shell .pricing-grid .price-card:nth-child(2):hover{transform:translateY(-10px) rotate(.7deg)!important}
+.web-shell .pricing-grid .price-card :is(a,button):not(:disabled):hover{transform:translateY(-4px) scale(1.02)!important;filter:brightness(1.12) saturate(1.1)!important;box-shadow:0 14px 29px #335d8870!important}
+.web-shell .pricing-grid a[href*="wa.me"]:hover,.web-shell .pricing-grid a[href*="whatsapp"]:hover{background:#136b53!important;color:#fff!important}
+.web-shell .seo-ai-answers{background:linear-gradient(137deg,#f8fbffee,#ddeaffdf)!important;border:1px solid #d2e1f4!important}
+.web-shell .seo-ai-answers article{border:1px solid #c5d5ed!important;border-radius:17px!important;background:#ffffff8c!important;padding:19px 23px!important;margin:12px 0!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important}
+.web-shell .seo-ai-answers article:hover{transform:translateX(5px)!important;border-color:#819ee0!important;box-shadow:0 8px 19px #4769ac22!important}
+.web-shell .seo-ai-answers h2{margin-bottom:22px!important}
+.web-shell .seo-workflows .benefits article{align-items:flex-start!important;text-align:left!important;gap:9px!important}
+.web-shell .seo-workflows .benefits article h3{width:100%!important;max-width:100%!important;line-height:1.4!important;word-break:normal!important}
+@media(max-width:760px){.site-topbar .site-nav{background:linear-gradient(130deg,#244f9dfc,#4f3a8efc)!important}.site-topbar .site-nav>a{color:#fff!important}.site-topbar .site-nav>a:hover{color:#172b61!important}}
+@media(hover:none){.web-shell .benefits article:hover,.web-shell .steps-grid .step-card:hover,.web-shell .pricing-grid .price-card:hover,.web-shell .seo-ai-answers article:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.web-shell :is(.benefits article,.step-card,.price-card,.seo-ai-answers article,.action){transition:none!important}}
