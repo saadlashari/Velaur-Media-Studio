@@ -1,0 +1,34 @@
+/* VELAUR UI polish v1 — visual-only, shared desktop/mobile design */
+:root{--vela-cyan:#05bce8;--vela-blue:#326ce7;--vela-violet:#7049da}
+.site-topbar{background:linear-gradient(112deg,#d9f4ffef,#d0dffbee 55%,#7770b2ee)!important;border:1px solid #ffffffcc!important;border-radius:20px!important;min-height:80px!important;padding:12px 22px!important;box-shadow:0 12px 28px #324b8730,inset 0 1px #fff!important;backdrop-filter:blur(17px)!important;-webkit-backdrop-filter:blur(17px)!important}
+.site-topbar .site-nav{display:flex;align-items:center;justify-content:flex-end;gap:8px!important}
+.site-topbar .site-nav>a,.site-topbar .site-nav>button{display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:10px 14px!important;border-radius:11px!important;color:#172c60!important;font-weight:700;transition:transform .2s,background .2s,box-shadow .2s!important}
+.site-topbar .site-nav>a:hover,.site-topbar .site-nav>button:hover{transform:translateY(-2px)!important;background:#ffffffe0!important;box-shadow:0 8px 17px #394c8e26!important}
+.site-topbar .site-nav [aria-current=page]{background:#ffffffb8!important}
+.site-topbar .site-nav .nav-login{background:linear-gradient(120deg,#edfbff,#dee4ff)!important;border:1px solid #ffffffb8!important;color:#244bb1!important}
+.site-topbar .nav-login::before{content:'↪';font-size:20px;line-height:1;margin-right:8px}
+.site-topbar .site-nav .nav-signout{background:#fff1f6!important;color:#993a62!important;border:1px solid #f7cddf!important}
+.site-topbar .nav-signout::before{content:'↩';font-size:20px;line-height:1;margin-right:8px}
+.hero-actions .action,.price-card .small-button,.google-button,.seo-workflow-links a{transition:transform .23s,box-shadow .23s,filter .23s!important}
+.hero-actions .action:hover,.price-card .small-button:hover,.google-button:hover{transform:translateY(-4px)!important;filter:saturate(1.15);box-shadow:0 14px 28px #4467ca3b!important}
+.price-card{background:linear-gradient(135deg,#ffffffaf,#deeaff80 56%,#e4d9ff88)!important;border:1px solid #fffffff0!important;box-shadow:inset 0 2px #fff,inset 1px 0 #ffffff8e,0 18px 35px #5269aa29!important;backdrop-filter:blur(23px) saturate(145%)!important;-webkit-backdrop-filter:blur(23px) saturate(145%)!important;isolation:isolate;overflow:hidden}
+.price-card::after{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:linear-gradient(125deg,#ffffff96,transparent 35%,transparent 72%,#9eb0ef26)}
+.price-card:hover{transform:translateY(-7px) rotate(-.5deg)!important;box-shadow:inset 0 2px #fff,0 24px 42px #5264af44!important}
+.price-card:nth-child(2):hover{transform:translateY(-7px) rotate(.5deg)!important}
+.step-card,.seo-workflows .benefits article{position:relative;min-width:0!important;display:flex!important;flex-direction:column!important;gap:12px;padding:25px!important;border-radius:22px 22px 40px 22px!important;background:linear-gradient(140deg,#ffffffb8,#e1edff92)!important;border:1px solid #b7cfff!important;backdrop-filter:blur(12px);overflow-wrap:anywhere}
+.step-card::after,.seo-workflows .benefits article::after{content:'';position:absolute;bottom:0;right:0;width:64px;height:64px;border-radius:100% 0 35px 0;background:linear-gradient(135deg,#fff9,#adc5f077);border-top:1px solid #b5c9f2;pointer-events:none}
+.step-card h3,.seo-workflows .benefits h3{font-size:17px!important;line-height:1.36!important;margin:0 0 8px!important;overflow-wrap:normal;word-break:normal}
+.step-card p,.seo-workflows .benefits p{margin:0!important;line-height:1.72!important}
+.step-card:hover,.seo-workflows .benefits article:hover{transform:translateY(-5px) rotate(-.4deg)!important;box-shadow:0 18px 35px #395da522!important}
+.seo-ai-answers{max-width:1000px!important;margin:38px auto!important;padding:30px!important;border-radius:25px;background:linear-gradient(120deg,#ffffffbb,#e7eeffca);border:1px solid #ffffffef;box-shadow:0 16px 34px #4566a019}
+.seo-ai-answers h2{margin:0 0 22px!important;font-size:clamp(24px,3vw,31px)}
+.seo-ai-answers article{padding:18px 0;margin:0!important;border-bottom:1px solid #c5d3ea}.seo-ai-answers article:last-child{border:0}
+.seo-ai-answers h3{font-size:17px;line-height:1.4;margin:0 0 8px!important}
+.seo-workflow-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.seo-workflow-links a{display:inline-flex;padding:8px 14px;background:#ffffffbb;border:1px solid #b9ccef;border-radius:999px;text-decoration:none!important}
+.seo-workflow-links a:hover{transform:translateY(-2px);background:#fff;box-shadow:0 7px 17px #4065af25}
+.google-button svg{width:38px!important;height:38px!important;padding:8px!important;flex:none;border-radius:11px;background:white!important;box-shadow:0 4px 9px #203d7633}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06bfe9!important;outline-offset:3px!important}
+@media(max-width:760px){.site-topbar{min-height:70px!important;padding:10px 14px!important}.site-topbar .site-menu{display:block!important;background:#ffffffba!important;border-radius:10px!important}.site-topbar .site-nav{position:absolute!important;left:0!important;right:0!important;top:calc(100% + 8px)!important;display:none!important;flex-direction:column!important;align-items:stretch!important;padding:14px!important;gap:7px!important;background:linear-gradient(130deg,#d9f4fffa,#d1defcfa 58%,#aaa1e7fa)!important;border:1px solid #ffffffd9!important;border-radius:18px!important;box-shadow:0 20px 40px #24407b50!important;max-height:75vh;overflow-y:auto}.site-topbar.menu-open .site-nav{display:flex!important}.site-topbar .site-nav>a,.site-topbar .site-nav>button{justify-content:flex-start!important;width:100%;text-align:left;min-height:47px!important}.seo-ai-answers{padding:20px!important}.step-card,.seo-workflows .benefits article{padding:22px!important}}
+@media(hover:none){.price-card:hover,.step-card:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.site-topbar *, .price-card,.step-card,.google-button{animation:none!important;transition:none!important}}
