@@ -1,0 +1,12 @@
+/* Crawlable workflow answers, using the existing brand typography and cards. */
+.web-shell .seo-workflows{margin:36px 0;padding:18px 0;scroll-margin-top:110px}
+.web-shell .seo-workflows .section-description{max-width:760px;margin:12px auto 24px;text-align:center}
+.web-shell .seo-workflows h2{text-align:center}
+.web-shell .seo-workflows .benefits{margin:0}
+.web-shell .seo-workflows h3{font-size:17px;line-height:1.45;margin:0 0 10px}
+.web-shell .seo-workflows p{overflow-wrap:anywhere}
+.web-shell .seo-workflow-links{text-align:center;font-size:13px;line-height:1.9;margin-top:20px}
+.web-shell .seo-workflow-links a{color:#315a96;text-decoration:underline;text-underline-offset:3px}
+.web-shell .seo-workflow-links a:hover{color:#6450a2}
+.web-shell .seo-workflow-links a:focus-visible{outline:3px solid #46bade;outline-offset:3px}
+@media(max-width:760px){.web-shell .seo-workflows .benefits{display:grid;grid-template-columns:1fr}.web-shell .seo-workflows{margin-block:24px}.web-shell .seo-workflows h3{font-size:16px}}

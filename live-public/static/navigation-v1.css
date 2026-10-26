@@ -1,0 +1,7 @@
+/* Transparent navigation, pinned at the existing top inset without shifting content. */
+.site-topbar{position:sticky!important;top:12px!important;z-index:50!important;background:transparent!important;background-image:none!important;border-color:transparent!important;box-shadow:none!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
+.admin-app .admin-topbar{position:sticky!important;top:0!important;z-index:45!important;background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;border-bottom-color:#5b7fa321!important}
+@media(max-width:760px){.site-topbar{top:8px!important}.site-topbar .site-nav{background:linear-gradient(135deg,#f0faff,#f0ebff)!important;border:1px solid #bed2ed!important;box-shadow:0 14px 34px #26456e26!important}}
+
+/* solid-public-nav-1 */
+.site-topbar{background:#fff!important;background-image:none!important;}

@@ -1,0 +1,30 @@
+# Private configuration and credentials
+.env
+.env.*
+!.env.example
+*cookies*.txt
+*cookie*.json
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+client_secret*.json
+# User/runtime data
+downloads/
+data/
+*.db
+*.sqlite*
+*.sql
+*.dump
+*.log
+backup*/
+*.before-*
+Velaur-current-source-safe.zip
+# Python/editor/build output
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.DS_Store

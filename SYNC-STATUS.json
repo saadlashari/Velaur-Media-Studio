@@ -1,0 +1,224 @@
+{
+  "captured_utc": "2026-10-26T07:59:00.577472+00:00",
+  "original_head": "2871cc996e8a18ca0bec522fa644c1c2953b7a8e",
+  "scope": "Verified public HTTP files only. Protected backend/admin/studio sources not captured.",
+  "pending": "SEO update not assumed deployed; updates/ contains installers. Root backend remains legacy until VPS export.",
+  "files": [
+    {
+      "path": "live-public/index.html",
+      "url": "https://mediastudio.velaurlabs.com/",
+      "sha256": "b2d3972597bdd61b2f3d184afde5fc00c507457fc03ae44e35b57269fc1d1269",
+      "bytes": 19793
+    },
+    {
+      "path": "live-public/pricing.html",
+      "url": "https://mediastudio.velaurlabs.com/pricing",
+      "sha256": "3937261b6dbf9aed233105359855caa357f384f8969507aafb62d60fdd95ef06",
+      "bytes": 11444
+    },
+    {
+      "path": "live-public/login.html",
+      "url": "https://mediastudio.velaurlabs.com/login",
+      "sha256": "ff54e189d8f0b93cdbcbeaacc942408cd21f1869baadf584002fc7a852ea6f27",
+      "bytes": 10106
+    },
+    {
+      "path": "live-public/privacy.html",
+      "url": "https://mediastudio.velaurlabs.com/privacy",
+      "sha256": "eecebb6fefe8ade2d4dbc678b276a84aa6e3b17e305f77db93d2c1bf0bd1f73f",
+      "bytes": 9686
+    },
+    {
+      "path": "live-public/terms.html",
+      "url": "https://mediastudio.velaurlabs.com/terms",
+      "sha256": "6d59040dea6d804c0a96b30c39b7c7c322380ea75d322b050cac94eabf99f254",
+      "bytes": 9126
+    },
+    {
+      "path": "live-public/robots.txt",
+      "url": "https://mediastudio.velaurlabs.com/robots.txt",
+      "sha256": "f12687a85e68b19e57e2bef7e437ed7513fbb4c12c80d3210d22b42b38955cb9",
+      "bytes": 117
+    },
+    {
+      "path": "live-public/sitemap.xml",
+      "url": "https://mediastudio.velaurlabs.com/sitemap.xml",
+      "sha256": "0ec3cfd9b3be4cfe75e2082074e790c2cd05b3e75fe2b9f0cb64c66074e1ede7",
+      "bytes": 369
+    },
+    {
+      "path": "live-public/static/account-ui.js",
+      "url": "https://mediastudio.velaurlabs.com/static/account-ui.js",
+      "sha256": "ad60d16dc0d09c534e6d3cc770ee60be274fc2686ce6fe88e9ac6c2a035b969a",
+      "bytes": 12745
+    },
+    {
+      "path": "live-public/static/audio-plan-ui-v1.js",
+      "url": "https://mediastudio.velaurlabs.com/static/audio-plan-ui-v1.js",
+      "sha256": "271496d5e20ec3426138b9dfe0aa58d96b17b5d50d9bf3090fdd74f8d6b0314e",
+      "bytes": 1445
+    },
+    {
+      "path": "live-public/static/brand-glass-v13.css",
+      "url": "https://mediastudio.velaurlabs.com/static/brand-glass-v13.css",
+      "sha256": "9a203dc4324c02170528e17af4fab2fcdf5699546e38015639447d427e88e5fa",
+      "bytes": 3737
+    },
+    {
+      "path": "live-public/static/brand-polish-v405.css",
+      "url": "https://mediastudio.velaurlabs.com/static/brand-polish-v405.css",
+      "sha256": "cefdb63fd7f863aee0a7a90321d487fa1f7d0468ab857d2030ae212f4b559391",
+      "bytes": 12475
+    },
+    {
+      "path": "live-public/static/brand-refine-v406.css",
+      "url": "https://mediastudio.velaurlabs.com/static/brand-refine-v406.css",
+      "sha256": "a675e1b3ae2274d68fa93456dce395b10ce255c028e8c6bb76fb666177564cac",
+      "bytes": 9104
+    },
+    {
+      "path": "live-public/static/brand-refine-v406.js",
+      "url": "https://mediastudio.velaurlabs.com/static/brand-refine-v406.js",
+      "sha256": "310c3264d31a08f7392b9d39a575b5c1d575c23e0488d9c8e24e80ff3ec4953b",
+      "bytes": 3395
+    },
+    {
+      "path": "live-public/static/brand-wordmark.webp",
+      "url": "https://mediastudio.velaurlabs.com/static/brand-wordmark.webp",
+      "sha256": "85fe77836a8abaeba90bce283979a86afe18154af02800c7d38bf602706a1c8d",
+      "bytes": 22512
+    },
+    {
+      "path": "live-public/static/card-design-v2.js",
+      "url": "https://mediastudio.velaurlabs.com/static/card-design-v2.js",
+      "sha256": "537c6a80526c9bbd70d11d33a455fb8a311b9261894233100d3bce9b31ed7d9b",
+      "bytes": 1477
+    },
+    {
+      "path": "live-public/static/card-surfaces-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/card-surfaces-v1.css",
+      "sha256": "43a7808bec1294d9fca887e66745b12dc44aa4235d3d088e578994cf03178a08",
+      "bytes": 10200
+    },
+    {
+      "path": "live-public/static/favicon-v32.png",
+      "url": "https://mediastudio.velaurlabs.com/static/favicon-v32.png",
+      "sha256": "81fd688d314f2cf2251797ae8298f5c1ceeae65caefeeb90b9a770b75cae95c4",
+      "bytes": 12369
+    },
+    {
+      "path": "live-public/static/layout-align-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/layout-align-v1.css",
+      "sha256": "4e3c0028f3f588ffaa200f1611028d446e76fa405c03080ffffd165262b79401",
+      "bytes": 4174
+    },
+    {
+      "path": "live-public/static/layout-align-v1.js",
+      "url": "https://mediastudio.velaurlabs.com/static/layout-align-v1.js",
+      "sha256": "848ad62a5deb40a8beb4c0e3a3f5283996544fbe6b216f246e2b2ab457e9d309",
+      "bytes": 1862
+    },
+    {
+      "path": "live-public/static/limit-upgrade-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/limit-upgrade-v1.css",
+      "sha256": "a782357aba78314a9d839bea862c6901cdfaa4beac3bb7bbe918fbd4aca5b75b",
+      "bytes": 5477
+    },
+    {
+      "path": "live-public/static/limit-upgrade-v1.js",
+      "url": "https://mediastudio.velaurlabs.com/static/limit-upgrade-v1.js",
+      "sha256": "4763691d39958ccc6c4d6a52577fc16ecc0f7bccb444a72a669c67cbf8423576",
+      "bytes": 12688
+    },
+    {
+      "path": "live-public/static/login-layout.css",
+      "url": "https://mediastudio.velaurlabs.com/static/login-layout.css",
+      "sha256": "cc9bd74fd51241b2c3b18e7cd29577436d9a9034cdd3a9da60a0232a392490c1",
+      "bytes": 43105
+    },
+    {
+      "path": "live-public/static/login-ui.js",
+      "url": "https://mediastudio.velaurlabs.com/static/login-ui.js",
+      "sha256": "d05000daf0557c9e1dc5fe06f56bd95fc79131c16d4985de0dda35d83664c312",
+      "bytes": 1751
+    },
+    {
+      "path": "live-public/static/nav-hover-v14.css",
+      "url": "https://mediastudio.velaurlabs.com/static/nav-hover-v14.css",
+      "sha256": "cb52608dc57f2e9f727b78fdd5063ebe2383987c4d28727d40f454f037a3d50c",
+      "bytes": 3861
+    },
+    {
+      "path": "live-public/static/nav-hover-v14.js",
+      "url": "https://mediastudio.velaurlabs.com/static/nav-hover-v14.js",
+      "sha256": "0502b260ae27a4690d1a79376cba42fc3a7a79c33461015ed2d47645d32e2ba4",
+      "bytes": 559
+    },
+    {
+      "path": "live-public/static/navigation-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/navigation-v1.css",
+      "sha256": "0609872804d6b3f38d9b65d94a6f55d3a3db63be102b83d14e6eedf383c8e412",
+      "bytes": 997
+    },
+    {
+      "path": "live-public/static/pricing-buttons-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/pricing-buttons-v1.css",
+      "sha256": "73d90ffcf3d4a07607d77e56c4fccff5f7203a71bc3354286735c5c9d08078c8",
+      "bytes": 1927
+    },
+    {
+      "path": "live-public/static/reference-theme-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/reference-theme-v1.css",
+      "sha256": "773d6afa318b92048bac816d2067cdfb76716c0ab08a24fb247f3664c88ec4dc",
+      "bytes": 16777
+    },
+    {
+      "path": "live-public/static/reference-theme-v1.js",
+      "url": "https://mediastudio.velaurlabs.com/static/reference-theme-v1.js",
+      "sha256": "570f77a968c1d9140922c47dd817ca2b0db6366e381213fb491dfe1a5aefdc1b",
+      "bytes": 5387
+    },
+    {
+      "path": "live-public/static/site-layout.css",
+      "url": "https://mediastudio.velaurlabs.com/static/site-layout.css",
+      "sha256": "fdd41b2c3bd2102442df54e18856912f6801de917dac174e95f1b244adc5ec23",
+      "bytes": 15294
+    },
+    {
+      "path": "live-public/static/site-ui.js",
+      "url": "https://mediastudio.velaurlabs.com/static/site-ui.js",
+      "sha256": "1013415916629e3fe686650a4773aa993ecc58cb3dda0135a467913bb3d04cb4",
+      "bytes": 1330
+    },
+    {
+      "path": "live-public/static/studio-finish-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/studio-finish-v1.css",
+      "sha256": "f1f70c2c5323e7f3a4ce801e9ddbe61c282bd5038be8064c7a1a8a8b98baa2c9",
+      "bytes": 24533
+    },
+    {
+      "path": "live-public/static/studio-finish-v1.js",
+      "url": "https://mediastudio.velaurlabs.com/static/studio-finish-v1.js",
+      "sha256": "ba9df2853e278325e8c2fcb507365177856ea3cf9c081bac5413bf0608223186",
+      "bytes": 6090
+    },
+    {
+      "path": "live-public/static/velaur-labs-original.png",
+      "url": "https://mediastudio.velaurlabs.com/static/velaur-labs-original.png",
+      "sha256": "846d5742a4167502fbec13b04bab2ddca838a4b2703691374ad9f7280cf9357d",
+      "bytes": 13128
+    },
+    {
+      "path": "live-public/static/viewport-fit-v1.css",
+      "url": "https://mediastudio.velaurlabs.com/static/viewport-fit-v1.css",
+      "sha256": "dc56afbd66dbe285d739e9d493467127d029112fdeb8af909d72c7656412a3c3",
+      "bytes": 4136
+    },
+    {
+      "path": "live-public/static/workspace-layout.css",
+      "url": "https://mediastudio.velaurlabs.com/static/workspace-layout.css",
+      "sha256": "2ee64ca9ef1c51518a32b96b6fda4050140215d02ddbe5aaeaa12131c06a2d35",
+      "bytes": 1459
+    }
+  ]
+}

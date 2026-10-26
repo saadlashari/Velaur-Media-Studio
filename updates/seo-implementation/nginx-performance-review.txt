@@ -1,0 +1,9 @@
+Not applied automatically — current VPS nginx -T and compression baseline are required.
+For a future safe change, inspect gzip settings in the existing http/server context:
+gzip on;
+gzip_vary on;
+gzip_min_length 1024;
+gzip_types text/css application/javascript text/javascript application/json application/xml image/svg+xml;
+
+Do not cache /api/, login, jobs or authenticated pages at the proxy.
+Only content-hashed public seo-style-*.css files are candidates for long-lived immutable caching. Confirm route precedence/security headers first. Do not add a blanket /static/ alias that bypasses the backend's file allowlist. Test nginx -t before a reload and compare actual response headers and lab results after.

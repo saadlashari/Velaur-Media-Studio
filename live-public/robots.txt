@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /downloads/
+Sitemap: https://mediastudio.velaurlabs.com/sitemap.xml
