@@ -1,0 +1,276 @@
+:root {
+  --velaur-cyan: #11b9e6;
+  --velaur-blue: #286fea;
+  --velaur-violet: #8448ed;
+  --velaur-ink: #10284d;
+  --velaur-border: rgba(45,111,220,.16);
+  --velaur-shadow: 0 18px 50px rgba(30,70,145,.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 5% 12%, rgba(17,185,230,.10), transparent 27rem),
+    radial-gradient(circle at 94% 28%, rgba(132,72,237,.09), transparent 30rem),
+    linear-gradient(180deg, #fbfdff 0%, #f7f9ff 55%, #fff 100%);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  width: 390px;
+  height: 86px;
+  border: 2px solid rgba(54,122,235,.08);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(25,181,226,.08) 0 28px,
+      transparent 28px 45px
+    );
+  border-radius: 22px;
+}
+
+body::before {
+  top: 16%;
+  left: -210px;
+  transform: rotate(-34deg);
+}
+
+body::after {
+  right: -220px;
+  bottom: 10%;
+  transform: rotate(32deg);
+}
+
+.site-topbar,
+.workspace-topbar,
+.admin-topbar {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255,255,255,.88) !important;
+  border-color: rgba(41,103,207,.12) !important;
+}
+
+.hero,
+.panel,
+.price-card,
+.step-card,
+.account-card,
+.jobs-panel,
+.admin-panel,
+.login-card,
+.policy,
+.tool-help,
+.user-card {
+  position: relative;
+  border-color: var(--velaur-border) !important;
+  box-shadow: 0 12px 38px rgba(25,70,145,.08);
+  transition:
+    transform .24s ease,
+    box-shadow .24s ease,
+    border-color .24s ease;
+}
+
+.panel::before,
+.price-card::before,
+.account-card::before,
+.admin-panel::before,
+.login-card::before,
+.policy::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 7%;
+  right: 7%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--velaur-cyan),
+    var(--velaur-blue),
+    var(--velaur-violet)
+  );
+  opacity: .72;
+}
+
+.panel:hover,
+.price-card:hover,
+.step-card:hover,
+.account-card:hover,
+.admin-panel:hover,
+.user-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(47,112,230,.30) !important;
+  box-shadow: var(--velaur-shadow);
+}
+
+button,
+.action,
+.small-button,
+.nav-login,
+.google-button,
+.preview-button,
+.export-button,
+.admin-button,
+.save-link,
+.retry-preview {
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease,
+    border-color .18s ease !important;
+}
+
+button:not(:disabled):hover,
+.action:hover,
+.small-button:hover,
+.nav-login:hover,
+.google-button:hover,
+.preview-button:hover,
+.export-button:hover,
+.admin-button:hover,
+.save-link:hover,
+.retry-preview:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+  box-shadow: 0 12px 28px rgba(42,92,205,.20);
+}
+
+button:active,
+.action:active,
+.small-button:active {
+  transform: translateY(0) scale(.985);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(17,185,230,.30) !important;
+  outline-offset: 3px;
+}
+
+.hero {
+  overflow: hidden;
+  background:
+    linear-gradient(125deg, rgba(224,249,255,.88), rgba(244,244,255,.90)),
+    #fff;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: -80px;
+  bottom: -130px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(17,185,230,.16),
+    rgba(132,72,237,.13)
+  );
+  filter: blur(3px);
+}
+
+.price-card.featured,
+.price-card[aria-current="true"] {
+  border-color: rgba(65,104,232,.42) !important;
+  box-shadow: 0 20px 55px rgba(62,87,215,.16);
+}
+
+.export-button,
+.action.primary,
+.admin-button.primary {
+  background: linear-gradient(
+    110deg,
+    var(--velaur-cyan),
+    var(--velaur-blue) 52%,
+    var(--velaur-violet)
+  ) !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+
+.source-tabs,
+.billing-switch,
+.admin-plan-tabs {
+  background: linear-gradient(135deg, #f2f8ff, #f5f1ff) !important;
+}
+
+.source-tabs button[aria-selected="true"],
+.billing-switch button[aria-pressed="true"],
+.admin-nav button[aria-current="page"],
+.admin-plan-tabs button[aria-selected="true"] {
+  color: #125bbf !important;
+  background: #fff !important;
+  box-shadow: 0 7px 20px rgba(48,94,190,.13) !important;
+}
+
+.url-field:focus-within,
+.admin-user-search:focus-within {
+  border-color: rgba(40,111,234,.55) !important;
+  box-shadow: 0 0 0 4px rgba(40,111,234,.09) !important;
+}
+
+.admin-sidebar {
+  background:
+    radial-gradient(circle at 15% 4%, rgba(23,189,229,.18), transparent 16rem),
+    linear-gradient(165deg, #102958, #172f66 56%, #30256b) !important;
+}
+
+.admin-sidebar .admin-nav button:hover {
+  background: rgba(255,255,255,.10) !important;
+  transform: translateX(4px);
+  box-shadow: none;
+}
+
+.inline-status,
+.history-row,
+.audit-entry {
+  border-radius: 14px;
+}
+
+.global-footer {
+  background:
+    linear-gradient(180deg, rgba(245,249,255,.72), #eef4ff);
+  border-top: 1px solid rgba(42,102,210,.12);
+}
+
+@media (max-width: 760px) {
+  body::before,
+  body::after {
+    opacity: .6;
+    transform: scale(.72) rotate(-28deg);
+  }
+
+  .panel:hover,
+  .price-card:hover,
+  .step-card:hover,
+  .account-card:hover,
+  .admin-panel:hover,
+  .user-card:hover {
+    transform: translateY(-2px);
+  }
+
+  button,
+  .action,
+  .small-button {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}

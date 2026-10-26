@@ -1,0 +1,19 @@
+/* Velaur branding and glass correction v1.3. Existing controls are unchanged. */
+.site-topbar{background:linear-gradient(108deg,#e4f5fc 0%,#dcecf9 34%,#526e9e 57%,#6a61a0 100%)!important;background-image:linear-gradient(108deg,#e4f5fc 0%,#dcecf9 34%,#526e9e 57%,#6a61a0 100%)!important}
+.site-topbar .site-brand{background:transparent!important;padding:0!important;border:0!important;box-shadow:none!important;flex-shrink:0!important}
+.site-topbar .site-brand img{width:238px!important;height:auto!important;max-width:100%!important;opacity:1!important;visibility:visible!important;filter:none!important;mix-blend-mode:normal!important;object-fit:contain!important}
+.brand-footer .footer-labs-brand{display:flex!important;align-items:center!important;gap:0!important}
+.brand-footer .footer-labs-brand img.footer-original-labs{width:128px!important;height:auto!important;max-height:none!important;object-fit:contain!important;filter:none!important;opacity:1!important;background:transparent!important}
+.brand-footer .footer-labs{gap:5px!important}
+.brand-footer .footer-labs>span:first-child{color:#526784!important;font-size:9px!important}
+/* A directional reflection, translucent tint and lower rim make glass visible. */
+.web-shell .pricing-grid>.price-card.glass-plan{background:linear-gradient(128deg,rgba(255,255,255,.46),rgba(235,246,255,.12) 44%,rgba(193,210,249,.24))!important;border:1px solid rgba(255,255,255,.94)!important;box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 0 rgba(87,126,190,.35),0 15px 28px rgba(37,70,125,.17),0 3px 6px rgba(37,70,125,.06)!important;backdrop-filter:blur(18px) saturate(135%)!important;-webkit-backdrop-filter:blur(18px) saturate(135%)!important}
+.web-shell .pricing-grid>.price-card.glass-plan:nth-child(2){background:linear-gradient(128deg,rgba(255,255,255,.49),rgba(215,230,255,.17) 48%,rgba(188,182,235,.26))!important;border-color:rgba(210,222,255,.98)!important}
+.web-shell .pricing-grid>.price-card.glass-plan::before{display:block!important;content:''!important;position:absolute!important;inset:0!important;z-index:-1!important;pointer-events:none!important;border-radius:inherit!important;background:linear-gradient(132deg,rgba(255,255,255,.65) 0%,rgba(255,255,255,.15) 25%,transparent 26%,transparent 68%,rgba(255,255,255,.23) 100%)!important;opacity:1!important;transform:none!important;filter:none!important;width:auto!important;height:auto!important}
+.web-shell .pricing-grid>.price-card.glass-plan::after{content:''!important;left:9%!important;right:9%!important;bottom:-19px!important;height:19px!important;background:radial-gradient(ellipse,rgba(49,78,133,.32),rgba(49,78,133,.12) 48%,transparent 74%)!important;filter:blur(5px)!important}
+.web-shell .pricing-grid>.price-card.glass-plan:hover{box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 0 #7f9cca70,0 18px 32px #25467d30!important;transform:none!important}
+.web-shell .pricing-grid .glass-plan p[id$="Allowance"]{background:rgba(255,255,255,.3)!important;border-color:rgba(255,255,255,.9)!important;box-shadow:inset 0 1px 0 #fff,0 2px 5px #355b8e09!important}
+@media(max-width:1050px){.site-topbar{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr)!important}.site-topbar .site-brand img{width:clamp(112px,22vw,186px)!important}.site-topbar .site-brand{width:100%;min-width:0!important}}
+@media(max-width:380px){.site-topbar .site-brand img{width:112px!important}.brand-footer .footer-labs-brand img.footer-original-labs{width:102px!important}}
+@supports not (backdrop-filter:blur(1px)){.web-shell .pricing-grid>.price-card.glass-plan{background:linear-gradient(128deg,#f0faffd9,#dfe9fbd9)!important}}
+@media(prefers-reduced-motion:reduce){.web-shell .pricing-grid>.price-card.glass-plan{transition:none!important}}

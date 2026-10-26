@@ -1,0 +1,22 @@
+.admin-app{background-attachment:scroll!important;scroll-behavior:auto!important}
+.admin-app::before,.admin-app::after{display:none!important}
+.admin-app .admin-topbar,.admin-app .admin-body,.admin-app .admin-content,.admin-app .admin-panel,.admin-app .user-card,.admin-app .uc-workspace{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;filter:none!important;will-change:auto!important}
+.admin-app .admin-panel:hover,.admin-app .user-card:hover,.admin-app button:hover{transform:none!important;filter:none!important}
+.admin-app *{scroll-behavior:auto!important}
+.admin-app .user-card,.admin-app .admin-panel,.admin-app .admin-topbar{box-shadow:none!important;transition:none!important}
+.uc-type-label{display:inline-block;padding:4px 8px;border-radius:6px;background:#e1eaf9;color:#3b6097;font-size:10px;font-weight:750;margin-right:8px}
+.history-row{padding:17px!important;margin:10px 0;border:1px solid #ccdcef!important;border-radius:13px;display:flex;gap:16px;align-items:center;background:linear-gradient(130deg,#eef8ff,#eeeafa)}
+.activity-copy{min-width:0;flex:1}.activity-copy>strong{display:block;color:#294d77;font-size:13px}.activity-copy>p{font-size:11px;color:#667d98;line-height:1.8;margin:6px 0 0;overflow-wrap:anywhere}.activity-copy details{font-size:11px;color:#687f9d;margin-top:8px;line-height:1.8}.activity-copy details summary{cursor:pointer}.activity-copy pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f9eaf0;color:#94415b;padding:10px;border-radius:8px}
+.history-row .small-button{flex-shrink:0;text-align:center}
+@media(max-width:600px){.history-row{align-items:flex-start;flex-direction:column}.history-row .small-button{width:100%}.uc-state{white-space:normal;max-width:180px}}
+
+/* Administration uses its original static, readable header; public navigation stays unchanged. */
+.admin-app .admin-topbar{position:static!important;top:auto!important;z-index:auto!important;background:#f2f6ff!important;background-image:none!important;border-bottom:1px solid #d3def0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+.admin-app .audit-entry{box-shadow:none!important;transform:none!important;filter:none!important;backdrop-filter:none!important;transition:none!important}
+.admin-app .audit-entry pre{white-space:pre-wrap!important;overflow-wrap:anywhere;word-break:break-word;max-width:100%;max-height:360px;overflow:auto}
+
+
+.activity-dashboard{background-attachment:scroll!important}
+.activity-dashboard::before,.activity-dashboard::after{display:none!important}
+.activity-dashboard .site-topbar,.activity-dashboard .account-card,.activity-dashboard .jobs-panel{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;filter:none!important;will-change:auto!important}
+.activity-dashboard .account-card:hover,.activity-dashboard .jobs-panel:hover{transform:none!important;box-shadow:none!important}
