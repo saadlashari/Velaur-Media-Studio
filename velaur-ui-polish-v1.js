@@ -1,0 +1,2 @@
+/* Non-invasive navigation consistency and hero icon polish */
+(()=>{const here=location.pathname.replace(/\/$/,'')||'/';document.querySelectorAll('.site-topbar .site-nav a[href]').forEach(a=>{const path=new URL(a.href,location.origin).pathname.replace(/\/$/,'')||'/';if(path===here)a.setAttribute('aria-current','page')});const primary=document.querySelector('.hero-actions .action.primary');const use=primary?.querySelector('svg use');if(use)use.setAttribute('href','#i-sparkles')})();
