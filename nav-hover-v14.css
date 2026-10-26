@@ -1,0 +1,29 @@
+/* Velaur nav and hover v1.4. Preserve existing branding and handlers. */
+@media(min-width:1051px){
+ .site-topbar{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;align-items:center!important;gap:12px!important}
+ .site-topbar .site-brand{grid-column:1!important;grid-row:1!important;justify-self:start!important;max-width:100%}
+ .site-topbar .site-nav{grid-column:2!important;grid-row:1!important;justify-self:center!important;justify-content:center!important;margin:0!important;position:static!important;transform:none!important;width:auto!important}
+ .site-topbar .header-session{grid-column:3!important;grid-row:1!important;justify-self:end!important;margin:0!important}
+}
+.site-topbar .header-session .nav-login{display:inline-flex;align-items:center;justify-content:center;gap:7px!important}
+.nav-login-icon{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* Color and edge feedback is the baseline; larger elevation is reserved for actions. */
+:where(.web-shell,.admin-app,.quota-dialog) :is(a,button,summary){transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,filter .18s ease!important}
+:where(.web-shell,.admin-app,.quota-dialog) :is(a,button,summary):focus-visible{outline:3px solid #46bade!important;outline-offset:3px!important}
+@media(hover:hover) and (pointer:fine){
+ .web-shell :is(.action,.small-button,.preview-button,.export-button,.retry-preview,.save-link,.quiet-button,.paste-button,#previewBtn,#exportBtn,.site-menu,.nav-login,.nav-signout):not(:disabled):not([aria-disabled="true"]):hover{box-shadow:0 6px 15px #28497529!important;filter:brightness(1.055);border-color:#88b4df!important;transform:none!important}
+ .web-shell :is(.action.primary,#previewBtn,#exportBtn,.small-button:not(.active-plan-button)):not(:disabled):not([aria-disabled="true"]):hover{box-shadow:0 8px 20px #293f7938!important;filter:brightness(1.07)}
+ .web-shell :is(.benefits article,.step-card,.account-card,.jobs-panel,.login-card):hover{border-color:#91b4df!important;box-shadow:0 10px 24px #34588220!important;transform:none!important}
+ .web-shell .panel:hover{border-color:#a5bddb!important;box-shadow:0 7px 18px #34588212!important}
+ .web-shell :is(.source-tabs,.billing-switch,.resolution-grid,.format-grid) button:not(:disabled):not([aria-disabled="true"]):hover{box-shadow:inset 0 0 0 1px #75a4db70,0 3px 8px #365a8e14!important;filter:brightness(1.035)}
+ .web-shell :is(details,.faq-item):hover{border-color:#96b6dd!important;box-shadow:0 4px 12px #34588214!important}
+ .web-shell summary:hover{color:#315b9a!important}
+ .web-shell :is(.footer-legal a,.footer-product,.footer-labs):hover{filter:brightness(1.06);transform:none!important}
+ .web-shell :is(.policy a,.pricing-note a):hover{color:#6547a4!important;text-decoration:underline;text-underline-offset:3px}
+ .web-shell #faqHelp:hover{box-shadow:0 5px 14px #6550aa2b!important;border-color:#9a8bcf!important}
+ .admin-app :is(.admin-button,.uc-button,.uc-tabs button,.admin-plan-tabs button,.admin-sidebar a,.admin-sidebar button):not(:disabled):not([aria-disabled="true"]):hover{box-shadow:0 3px 9px #3458821c!important;filter:brightness(1.045);transform:none!important}
+ .admin-app :is(.user-card,.uc-job,.uc-row):hover{border-color:#9eb8d9!important;box-shadow:0 3px 10px #34588212!important}
+ .quota-dialog .quota-button:not(:disabled):hover{filter:brightness(1.065);box-shadow:0 6px 15px #28497526!important}
+}
+@media(max-width:380px){.nav-login-icon{width:15px;height:15px}.site-topbar .header-session .nav-login{gap:5px!important}}
+@media(prefers-reduced-motion:reduce){:where(.web-shell,.admin-app,.quota-dialog) :is(a,button,summary,article,.panel,.account-card,.price-card){transition:none!important;animation:none!important}}
