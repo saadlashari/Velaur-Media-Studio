@@ -366,3 +366,14 @@ html{scroll-padding-top:120px}
  html{scroll-padding-top:90px}
  .web-shell>.site-topbar{top:8px!important;z-index:1000!important}
 }
+
+/* v11 — exactly one visible call-to-action per pricing card. */
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan[hidden],
+.web-shell .pricing-section .pricing-grid>.price-card #creatorTrial[hidden],
+.web-shell .pricing-section .pricing-grid>.price-card [data-plan-contact][hidden]{
+ display:none!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan:not([hidden]),
+.web-shell .pricing-section .pricing-grid>.price-card #creatorTrial:not([hidden]){
+ margin-top:auto!important;min-height:52px!important;flex-shrink:0!important;
+}
