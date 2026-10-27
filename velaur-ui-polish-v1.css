@@ -377,3 +377,18 @@ html{scroll-padding-top:120px}
 .web-shell .pricing-section .pricing-grid>.price-card #creatorTrial:not([hidden]){
  margin-top:auto!important;min-height:52px!important;flex-shrink:0!important;
 }
+
+/* v12 — compact pricing cards without blank vertical filler. Preserve all content. */
+.web-shell .pricing-section .pricing-grid>.price-card{
+ min-height:0!important;
+ height:auto!important;
+ align-self:stretch!important;
+ padding-bottom:22px!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .small-button:not([hidden]),
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan:not([hidden]),
+.web-shell .pricing-section .pricing-grid>.price-card #creatorTrial:not([hidden]){
+ margin-top:14px!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card p:last-of-type{margin-bottom:0!important}
+.web-shell .pricing-section .pricing-grid{align-items:stretch!important}
