@@ -354,3 +354,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
 @media(max-width:900px){.web-shell .pricing-section .pricing-grid{grid-template-columns:1fr!important}.web-shell .pricing-section .pricing-grid>.price-card{min-height:0!important}}
 @media(hover:none){.web-shell .pricing-section .pricing-grid>.price-card:hover,.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{transform:none!important}}
 @media(prefers-reduced-motion:reduce){.web-shell .pricing-section .pricing-grid>.price-card{transition:none!important;will-change:auto!important}}
+
+/* v10 — keep navigation visible on page scroll; preserve the approved palette. */
+html{scroll-padding-top:120px}
+.web-shell{overflow:visible!important}
+.web-shell>.site-topbar{
+ position:sticky!important;top:12px!important;z-index:1000!important;
+ flex-shrink:0!important;
+}
+@media(max-width:760px){
+ html{scroll-padding-top:90px}
+ .web-shell>.site-topbar{top:8px!important;z-index:1000!important}
+}
