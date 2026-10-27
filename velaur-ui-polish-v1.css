@@ -245,3 +245,49 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
  box-shadow:0 14px 27px #205e4b69!important;filter:saturate(1.2)!important;
 }
 .web-shell .pricing-grid>.price-card a.whatsapp-plan:focus-visible{outline:3px solid #0ca7bb!important;outline-offset:3px}
+
+/* v8 — accessible, high-contrast account controls on approved light gradient. */
+.web-shell .site-topbar{position:relative!important}
+.web-shell .site-topbar .site-nav>a.nav-login:not([hidden]),
+.web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]){
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;
+ opacity:1!important;visibility:visible!important;
+ min-height:44px!important;padding:10px 19px!important;
+ white-space:nowrap!important;font-weight:800!important;
+ text-decoration:none!important;text-shadow:none!important;
+ border-radius:14px!important;z-index:30!important;
+ transition:background .24s ease,color .24s ease,box-shadow .24s ease,transform .24s ease!important;
+}
+.web-shell .site-topbar .site-nav>a.nav-login:not([hidden]){
+ color:#ffffff!important;background:linear-gradient(115deg,#244f9f,#52369d)!important;
+ border:1px solid #365bac!important;box-shadow:0 7px 19px #263c8870!important;
+}
+.web-shell .site-topbar .site-nav>a.nav-login:not([hidden]):hover{
+ color:#ffffff!important;background:linear-gradient(115deg,#143879,#392076)!important;
+ box-shadow:0 13px 26px #1e368d7a!important;
+}
+.web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]){
+ color:#ffffff!important;background:linear-gradient(115deg,#98416f,#6b2768)!important;
+ border:1px solid #8d3b72!important;box-shadow:0 7px 19px #75416655!important;
+}
+.web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]):hover{
+ color:#fff!important;background:linear-gradient(115deg,#742b59,#4e1e59)!important;
+ box-shadow:0 13px 26px #67265f7a!important;
+}
+.web-shell .site-topbar .site-nav :is(.nav-login,.nav-signout):focus-visible{outline:3px solid #07b7e5!important;outline-offset:3px!important}
+.web-shell .site-topbar .site-nav>.nav-login[hidden],
+.web-shell .site-topbar .site-nav>.nav-signout[hidden]{display:none!important;visibility:hidden!important}
+@media(min-width:761px){
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]),
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]){
+ position:absolute!important;right:22px!important;top:50%!important;margin:0!important;transform:translateY(-50%)!important;
+ }
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]):hover,
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]):hover{transform:translateY(calc(-50% - 3px))!important}
+}
+@media(max-width:760px){
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]),
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]){position:static!important;width:100%!important;transform:none!important}
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]):hover,
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]):hover{transform:translateY(-2px)!important}
+}
