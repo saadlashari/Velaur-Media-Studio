@@ -1,7 +1,7 @@
 /* UI only. Authentication and media handlers remain unchanged. */
 (() => {
  const header=document.querySelector('.site-topbar');
- if(header){const session=document.createElement('div');session.className='header-session';session.setAttribute('aria-label','Account');header.querySelectorAll('.nav-login,[data-logout]').forEach(el=>session.append(el));header.append(session);}
+ // Keep account actions inside the shared navigation. CSS positions them at the right edge.
  const money=v=>'$'+Number(v).toLocaleString('en-US',{maximumFractionDigits:2});
  function paint({plans,yearly,eligible}){
   // pricing-buttons-1: derive active/expired state from the backend account.
@@ -19,9 +19,10 @@
    contact.href='https://wa.me/923211618331?text='+encodeURIComponent('Hello VELAUR LABS, I am interested in the Velaur Media Studio '+(plan.name||key)+' plan ('+(yearly?'yearly':'monthly')+'). Please share the details.');
    const active=!!profile?.access.enabled && profile.access.plan===key;
    const canTrial=key==='creator' && !!eligible && !yearly && !active;
+   // Active-plan status is rendered only for an authenticated, actually active plan.
    let status=card.querySelector('[data-active-plan]');
-   if(!status){status=document.createElement('button');status.type='button';status.disabled=true;status.className='small-button active-plan-button';status.dataset.activePlan=key;status.textContent='Your Active Plan';card.append(status);}
-   status.hidden=!active;
+   if(!active){if(status)status.remove();}
+   else {if(!status){status=document.createElement('span');status.className='active-plan-status';status.dataset.activePlan=key;card.append(status);}status.textContent='Your Active Plan';}
    contact.hidden=active||canTrial;
    if(key==='creator'){
     const trial=document.getElementById('creatorTrial');if(trial)trial.hidden=!canTrial;
