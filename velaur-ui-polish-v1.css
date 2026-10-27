@@ -184,3 +184,29 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
  .web-shell .site-topbar .site-nav>a:not(.nav-login){background:#fffdf4eb!important;color:#20366b!important}
  .web-shell .site-topbar .site-nav>a[aria-current="page"]:not(.nav-login){background:#284f9f!important;color:#fff!important}
 }
+
+/* v6 final three screenshot corrections: stable pricing surfaces, nav alignment, sign-in contrast. */
+@media(min-width:761px){
+ .web-shell .site-topbar{display:grid!important;grid-template-columns:minmax(170px,1fr) auto minmax(170px,1fr)!important;align-items:center!important;position:relative!important}
+ .web-shell .site-topbar>.site-brand{grid-column:1!important;justify-self:start!important}
+ .web-shell .site-topbar>.site-nav{grid-column:2!important;display:flex!important;align-items:center!important;justify-self:center!important;gap:8px!important;position:static!important;transform:none!important;width:auto!important;margin:0!important}
+ .web-shell .site-topbar>.site-nav>.nav-login,
+ .web-shell .site-topbar>.site-nav>.nav-signout{position:absolute!important;right:24px!important;top:50%!important;transform:translateY(-50%)!important;margin:0!important;white-space:nowrap!important}
+ .web-shell .site-topbar>.site-nav>.nav-login:hover,
+ .web-shell .site-topbar>.site-nav>.nav-signout:hover{transform:translateY(calc(-50% - 2px))!important}
+ .web-shell .site-topbar>.site-menu{grid-column:3!important;justify-self:end!important}
+}
+.web-shell .site-topbar>.site-nav>a.nav-login,
+.web-shell .site-topbar>.site-nav>a.nav-login[aria-current="page"]{color:#fff!important;background:#284f9f!important;border-color:#234a91!important;opacity:1!important;box-shadow:0 5px 14px #173c7740!important;text-shadow:none!important}
+.web-shell .site-topbar>.site-nav>a.nav-login:hover{color:#fff!important;background:#183c83!important;box-shadow:0 9px 20px #173c7760!important}
+.web-shell .site-topbar>.site-nav>a[hidden],.web-shell .site-topbar>.site-nav>button[hidden]{display:none!important}
+.web-shell .pricing-grid>.price-card{transform:none!important;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important;pointer-events:auto!important}
+.web-shell .pricing-grid>.price-card:hover{transform:translateY(-6px)!important}
+.web-shell .pricing-grid>.price-card::before,.web-shell .pricing-grid>.price-card::after{pointer-events:none!important}
+.web-shell .pricing-grid>.price-card button,.web-shell .pricing-grid>.price-card a{position:relative!important;z-index:4!important}
+.web-shell .pricing-grid>.price-card button:hover,.web-shell .pricing-grid>.price-card a:hover{transform:translateY(-2px)!important}
+.web-shell .pricing-grid>.price-card button:disabled{transform:none!important;opacity:.68!important;box-shadow:none!important}
+@media(max-width:760px){
+ .web-shell .site-topbar>.site-nav>.nav-login,.web-shell .site-topbar>.site-nav>.nav-signout{position:static!important;transform:none!important;width:100%!important}
+ .web-shell .site-topbar>.site-nav>.nav-login:hover,.web-shell .site-topbar>.site-nav>.nav-signout:hover{transform:none!important}
+}
