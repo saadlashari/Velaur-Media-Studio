@@ -69,3 +69,59 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
 @media(max-width:760px){.site-topbar .site-nav{background:linear-gradient(130deg,#244f9dfc,#4f3a8efc)!important}.site-topbar .site-nav>a{color:#fff!important}.site-topbar .site-nav>a:hover{color:#172b61!important}}
 @media(hover:none){.web-shell .benefits article:hover,.web-shell .steps-grid .step-card:hover,.web-shell .pricing-grid .price-card:hover,.web-shell .seo-ai-answers article:hover{transform:none!important}}
 @media(prefers-reduced-motion:reduce){.web-shell :is(.benefits article,.step-card,.price-card,.seo-ai-answers article,.action){transition:none!important}}
+
+/* v3 — Navbar action visibility only. Do NOT alter the existing topbar gradient. */
+.site-topbar .site-nav > a:not(.nav-login),
+.site-topbar .site-nav > button:not(.nav-signout){
+  color:#16376f!important;
+  text-shadow:none!important;
+  background:rgba(255,255,255,.45)!important;
+  border:1px solid rgba(255,255,255,.52)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65)!important;
+  font-weight:750!important;
+  opacity:1!important;
+  transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease,color .2s ease!important;
+}
+.site-topbar .site-nav > a:not(.nav-login):hover,
+.site-topbar .site-nav > button:not(.nav-signout):hover,
+.site-topbar .site-nav > a[aria-current="page"]:not(.nav-login){
+  color:#fff!important;
+  background:#304eab!important;
+  border-color:#304eab!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 8px 18px rgba(35,57,120,.26)!important;
+}
+.site-topbar .site-nav > a.nav-login{
+  color:#fff!important;
+  background:linear-gradient(112deg,#245dbd,#5940a1)!important;
+  border:1px solid rgba(255,255,255,.65)!important;
+  box-shadow:0 6px 17px rgba(31,49,108,.23)!important;
+  text-shadow:none!important;
+  font-weight:750!important;
+}
+.site-topbar .site-nav > a.nav-login:hover{
+  color:#fff!important;
+  background:linear-gradient(112deg,#174aab,#3b2788)!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 11px 22px rgba(31,49,108,.34)!important;
+}
+.site-topbar .site-nav > button.nav-signout{
+  color:#8c2755!important;
+  background:#fff0f6!important;
+  border:1px solid #e7abc6!important;
+  text-shadow:none!important;
+  font-weight:750!important;
+}
+.site-topbar .site-nav > button.nav-signout:hover{
+  color:#fff!important;
+  background:#963364!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 8px 19px rgba(128,35,75,.25)!important;
+}
+.site-topbar .site-nav .nav-login::before,.site-topbar .site-nav .nav-signout::before{content:none!important;display:none!important}
+.site-topbar .site-nav > [hidden]{display:none!important}
+@media(max-width:760px){
+ .site-topbar .site-nav > a:not(.nav-login),.site-topbar .site-nav > button:not(.nav-signout){color:#193c78!important;background:rgba(255,255,255,.89)!important}
+ .site-topbar .site-nav > a:not(.nav-login):hover,.site-topbar .site-nav > a[aria-current="page"]:not(.nav-login){color:#fff!important;background:#304eab!important}
+}
+@media(prefers-reduced-motion:reduce){.site-topbar .site-nav > *{transition:none!important}}
