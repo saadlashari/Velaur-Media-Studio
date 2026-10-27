@@ -210,3 +210,38 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
  .web-shell .site-topbar>.site-nav>.nav-login,.web-shell .site-topbar>.site-nav>.nav-signout{position:static!important;transform:none!important;width:100%!important}
  .web-shell .site-topbar>.site-nav>.nav-login:hover,.web-shell .site-topbar>.site-nav>.nav-signout:hover{transform:none!important}
 }
+
+/* v7 root-cause fixes: never force hidden account/pricing actions visible. */
+.web-shell .site-nav [hidden],
+.web-shell .price-card [hidden],
+.web-shell .pricing-grid [hidden],
+.web-shell .site-topbar [hidden]{display:none!important}
+.web-shell .pricing-grid>.price-card .active-plan-status{
+ display:block;position:relative;z-index:2;text-align:center;
+ background:rgba(224,237,252,.78);color:#244f79;
+ border:1px solid #c8daef;border-radius:13px;padding:13px 12px;
+ font-weight:700;font-size:13px;margin-top:11px;
+}
+@media(min-width:761px){
+ .web-shell .site-topbar .site-nav>.nav-login,
+ .web-shell .site-topbar .site-nav>.nav-signout{
+ position:absolute!important;right:24px!important;top:50%!important;
+ transform:translateY(-50%)!important;color:white!important;background:#284f9f!important;
+ border:1px solid #234a91!important;box-shadow:0 7px 17px #1c3a7845!important;
+ }
+ .web-shell .site-topbar .site-nav>.nav-login:hover,
+ .web-shell .site-topbar .site-nav>.nav-signout:hover{
+ transform:translateY(calc(-50% - 2px))!important;
+ }
+}
+.web-shell .pricing-grid>.price-card a.whatsapp-plan{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ position:relative!important;z-index:5!important;cursor:pointer!important;
+ transform:none!important;transition:transform .23s ease,background-color .23s ease,box-shadow .23s ease,filter .23s ease!important;
+ background:#2e765f!important;color:#fff!important;
+}
+.web-shell .pricing-grid>.price-card a.whatsapp-plan:hover{
+ transform:translateY(-4px)!important;background:#155b48!important;
+ box-shadow:0 14px 27px #205e4b69!important;filter:saturate(1.2)!important;
+}
+.web-shell .pricing-grid>.price-card a.whatsapp-plan:focus-visible{outline:3px solid #0ca7bb!important;outline-offset:3px}
