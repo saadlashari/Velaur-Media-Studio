@@ -125,3 +125,34 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
  .site-topbar .site-nav > a:not(.nav-login):hover,.site-topbar .site-nav > a[aria-current="page"]:not(.nav-login){color:#fff!important;background:#304eab!important}
 }
 @media(prefers-reduced-motion:reduce){.site-topbar .site-nav > *{transition:none!important}}
+
+/* v4: requested pricing work, stacked AFTER v3 navbar colors.
+   Keep original navbar gradient and v3 navigation-button contrast. */
+.web-shell .pricing-section{position:relative}
+.web-shell .pricing-section>.section-eyebrow,
+.web-shell .pricing-section>.section-title,
+.web-shell .pricing-section>.section-description{position:relative;z-index:1}
+.web-shell .pricing-section>.section-title{font-size:clamp(32px,4.2vw,57px)!important;line-height:1.1!important;margin:9px 0 8px!important}
+.web-shell .pricing-section>.section-description{font-size:clamp(15px,1.5vw,19px)!important;line-height:1.65!important;max-width:650px!important}
+.web-shell .pricing-section .pricing-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:24px!important;align-items:stretch!important}
+.web-shell .pricing-grid>.price-card{position:relative!important;display:flex!important;flex-direction:column!important;min-width:0!important;min-height:100%!important;border:1px solid rgba(184,203,244,.9)!important;border-radius:27px!important;padding:28px 24px 23px!important;background:linear-gradient(155deg,rgba(255,255,255,.76),rgba(224,238,255,.59) 62%,rgba(223,219,255,.56))!important;box-shadow:0 14px 32px rgba(44,71,131,.14),inset 0 1px rgba(255,255,255,.9)!important;backdrop-filter:blur(18px) saturate(135%)!important;-webkit-backdrop-filter:blur(18px) saturate(135%)!important;transform:none!important;transition:transform .27s ease,box-shadow .27s ease,border-color .27s ease!important;isolation:isolate}
+.web-shell .pricing-grid>.price-card::before,.web-shell .pricing-grid>.price-card::after{pointer-events:none!important}
+.web-shell .pricing-grid>.price-card::before{content:"";inset:0;position:absolute;background:linear-gradient(130deg,rgba(255,255,255,.44),transparent 42%,rgba(153,173,247,.09));border-radius:inherit;z-index:-1}
+.web-shell .pricing-grid>.price-card::after{content:"";position:absolute;inset:auto -1px -1px auto;width:67px;height:67px;border-radius:95% 0 26px 0;background:linear-gradient(145deg,rgba(218,237,255,.82),rgba(151,165,229,.3));border-top:1px solid rgba(143,166,221,.6);z-index:0}
+.web-shell .pricing-grid>.price-card>*{position:relative;z-index:1}
+.web-shell .pricing-grid>.price-card:hover,.web-shell .pricing-grid>.price-card:nth-child(2):hover{transform:translateY(-7px)!important;border-color:#718bd0!important;box-shadow:0 23px 40px rgba(46,72,141,.25),inset 0 1px #fff!important}
+.web-shell .pricing-grid>.price-card .small-button{position:relative!important;z-index:3!important;margin-top:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;width:100%!important;border:1px solid transparent!important;border-radius:14px!important;cursor:pointer!important;transform:none!important;transition:background-color .25s ease,box-shadow .25s ease,filter .25s ease,transform .25s ease!important}
+.web-shell .pricing-grid>.price-card .small-button:not(:disabled):hover{transform:translateY(-3px)!important;filter:brightness(1.11)!important;box-shadow:0 12px 25px rgba(52,77,143,.34)!important}
+.web-shell .pricing-grid>.price-card .small-button:disabled{cursor:not-allowed!important;opacity:.75}
+.web-shell .pricing-grid>.price-card :is(a[href*="wa.me"],a[href*="whatsapp"]){position:relative!important;z-index:3!important;transition:background-color .23s,filter .23s,box-shadow .23s,transform .23s!important}
+.web-shell .pricing-grid>.price-card :is(a[href*="wa.me"],a[href*="whatsapp"]):hover{transform:translateY(-3px)!important;background:#176448!important;filter:brightness(1.12)!important;box-shadow:0 12px 24px rgba(22,103,74,.24)!important}
+.web-shell .plan-explainer{margin:42px auto!important;max-width:1250px}
+.web-shell .plan-explainer h2{font-size:clamp(26px,3vw,38px)!important;margin-bottom:22px!important}
+.web-shell .plan-explainer .explain-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:21px!important;align-items:stretch}
+.web-shell .plan-explainer .explain-grid>article{display:flex!important;flex-direction:column;gap:12px;padding:26px!important;border:1px solid #bacdef!important;border-radius:22px 22px 36px 22px!important;background:linear-gradient(140deg,rgba(255,255,255,.75),rgba(220,233,255,.54))!important;box-shadow:0 10px 26px rgba(45,72,126,.1)!important;position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease!important}
+.web-shell .plan-explainer .explain-grid>article::after{content:"";pointer-events:none;position:absolute;bottom:0;right:0;width:56px;height:56px;border-radius:100% 0 25px 0;background:linear-gradient(130deg,#f5fbffbd,#afc7fc8b)}
+.web-shell .plan-explainer .explain-grid>article:hover{transform:translateY(-6px)!important;border-color:#849bd9!important;box-shadow:0 18px 36px rgba(42,75,143,.2)!important}
+.web-shell .plan-explainer .explain-grid h3{font-size:19px!important;line-height:1.4!important;margin:0!important;max-width:none!important}
+.web-shell .plan-explainer .explain-grid p{font-size:15px!important;line-height:1.75!important;margin:0!important}
+@media(max-width:860px){.web-shell .pricing-section .pricing-grid,.web-shell .plan-explainer .explain-grid{grid-template-columns:1fr!important}}
+@media(hover:none){.web-shell .pricing-grid>.price-card:hover,.web-shell .plan-explainer .explain-grid>article:hover{transform:none!important}}
