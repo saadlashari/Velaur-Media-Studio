@@ -291,3 +291,66 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06
  .web-shell .site-topbar .site-nav>.nav-login:not([hidden]):hover,
  .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]):hover{transform:translateY(-2px)!important}
 }
+
+/* v9 — unified 100px desktop navbar and polished equal-height pricing.
+   Purely presentational: existing titles, limits, prices, links and JS untouched. */
+@media(min-width:761px){
+ .web-shell>.site-topbar{
+  box-sizing:border-box!important;min-height:100px!important;height:100px!important;
+  padding:12px 24px!important;margin-top:12px!important;margin-bottom:20px!important;
+  align-items:center!important;
+ }
+ .web-shell>.site-topbar .site-brand img{max-height:72px!important;width:auto!important;max-width:215px!important;object-fit:contain!important}
+ .web-shell>.site-topbar .site-nav{align-items:center!important}
+ .web-shell>.site-topbar .site-nav>a:not(.nav-login),.web-shell>.site-topbar .site-nav>button:not(.nav-signout){min-height:44px!important}
+}
+.web-shell .pricing-section{padding-top:26px!important}
+.web-shell .pricing-section>.section-eyebrow,.web-shell .pricing-section>.section-title,.web-shell .pricing-section>.section-description{text-align:left!important}
+.web-shell .pricing-section .pricing-grid{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:24px!important;align-items:stretch!important;margin-top:26px!important;
+ perspective:1400px;
+}
+.web-shell .pricing-section .pricing-grid>.price-card{
+ margin:0!important;top:auto!important;bottom:auto!important;align-self:stretch!important;
+ min-height:590px!important;box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;gap:0!important;
+ padding:28px 25px 23px!important;border-radius:27px!important;
+ background:linear-gradient(142deg,rgba(255,255,255,.78),rgba(225,238,255,.55) 60%,rgba(214,215,250,.45))!important;
+ border:1px solid rgba(188,208,246,.95)!important;
+ box-shadow:0 14px 31px rgba(40,70,133,.15),inset 0 1px rgba(255,255,255,.97)!important;
+ backdrop-filter:blur(18px) saturate(150%)!important;-webkit-backdrop-filter:blur(18px) saturate(150%)!important;
+ transform:translate3d(0,0,0)!important;
+ transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,border-color .28s ease!important;
+ will-change:transform;
+}
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2){
+ background:linear-gradient(142deg,rgba(255,255,255,.88),rgba(224,234,255,.64) 57%,rgba(206,201,253,.50))!important;
+ border-color:rgba(148,172,238,.9)!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(3){
+ background:linear-gradient(142deg,rgba(255,255,255,.84),rgba(235,232,255,.67) 57%,rgba(219,204,251,.55))!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card::before,.web-shell .pricing-section .pricing-grid>.price-card::after{pointer-events:none!important}
+.web-shell .pricing-section .pricing-grid>.price-card:hover,
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{
+ transform:translate3d(0,-9px,0) rotate(-.35deg)!important;
+ border-color:#819fe0!important;
+ box-shadow:0 26px 48px rgba(43,70,142,.27),inset 0 1px #fff!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{transform:translate3d(0,-9px,0) rotate(.35deg)!important}
+.web-shell .pricing-section .pricing-grid>.price-card .price-badge{min-height:23px!important;line-height:1.3!important}
+.web-shell .pricing-section .pricing-grid>.price-card h3{margin:9px 0 10px!important}
+.web-shell .pricing-section .pricing-grid>.price-card .small-button{margin-top:auto!important;flex-shrink:0!important}
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan{
+ margin-top:12px!important;flex-shrink:0!important;min-height:52px!important;
+ background:#2e765f!important;color:#fff!important;border-radius:14px!important;
+ transition:transform .24s ease,box-shadow .24s ease,background-color .24s ease!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan:hover{
+ transform:translateY(-4px)!important;background:#165e49!important;box-shadow:0 14px 24px rgba(25,100,76,.28)!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .active-plan-status{margin-top:12px!important}
+@media(max-width:900px){.web-shell .pricing-section .pricing-grid{grid-template-columns:1fr!important}.web-shell .pricing-section .pricing-grid>.price-card{min-height:0!important}}
+@media(hover:none){.web-shell .pricing-section .pricing-grid>.price-card:hover,.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.web-shell .pricing-section .pricing-grid>.price-card{transition:none!important;will-change:auto!important}}
