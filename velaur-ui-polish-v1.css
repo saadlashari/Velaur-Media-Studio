@@ -1,0 +1,442 @@
+/* VELAUR UI polish v1 — visual-only, shared desktop/mobile design */
+:root{--vela-cyan:#05bce8;--vela-blue:#326ce7;--vela-violet:#7049da}
+.site-topbar{background:linear-gradient(112deg,#d9f4ffef,#d0dffbee 55%,#7770b2ee)!important;border:1px solid #ffffffcc!important;border-radius:20px!important;min-height:80px!important;padding:12px 22px!important;box-shadow:0 12px 28px #324b8730,inset 0 1px #fff!important;backdrop-filter:blur(17px)!important;-webkit-backdrop-filter:blur(17px)!important}
+.site-topbar .site-nav{display:flex;align-items:center;justify-content:flex-end;gap:8px!important}
+.site-topbar .site-nav>a,.site-topbar .site-nav>button{display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:10px 14px!important;border-radius:11px!important;color:#172c60!important;font-weight:700;transition:transform .2s,background .2s,box-shadow .2s!important}
+.site-topbar .site-nav>a:hover,.site-topbar .site-nav>button:hover{transform:translateY(-2px)!important;background:#ffffffe0!important;box-shadow:0 8px 17px #394c8e26!important}
+.site-topbar .site-nav [aria-current=page]{background:#ffffffb8!important}
+.site-topbar .site-nav .nav-login{background:linear-gradient(120deg,#edfbff,#dee4ff)!important;border:1px solid #ffffffb8!important;color:#244bb1!important}
+.site-topbar .nav-login::before{content:'↪';font-size:20px;line-height:1;margin-right:8px}
+.site-topbar .site-nav .nav-signout{background:#fff1f6!important;color:#993a62!important;border:1px solid #f7cddf!important}
+.site-topbar .nav-signout::before{content:'↩';font-size:20px;line-height:1;margin-right:8px}
+.hero-actions .action,.price-card .small-button,.google-button,.seo-workflow-links a{transition:transform .23s,box-shadow .23s,filter .23s!important}
+.hero-actions .action:hover,.price-card .small-button:hover,.google-button:hover{transform:translateY(-4px)!important;filter:saturate(1.15);box-shadow:0 14px 28px #4467ca3b!important}
+.price-card{background:linear-gradient(135deg,#ffffffaf,#deeaff80 56%,#e4d9ff88)!important;border:1px solid #fffffff0!important;box-shadow:inset 0 2px #fff,inset 1px 0 #ffffff8e,0 18px 35px #5269aa29!important;backdrop-filter:blur(23px) saturate(145%)!important;-webkit-backdrop-filter:blur(23px) saturate(145%)!important;isolation:isolate;overflow:hidden}
+.price-card::after{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:linear-gradient(125deg,#ffffff96,transparent 35%,transparent 72%,#9eb0ef26)}
+.price-card:hover{transform:translateY(-7px) rotate(-.5deg)!important;box-shadow:inset 0 2px #fff,0 24px 42px #5264af44!important}
+.price-card:nth-child(2):hover{transform:translateY(-7px) rotate(.5deg)!important}
+.step-card,.seo-workflows .benefits article{position:relative;min-width:0!important;display:flex!important;flex-direction:column!important;gap:12px;padding:25px!important;border-radius:22px 22px 40px 22px!important;background:linear-gradient(140deg,#ffffffb8,#e1edff92)!important;border:1px solid #b7cfff!important;backdrop-filter:blur(12px);overflow-wrap:anywhere}
+.step-card::after,.seo-workflows .benefits article::after{content:'';position:absolute;bottom:0;right:0;width:64px;height:64px;border-radius:100% 0 35px 0;background:linear-gradient(135deg,#fff9,#adc5f077);border-top:1px solid #b5c9f2;pointer-events:none}
+.step-card h3,.seo-workflows .benefits h3{font-size:17px!important;line-height:1.36!important;margin:0 0 8px!important;overflow-wrap:normal;word-break:normal}
+.step-card p,.seo-workflows .benefits p{margin:0!important;line-height:1.72!important}
+.step-card:hover,.seo-workflows .benefits article:hover{transform:translateY(-5px) rotate(-.4deg)!important;box-shadow:0 18px 35px #395da522!important}
+.seo-ai-answers{max-width:1000px!important;margin:38px auto!important;padding:30px!important;border-radius:25px;background:linear-gradient(120deg,#ffffffbb,#e7eeffca);border:1px solid #ffffffef;box-shadow:0 16px 34px #4566a019}
+.seo-ai-answers h2{margin:0 0 22px!important;font-size:clamp(24px,3vw,31px)}
+.seo-ai-answers article{padding:18px 0;margin:0!important;border-bottom:1px solid #c5d3ea}.seo-ai-answers article:last-child{border:0}
+.seo-ai-answers h3{font-size:17px;line-height:1.4;margin:0 0 8px!important}
+.seo-workflow-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.seo-workflow-links a{display:inline-flex;padding:8px 14px;background:#ffffffbb;border:1px solid #b9ccef;border-radius:999px;text-decoration:none!important}
+.seo-workflow-links a:hover{transform:translateY(-2px);background:#fff;box-shadow:0 7px 17px #4065af25}
+.google-button svg{width:38px!important;height:38px!important;padding:8px!important;flex:none;border-radius:11px;background:white!important;box-shadow:0 4px 9px #203d7633}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #06bfe9!important;outline-offset:3px!important}
+@media(max-width:760px){.site-topbar{min-height:70px!important;padding:10px 14px!important}.site-topbar .site-menu{display:block!important;background:#ffffffba!important;border-radius:10px!important}.site-topbar .site-nav{position:absolute!important;left:0!important;right:0!important;top:calc(100% + 8px)!important;display:none!important;flex-direction:column!important;align-items:stretch!important;padding:14px!important;gap:7px!important;background:linear-gradient(130deg,#d9f4fffa,#d1defcfa 58%,#aaa1e7fa)!important;border:1px solid #ffffffd9!important;border-radius:18px!important;box-shadow:0 20px 40px #24407b50!important;max-height:75vh;overflow-y:auto}.site-topbar.menu-open .site-nav{display:flex!important}.site-topbar .site-nav>a,.site-topbar .site-nav>button{justify-content:flex-start!important;width:100%;text-align:left;min-height:47px!important}.seo-ai-answers{padding:20px!important}.step-card,.seo-workflows .benefits article{padding:22px!important}}
+@media(hover:none){.price-card:hover,.step-card:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.site-topbar *, .price-card,.step-card,.google-button{animation:none!important;transition:none!important}}
+
+/* Auth visibility must outrank decorative display rules. */
+.site-topbar .site-nav [hidden],.site-topbar .site-nav>a[hidden],.site-topbar .site-nav>button[hidden]{display:none!important}
+.site-topbar .site-nav .nav-login:focus-visible,.site-topbar .site-nav .nav-signout:focus-visible{outline:3px solid #04bde7!important}
+@media(max-width:760px){.site-topbar .site-nav [hidden],.site-topbar .site-nav>a[hidden],.site-topbar .site-nav>button[hidden]{display:none!important}}
+
+/* v2 — contrast and hover corrections, after legacy theme overrides */
+.site-topbar{background:linear-gradient(110deg,#b3e7fc 0%,#789bdf 47%,#514292 100%)!important;border:1px solid #a6bcebe8!important;box-shadow:0 12px 33px #182e6480,inset 0 1px #ffffff80!important}
+.site-topbar .site-nav>a,.site-topbar .site-nav>button{color:#fff!important;text-shadow:0 1px 2px #15265070!important}
+.site-topbar .site-nav>a:hover,.site-topbar .site-nav>button:hover,.site-topbar .site-nav [aria-current=page]{color:#112959!important;text-shadow:none!important;background:#eaf6fff0!important;box-shadow:0 5px 17px #132f6c45!important}
+.site-topbar .site-nav .nav-login{background:#e7f5ff!important;color:#17346c!important;text-shadow:none!important;border:1px solid #fff!important}
+.site-topbar .site-nav .nav-signout{background:#ffedf5!important;color:#853552!important;text-shadow:none!important}
+.site-topbar .nav-login::before,.site-topbar .nav-signout::before{content:none!important;display:none!important}
+.site-topbar .site-nav [hidden]{display:none!important}
+.site-topbar .site-menu span{background:#203b7e!important}
+.web-shell .hero-actions a.action{position:relative!important;cursor:pointer!important;pointer-events:auto!important;transition:transform .2s ease,background .2s ease,box-shadow .2s ease!important}
+.web-shell .hero-actions a.action:hover{transform:translateY(-5px) scale(1.035)!important;box-shadow:0 17px 32px #334dab59!important}
+.web-shell .hero-actions a.action.primary:hover{background:linear-gradient(110deg,#087aa9,#2850d1 55%,#622cb3)!important;color:#fff!important}
+.web-shell .hero-actions a.action.secondary:hover{background:#e2e9ff!important;border-color:#6540c2!important;color:#322078!important}
+.web-shell .hero-actions a.action:active{transform:translateY(-1px) scale(.99)!important}
+.web-shell .benefits article,.web-shell .steps-grid .step-card,.web-shell .seo-workflows .benefits article{transition:transform .26s ease,box-shadow .26s ease,border-color .26s ease,background .26s ease!important;transform-origin:center!important}
+.web-shell .benefits article:hover,.web-shell .steps-grid .step-card:hover,.web-shell .seo-workflows .benefits article:hover{transform:translateY(-8px) rotate(-.7deg)!important;border-color:#7c8cdf!important;background:linear-gradient(135deg,#ffffffed,#dbe6ffd9)!important;box-shadow:0 24px 43px #344e9470!important}
+.web-shell .benefits article:nth-child(2):hover,.web-shell .steps-grid .step-card:nth-child(2):hover{transform:translateY(-8px) rotate(.7deg)!important}
+.web-shell .pricing-grid .price-card,.web-shell .pricing-grid .price-card a,.web-shell .pricing-grid .price-card button{transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease,filter .25s ease!important}
+.web-shell .pricing-grid .price-card:hover{transform:translateY(-10px) rotate(-.7deg)!important;border-color:#758dd7!important;box-shadow:0 29px 48px #364d9463,inset 0 2px #fff!important}
+.web-shell .pricing-grid .price-card:nth-child(2):hover{transform:translateY(-10px) rotate(.7deg)!important}
+.web-shell .pricing-grid .price-card :is(a,button):not(:disabled):hover{transform:translateY(-4px) scale(1.02)!important;filter:brightness(1.12) saturate(1.1)!important;box-shadow:0 14px 29px #335d8870!important}
+.web-shell .pricing-grid a[href*="wa.me"]:hover,.web-shell .pricing-grid a[href*="whatsapp"]:hover{background:#136b53!important;color:#fff!important}
+.web-shell .seo-ai-answers{background:linear-gradient(137deg,#f8fbffee,#ddeaffdf)!important;border:1px solid #d2e1f4!important}
+.web-shell .seo-ai-answers article{border:1px solid #c5d5ed!important;border-radius:17px!important;background:#ffffff8c!important;padding:19px 23px!important;margin:12px 0!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important}
+.web-shell .seo-ai-answers article:hover{transform:translateX(5px)!important;border-color:#819ee0!important;box-shadow:0 8px 19px #4769ac22!important}
+.web-shell .seo-ai-answers h2{margin-bottom:22px!important}
+.web-shell .seo-workflows .benefits article{align-items:flex-start!important;text-align:left!important;gap:9px!important}
+.web-shell .seo-workflows .benefits article h3{width:100%!important;max-width:100%!important;line-height:1.4!important;word-break:normal!important}
+@media(max-width:760px){.site-topbar .site-nav{background:linear-gradient(130deg,#244f9dfc,#4f3a8efc)!important}.site-topbar .site-nav>a{color:#fff!important}.site-topbar .site-nav>a:hover{color:#172b61!important}}
+@media(hover:none){.web-shell .benefits article:hover,.web-shell .steps-grid .step-card:hover,.web-shell .pricing-grid .price-card:hover,.web-shell .seo-ai-answers article:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.web-shell :is(.benefits article,.step-card,.price-card,.seo-ai-answers article,.action){transition:none!important}}
+
+/* v3 — Navbar action visibility only. Do NOT alter the existing topbar gradient. */
+.site-topbar .site-nav > a:not(.nav-login),
+.site-topbar .site-nav > button:not(.nav-signout){
+  color:#16376f!important;
+  text-shadow:none!important;
+  background:rgba(255,255,255,.45)!important;
+  border:1px solid rgba(255,255,255,.52)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65)!important;
+  font-weight:750!important;
+  opacity:1!important;
+  transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease,color .2s ease!important;
+}
+.site-topbar .site-nav > a:not(.nav-login):hover,
+.site-topbar .site-nav > button:not(.nav-signout):hover,
+.site-topbar .site-nav > a[aria-current="page"]:not(.nav-login){
+  color:#fff!important;
+  background:#304eab!important;
+  border-color:#304eab!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 8px 18px rgba(35,57,120,.26)!important;
+}
+.site-topbar .site-nav > a.nav-login{
+  color:#fff!important;
+  background:linear-gradient(112deg,#245dbd,#5940a1)!important;
+  border:1px solid rgba(255,255,255,.65)!important;
+  box-shadow:0 6px 17px rgba(31,49,108,.23)!important;
+  text-shadow:none!important;
+  font-weight:750!important;
+}
+.site-topbar .site-nav > a.nav-login:hover{
+  color:#fff!important;
+  background:linear-gradient(112deg,#174aab,#3b2788)!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 11px 22px rgba(31,49,108,.34)!important;
+}
+.site-topbar .site-nav > button.nav-signout{
+  color:#8c2755!important;
+  background:#fff0f6!important;
+  border:1px solid #e7abc6!important;
+  text-shadow:none!important;
+  font-weight:750!important;
+}
+.site-topbar .site-nav > button.nav-signout:hover{
+  color:#fff!important;
+  background:#963364!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 8px 19px rgba(128,35,75,.25)!important;
+}
+.site-topbar .site-nav .nav-login::before,.site-topbar .site-nav .nav-signout::before{content:none!important;display:none!important}
+.site-topbar .site-nav > [hidden]{display:none!important}
+@media(max-width:760px){
+ .site-topbar .site-nav > a:not(.nav-login),.site-topbar .site-nav > button:not(.nav-signout){color:#193c78!important;background:rgba(255,255,255,.89)!important}
+ .site-topbar .site-nav > a:not(.nav-login):hover,.site-topbar .site-nav > a[aria-current="page"]:not(.nav-login){color:#fff!important;background:#304eab!important}
+}
+@media(prefers-reduced-motion:reduce){.site-topbar .site-nav > *{transition:none!important}}
+
+/* v4: requested pricing work, stacked AFTER v3 navbar colors.
+   Keep original navbar gradient and v3 navigation-button contrast. */
+.web-shell .pricing-section{position:relative}
+.web-shell .pricing-section>.section-eyebrow,
+.web-shell .pricing-section>.section-title,
+.web-shell .pricing-section>.section-description{position:relative;z-index:1}
+.web-shell .pricing-section>.section-title{font-size:clamp(32px,4.2vw,57px)!important;line-height:1.1!important;margin:9px 0 8px!important}
+.web-shell .pricing-section>.section-description{font-size:clamp(15px,1.5vw,19px)!important;line-height:1.65!important;max-width:650px!important}
+.web-shell .pricing-section .pricing-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:24px!important;align-items:stretch!important}
+.web-shell .pricing-grid>.price-card{position:relative!important;display:flex!important;flex-direction:column!important;min-width:0!important;min-height:100%!important;border:1px solid rgba(184,203,244,.9)!important;border-radius:27px!important;padding:28px 24px 23px!important;background:linear-gradient(155deg,rgba(255,255,255,.76),rgba(224,238,255,.59) 62%,rgba(223,219,255,.56))!important;box-shadow:0 14px 32px rgba(44,71,131,.14),inset 0 1px rgba(255,255,255,.9)!important;backdrop-filter:blur(18px) saturate(135%)!important;-webkit-backdrop-filter:blur(18px) saturate(135%)!important;transform:none!important;transition:transform .27s ease,box-shadow .27s ease,border-color .27s ease!important;isolation:isolate}
+.web-shell .pricing-grid>.price-card::before,.web-shell .pricing-grid>.price-card::after{pointer-events:none!important}
+.web-shell .pricing-grid>.price-card::before{content:"";inset:0;position:absolute;background:linear-gradient(130deg,rgba(255,255,255,.44),transparent 42%,rgba(153,173,247,.09));border-radius:inherit;z-index:-1}
+.web-shell .pricing-grid>.price-card::after{content:"";position:absolute;inset:auto -1px -1px auto;width:67px;height:67px;border-radius:95% 0 26px 0;background:linear-gradient(145deg,rgba(218,237,255,.82),rgba(151,165,229,.3));border-top:1px solid rgba(143,166,221,.6);z-index:0}
+.web-shell .pricing-grid>.price-card>*{position:relative;z-index:1}
+.web-shell .pricing-grid>.price-card:hover,.web-shell .pricing-grid>.price-card:nth-child(2):hover{transform:translateY(-7px)!important;border-color:#718bd0!important;box-shadow:0 23px 40px rgba(46,72,141,.25),inset 0 1px #fff!important}
+.web-shell .pricing-grid>.price-card .small-button{position:relative!important;z-index:3!important;margin-top:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;width:100%!important;border:1px solid transparent!important;border-radius:14px!important;cursor:pointer!important;transform:none!important;transition:background-color .25s ease,box-shadow .25s ease,filter .25s ease,transform .25s ease!important}
+.web-shell .pricing-grid>.price-card .small-button:not(:disabled):hover{transform:translateY(-3px)!important;filter:brightness(1.11)!important;box-shadow:0 12px 25px rgba(52,77,143,.34)!important}
+.web-shell .pricing-grid>.price-card .small-button:disabled{cursor:not-allowed!important;opacity:.75}
+.web-shell .pricing-grid>.price-card :is(a[href*="wa.me"],a[href*="whatsapp"]){position:relative!important;z-index:3!important;transition:background-color .23s,filter .23s,box-shadow .23s,transform .23s!important}
+.web-shell .pricing-grid>.price-card :is(a[href*="wa.me"],a[href*="whatsapp"]):hover{transform:translateY(-3px)!important;background:#176448!important;filter:brightness(1.12)!important;box-shadow:0 12px 24px rgba(22,103,74,.24)!important}
+.web-shell .plan-explainer{margin:42px auto!important;max-width:1250px}
+.web-shell .plan-explainer h2{font-size:clamp(26px,3vw,38px)!important;margin-bottom:22px!important}
+.web-shell .plan-explainer .explain-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:21px!important;align-items:stretch}
+.web-shell .plan-explainer .explain-grid>article{display:flex!important;flex-direction:column;gap:12px;padding:26px!important;border:1px solid #bacdef!important;border-radius:22px 22px 36px 22px!important;background:linear-gradient(140deg,rgba(255,255,255,.75),rgba(220,233,255,.54))!important;box-shadow:0 10px 26px rgba(45,72,126,.1)!important;position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease!important}
+.web-shell .plan-explainer .explain-grid>article::after{content:"";pointer-events:none;position:absolute;bottom:0;right:0;width:56px;height:56px;border-radius:100% 0 25px 0;background:linear-gradient(130deg,#f5fbffbd,#afc7fc8b)}
+.web-shell .plan-explainer .explain-grid>article:hover{transform:translateY(-6px)!important;border-color:#849bd9!important;box-shadow:0 18px 36px rgba(42,75,143,.2)!important}
+.web-shell .plan-explainer .explain-grid h3{font-size:19px!important;line-height:1.4!important;margin:0!important;max-width:none!important}
+.web-shell .plan-explainer .explain-grid p{font-size:15px!important;line-height:1.75!important;margin:0!important}
+@media(max-width:860px){.web-shell .pricing-section .pricing-grid,.web-shell .plan-explainer .explain-grid{grid-template-columns:1fr!important}}
+@media(hover:none){.web-shell .pricing-grid>.price-card:hover,.web-shell .plan-explainer .explain-grid>article:hover{transform:none!important}}
+
+/* v5 approved screenshot: exact navbar gradient; navigation controls only. */
+.web-shell .site-topbar{
+ background:linear-gradient(100deg,#eceeff 10%,#caeeff 100%,#031640 100%)!important;
+}
+.web-shell .site-topbar .site-nav>a:not(.nav-login){
+ background:#fffdf4eb!important;color:#20366b!important;border:1px solid #ffffffeb!important;
+ text-shadow:none!important;box-shadow:0 2px 7px #223a6b1a!important;
+}
+.web-shell .site-topbar .site-nav>a:not(.nav-login):hover,
+.web-shell .site-topbar .site-nav>a[aria-current="page"]:not(.nav-login){
+ background:#284f9f!important;color:white!important;border-color:#284f9f!important;
+ box-shadow:0 7px 15px #24427644!important;transform:translateY(-2px)!important;
+}
+.web-shell .site-topbar .site-nav>a.nav-login{
+ background:#284f9f!important;color:white!important;border:1px solid #284f9f!important;
+ text-shadow:none!important;box-shadow:0 5px 13px #2442763d!important;
+}
+.web-shell .site-topbar .site-nav>a.nav-login:hover{
+ background:#162f76!important;box-shadow:0 10px 20px #24427655!important;transform:translateY(-2px)!important;
+}
+.web-shell .site-topbar .site-nav .nav-signout{background:#fff0f6!important;color:#8c2755!important;}
+.web-shell .site-topbar .site-nav [hidden]{display:none!important}
+@media(max-width:760px){
+ .web-shell .site-topbar .site-nav{background:linear-gradient(100deg,#eceeff 10%,#caeeff 100%,#031640 100%)!important}
+ .web-shell .site-topbar .site-nav>a:not(.nav-login){background:#fffdf4eb!important;color:#20366b!important}
+ .web-shell .site-topbar .site-nav>a[aria-current="page"]:not(.nav-login){background:#284f9f!important;color:#fff!important}
+}
+
+/* v6 final three screenshot corrections: stable pricing surfaces, nav alignment, sign-in contrast. */
+@media(min-width:761px){
+ .web-shell .site-topbar{display:grid!important;grid-template-columns:minmax(170px,1fr) auto minmax(170px,1fr)!important;align-items:center!important;position:relative!important}
+ .web-shell .site-topbar>.site-brand{grid-column:1!important;justify-self:start!important}
+ .web-shell .site-topbar>.site-nav{grid-column:2!important;display:flex!important;align-items:center!important;justify-self:center!important;gap:8px!important;position:static!important;transform:none!important;width:auto!important;margin:0!important}
+ .web-shell .site-topbar>.site-nav>.nav-login,
+ .web-shell .site-topbar>.site-nav>.nav-signout{position:absolute!important;right:24px!important;top:50%!important;transform:translateY(-50%)!important;margin:0!important;white-space:nowrap!important}
+ .web-shell .site-topbar>.site-nav>.nav-login:hover,
+ .web-shell .site-topbar>.site-nav>.nav-signout:hover{transform:translateY(calc(-50% - 2px))!important}
+ .web-shell .site-topbar>.site-menu{grid-column:3!important;justify-self:end!important}
+}
+.web-shell .site-topbar>.site-nav>a.nav-login,
+.web-shell .site-topbar>.site-nav>a.nav-login[aria-current="page"]{color:#fff!important;background:#284f9f!important;border-color:#234a91!important;opacity:1!important;box-shadow:0 5px 14px #173c7740!important;text-shadow:none!important}
+.web-shell .site-topbar>.site-nav>a.nav-login:hover{color:#fff!important;background:#183c83!important;box-shadow:0 9px 20px #173c7760!important}
+.web-shell .site-topbar>.site-nav>a[hidden],.web-shell .site-topbar>.site-nav>button[hidden]{display:none!important}
+.web-shell .pricing-grid>.price-card{transform:none!important;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important;pointer-events:auto!important}
+.web-shell .pricing-grid>.price-card:hover{transform:translateY(-6px)!important}
+.web-shell .pricing-grid>.price-card::before,.web-shell .pricing-grid>.price-card::after{pointer-events:none!important}
+.web-shell .pricing-grid>.price-card button,.web-shell .pricing-grid>.price-card a{position:relative!important;z-index:4!important}
+.web-shell .pricing-grid>.price-card button:hover,.web-shell .pricing-grid>.price-card a:hover{transform:translateY(-2px)!important}
+.web-shell .pricing-grid>.price-card button:disabled{transform:none!important;opacity:.68!important;box-shadow:none!important}
+@media(max-width:760px){
+ .web-shell .site-topbar>.site-nav>.nav-login,.web-shell .site-topbar>.site-nav>.nav-signout{position:static!important;transform:none!important;width:100%!important}
+ .web-shell .site-topbar>.site-nav>.nav-login:hover,.web-shell .site-topbar>.site-nav>.nav-signout:hover{transform:none!important}
+}
+
+/* v7 root-cause fixes: never force hidden account/pricing actions visible. */
+.web-shell .site-nav [hidden],
+.web-shell .price-card [hidden],
+.web-shell .pricing-grid [hidden],
+.web-shell .site-topbar [hidden]{display:none!important}
+.web-shell .pricing-grid>.price-card .active-plan-status{
+ display:block;position:relative;z-index:2;text-align:center;
+ background:rgba(224,237,252,.78);color:#244f79;
+ border:1px solid #c8daef;border-radius:13px;padding:13px 12px;
+ font-weight:700;font-size:13px;margin-top:11px;
+}
+@media(min-width:761px){
+ .web-shell .site-topbar .site-nav>.nav-login,
+ .web-shell .site-topbar .site-nav>.nav-signout{
+ position:absolute!important;right:24px!important;top:50%!important;
+ transform:translateY(-50%)!important;color:white!important;background:#284f9f!important;
+ border:1px solid #234a91!important;box-shadow:0 7px 17px #1c3a7845!important;
+ }
+ .web-shell .site-topbar .site-nav>.nav-login:hover,
+ .web-shell .site-topbar .site-nav>.nav-signout:hover{
+ transform:translateY(calc(-50% - 2px))!important;
+ }
+}
+.web-shell .pricing-grid>.price-card a.whatsapp-plan{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ position:relative!important;z-index:5!important;cursor:pointer!important;
+ transform:none!important;transition:transform .23s ease,background-color .23s ease,box-shadow .23s ease,filter .23s ease!important;
+ background:#2e765f!important;color:#fff!important;
+}
+.web-shell .pricing-grid>.price-card a.whatsapp-plan:hover{
+ transform:translateY(-4px)!important;background:#155b48!important;
+ box-shadow:0 14px 27px #205e4b69!important;filter:saturate(1.2)!important;
+}
+.web-shell .pricing-grid>.price-card a.whatsapp-plan:focus-visible{outline:3px solid #0ca7bb!important;outline-offset:3px}
+
+/* v8 — accessible, high-contrast account controls on approved light gradient. */
+.web-shell .site-topbar{position:relative!important}
+.web-shell .site-topbar .site-nav>a.nav-login:not([hidden]),
+.web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]){
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;
+ opacity:1!important;visibility:visible!important;
+ min-height:44px!important;padding:10px 19px!important;
+ white-space:nowrap!important;font-weight:800!important;
+ text-decoration:none!important;text-shadow:none!important;
+ border-radius:14px!important;z-index:30!important;
+ transition:background .24s ease,color .24s ease,box-shadow .24s ease,transform .24s ease!important;
+}
+.web-shell .site-topbar .site-nav>a.nav-login:not([hidden]){
+ color:#ffffff!important;background:linear-gradient(115deg,#244f9f,#52369d)!important;
+ border:1px solid #365bac!important;box-shadow:0 7px 19px #263c8870!important;
+}
+.web-shell .site-topbar .site-nav>a.nav-login:not([hidden]):hover{
+ color:#ffffff!important;background:linear-gradient(115deg,#143879,#392076)!important;
+ box-shadow:0 13px 26px #1e368d7a!important;
+}
+.web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]){
+ color:#ffffff!important;background:linear-gradient(115deg,#98416f,#6b2768)!important;
+ border:1px solid #8d3b72!important;box-shadow:0 7px 19px #75416655!important;
+}
+.web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]):hover{
+ color:#fff!important;background:linear-gradient(115deg,#742b59,#4e1e59)!important;
+ box-shadow:0 13px 26px #67265f7a!important;
+}
+.web-shell .site-topbar .site-nav :is(.nav-login,.nav-signout):focus-visible{outline:3px solid #07b7e5!important;outline-offset:3px!important}
+.web-shell .site-topbar .site-nav>.nav-login[hidden],
+.web-shell .site-topbar .site-nav>.nav-signout[hidden]{display:none!important;visibility:hidden!important}
+@media(min-width:761px){
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]),
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]){
+ position:absolute!important;right:22px!important;top:50%!important;margin:0!important;transform:translateY(-50%)!important;
+ }
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]):hover,
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]):hover{transform:translateY(calc(-50% - 3px))!important}
+}
+@media(max-width:760px){
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]),
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]){position:static!important;width:100%!important;transform:none!important}
+ .web-shell .site-topbar .site-nav>.nav-login:not([hidden]):hover,
+ .web-shell .site-topbar .site-nav>.nav-signout:not([hidden]):hover{transform:translateY(-2px)!important}
+}
+
+/* v9 — unified 100px desktop navbar and polished equal-height pricing.
+   Purely presentational: existing titles, limits, prices, links and JS untouched. */
+@media(min-width:761px){
+ .web-shell>.site-topbar{
+  box-sizing:border-box!important;min-height:100px!important;height:100px!important;
+  padding:12px 24px!important;margin-top:12px!important;margin-bottom:20px!important;
+  align-items:center!important;
+ }
+ .web-shell>.site-topbar .site-brand img{max-height:72px!important;width:auto!important;max-width:215px!important;object-fit:contain!important}
+ .web-shell>.site-topbar .site-nav{align-items:center!important}
+ .web-shell>.site-topbar .site-nav>a:not(.nav-login),.web-shell>.site-topbar .site-nav>button:not(.nav-signout){min-height:44px!important}
+}
+.web-shell .pricing-section{padding-top:26px!important}
+.web-shell .pricing-section>.section-eyebrow,.web-shell .pricing-section>.section-title,.web-shell .pricing-section>.section-description{text-align:left!important}
+.web-shell .pricing-section .pricing-grid{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:24px!important;align-items:stretch!important;margin-top:26px!important;
+ perspective:1400px;
+}
+.web-shell .pricing-section .pricing-grid>.price-card{
+ margin:0!important;top:auto!important;bottom:auto!important;align-self:stretch!important;
+ min-height:590px!important;box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;gap:0!important;
+ padding:28px 25px 23px!important;border-radius:27px!important;
+ background:linear-gradient(142deg,rgba(255,255,255,.78),rgba(225,238,255,.55) 60%,rgba(214,215,250,.45))!important;
+ border:1px solid rgba(188,208,246,.95)!important;
+ box-shadow:0 14px 31px rgba(40,70,133,.15),inset 0 1px rgba(255,255,255,.97)!important;
+ backdrop-filter:blur(18px) saturate(150%)!important;-webkit-backdrop-filter:blur(18px) saturate(150%)!important;
+ transform:translate3d(0,0,0)!important;
+ transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,border-color .28s ease!important;
+ will-change:transform;
+}
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2){
+ background:linear-gradient(142deg,rgba(255,255,255,.88),rgba(224,234,255,.64) 57%,rgba(206,201,253,.50))!important;
+ border-color:rgba(148,172,238,.9)!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(3){
+ background:linear-gradient(142deg,rgba(255,255,255,.84),rgba(235,232,255,.67) 57%,rgba(219,204,251,.55))!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card::before,.web-shell .pricing-section .pricing-grid>.price-card::after{pointer-events:none!important}
+.web-shell .pricing-section .pricing-grid>.price-card:hover,
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{
+ transform:translate3d(0,-9px,0) rotate(-.35deg)!important;
+ border-color:#819fe0!important;
+ box-shadow:0 26px 48px rgba(43,70,142,.27),inset 0 1px #fff!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{transform:translate3d(0,-9px,0) rotate(.35deg)!important}
+.web-shell .pricing-section .pricing-grid>.price-card .price-badge{min-height:23px!important;line-height:1.3!important}
+.web-shell .pricing-section .pricing-grid>.price-card h3{margin:9px 0 10px!important}
+.web-shell .pricing-section .pricing-grid>.price-card .small-button{margin-top:auto!important;flex-shrink:0!important}
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan{
+ margin-top:12px!important;flex-shrink:0!important;min-height:52px!important;
+ background:#2e765f!important;color:#fff!important;border-radius:14px!important;
+ transition:transform .24s ease,box-shadow .24s ease,background-color .24s ease!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan:hover{
+ transform:translateY(-4px)!important;background:#165e49!important;box-shadow:0 14px 24px rgba(25,100,76,.28)!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .active-plan-status{margin-top:12px!important}
+@media(max-width:900px){.web-shell .pricing-section .pricing-grid{grid-template-columns:1fr!important}.web-shell .pricing-section .pricing-grid>.price-card{min-height:0!important}}
+@media(hover:none){.web-shell .pricing-section .pricing-grid>.price-card:hover,.web-shell .pricing-section .pricing-grid>.price-card:nth-child(2):hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.web-shell .pricing-section .pricing-grid>.price-card{transition:none!important;will-change:auto!important}}
+
+/* v10 — keep navigation visible on page scroll; preserve the approved palette. */
+html{scroll-padding-top:120px}
+.web-shell{overflow:visible!important}
+.web-shell>.site-topbar{
+ position:sticky!important;top:12px!important;z-index:1000!important;
+ flex-shrink:0!important;
+}
+@media(max-width:760px){
+ html{scroll-padding-top:90px}
+ .web-shell>.site-topbar{top:8px!important;z-index:1000!important}
+}
+
+/* v11 — exactly one visible call-to-action per pricing card. */
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan[hidden],
+.web-shell .pricing-section .pricing-grid>.price-card #creatorTrial[hidden],
+.web-shell .pricing-section .pricing-grid>.price-card [data-plan-contact][hidden]{
+ display:none!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan:not([hidden]),
+.web-shell .pricing-section .pricing-grid>.price-card #creatorTrial:not([hidden]){
+ margin-top:auto!important;min-height:52px!important;flex-shrink:0!important;
+}
+
+/* v12 — compact pricing cards without blank vertical filler. Preserve all content. */
+.web-shell .pricing-section .pricing-grid>.price-card{
+ min-height:0!important;
+ height:auto!important;
+ align-self:stretch!important;
+ padding-bottom:22px!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card .small-button:not([hidden]),
+.web-shell .pricing-section .pricing-grid>.price-card .whatsapp-plan:not([hidden]),
+.web-shell .pricing-section .pricing-grid>.price-card #creatorTrial:not([hidden]){
+ margin-top:14px!important;
+}
+.web-shell .pricing-section .pricing-grid>.price-card p:last-of-type{margin-bottom:0!important}
+.web-shell .pricing-section .pricing-grid{align-items:stretch!important}
+
+/* v13 — mobile-only position correction; existing fills, colors, gradients retained. */
+@media(max-width:760px){
+ .web-shell>.site-topbar{position:sticky!important;isolation:isolate;display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
+  align-items:center!important;gap:8px!important}
+ .web-shell>.site-topbar>.site-brand{grid-column:1!important;justify-self:start!important;min-width:0!important}
+ .web-shell>.site-topbar>.site-brand img{width:clamp(108px,29vw,180px)!important;max-width:100%!important;height:auto!important}
+ .web-shell>.site-topbar>.site-menu{
+  display:block!important;grid-column:2!important;grid-row:1!important;
+  justify-self:center!important;position:static!important;margin:0!important;
+  transform:none!important;z-index:3!important}
+ .web-shell>.site-topbar>.site-nav{
+  grid-column:auto!important;position:absolute!important;
+  left:50%!important;right:auto!important;top:calc(100% + 8px)!important;
+  transform:translateX(-50%)!important;
+  width:min(310px,calc(100vw - 36px))!important;max-width:calc(100vw - 36px)!important;
+  box-sizing:border-box!important;margin:0!important;
+  align-items:stretch!important;text-align:center!important;
+ }
+ .web-shell>.site-topbar>.site-nav>a,
+ .web-shell>.site-topbar>.site-nav>button{
+  text-align:center!important;justify-content:center!important}
+ .web-shell>.site-topbar>.nav-login:not([hidden]),
+ .web-shell>.site-topbar>.nav-signout:not([hidden]){
+  grid-column:3!important;grid-row:1!important;justify-self:end!important;
+  position:static!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:auto!important;min-width:0!important;max-width:100%!important;
+  min-height:42px!important;margin:0!important;padding:9px 11px!important;
+  border-radius:14px!important;font-size:12px!important;font-weight:800!important;
+  white-space:nowrap!important;transform:none!important;z-index:3!important;
+ }
+ .web-shell>.site-topbar>.nav-login:not([hidden]){
+  color:#fff!important;background:linear-gradient(115deg,#244f9f,#52369d)!important;
+  border:1px solid #365bac!important;box-shadow:0 7px 19px #263c8870!important}
+ .web-shell>.site-topbar>.nav-signout:not([hidden]){
+  color:#fff!important;background:linear-gradient(115deg,#98416f,#6b2768)!important;
+  border:1px solid #8d3b72!important;box-shadow:0 7px 19px #75416655!important}
+ .web-shell>.site-topbar>.nav-login:not([hidden]):hover,
+ .web-shell>.site-topbar>.nav-signout:not([hidden]):hover{transform:translateY(-2px)!important}
+ .web-shell>.site-topbar>[hidden]{display:none!important}
+}
+@media(max-width:380px){
+ .web-shell>.site-topbar{padding-left:10px!important;padding-right:10px!important;gap:5px!important}
+ .web-shell>.site-topbar>.site-brand img{width:clamp(103px,28vw,140px)!important}
+ .web-shell>.site-topbar>.nav-login:not([hidden]),
+ .web-shell>.site-topbar>.nav-signout:not([hidden]){padding:8px 9px!important;font-size:11px!important}
+}
