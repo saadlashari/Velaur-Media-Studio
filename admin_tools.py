@@ -35,9 +35,10 @@ def detail(uid:str,request:Request):
  with db.tx() as c:
   u=target(c,uid);access=db.access(c,u);usage=db.usage(c,u)
   record=db.row(c.execute('SELECT * FROM user_limit_overrides WHERE owner=?',(uid,)).fetchone())
-  session=c.execute('SELECT MAX(seen) AS latest FROM sessions WHERE user_id=?',(uid,)).fetchone()['latest']
+  table='guest_sessions' if u['role']=='guest' else 'sessions'
+  session=c.execute('SELECT MAX(seen) AS latest FROM '+table+' WHERE user_id=?',(uid,)).fetchone()['latest']
   job=c.execute('SELECT MAX(updated) AS latest FROM media_usage WHERE owner=?',(uid,)).fetchone()['latest']
-  count=c.execute('SELECT count(*) AS n FROM sessions WHERE user_id=? AND expires>? AND seen>?',(uid,time.time(),time.time()-86400)).fetchone()['n']
+  count=c.execute('SELECT count(*) AS n FROM '+table+' WHERE user_id=? AND expires>? AND seen>?',(uid,time.time(),time.time()-86400)).fetchone()['n']
   s=db.settings(c);base=s['plans'][u.get('plan') or 'creator']
   return dict(user=db.user_info(u),access=access,usage=usage,base_limits=base,overrides=json.loads(record['limits']) if record else {},active_sessions=count,last_activity=max(u['last_login'],session or 0,job or 0),override_updated=record['updated'] if record else None)
 
