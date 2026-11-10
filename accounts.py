@@ -126,7 +126,7 @@ def entitlements(c,u):
 def access(c,u):
  s,p=entitlements(c,u);now=time.time()
  enabled=s["mode"]!="paused" and u.get("period_start") is not None and (
-  s["mode"]=="open" or (u.get("period_end") or 0)>now)
+  (s["mode"]=="open" and u["role"]!="guest") or (u.get("period_end") or 0)>now)
  return dict(enabled=bool(enabled),mode=s["mode"],plan=u.get("plan"),
   access_kind=u.get("access_kind"),trial_used=bool(u["trial_used"]),
   starts_at=u.get("period_start"),expires_at=u.get("period_end"),limits=p,
