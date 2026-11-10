@@ -21,7 +21,8 @@
   const footer=node('div','quota-actions'),buttons=node('div','quota-buttons');
   const plans=node('a','quota-button quota-plans');plans.href='/pricing';plans.innerHTML=planIcon;plans.append(node('span','','View plans'));
   const contact=node('a','quota-button quota-whatsapp');contact.href='https://wa.me/923211618331';contact.target='_blank';contact.rel='noopener noreferrer';contact.innerHTML=whatsapp;contact.append(node('span','','Chat on WhatsApp'));
-  buttons.append(plans,contact);footer.append(buttons,node('p','quota-footnote','Compare plan limits, or ask us about more access.'));
+  buttons.append(plans,contact);
+  footer.append(buttons,node('p','quota-footnote','Contact us to request additional access. After approval, sign in with your verified email.'));
   dialog.append(header,body,footer);document.body.append(dialog);
   dialog.addEventListener('keydown',event=>{
    if(event.key!=='Tab')return;
@@ -37,6 +38,16 @@
  function show(options,automatic=false){
   if(automatic&&(wasDismissed(options.key)||dialog?.open))return;
   ensure();currentKey=options.key||'';
+  const guest=window.VelaurAccount?.profile?.user?.role==='guest';
+  const plans=dialog.querySelector('.quota-plans');
+  if(plans)plans.hidden=guest;
+  const foot=dialog.querySelector('.quota-footnote');
+  if(foot)foot.textContent=guest?'Contact VELAUR LABS to request an email-specific access approval.':'Compare plan limits or ask us about more access.';
+  if(guest){
+   options={...options,description:options.reset?
+    options.description+' You can wait for your daily reset or contact VELAUR LABS for additional access.':
+    'Your free allowance is exhausted. Contact VELAUR LABS for verified-email access.'};
+  }
   dialog.querySelector('#quotaTitle').textContent=options.title;
   dialog.querySelector('#quotaDescription').textContent=options.description;
   const list=dialog.querySelector('#quotaItems');list.replaceChildren();
