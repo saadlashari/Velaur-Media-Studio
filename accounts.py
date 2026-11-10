@@ -74,6 +74,8 @@ def initialize():
 
  import trial_guard
  trial_guard.initialize()
+ import guest_access
+ guest_access.initialize()
 
 def ensure_audio_schema():
  # Additive migration; all existing jobs, settings and accounts are preserved.
