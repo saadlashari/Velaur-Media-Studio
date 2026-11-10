@@ -85,5 +85,48 @@ class GuestAccessTests(unittest.TestCase):
             guest_access.begin(cookie,create=False)
 
 
+
+class GuestHTTPTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        db.initialize()
+
+    def test_first_visit_creates_guest_and_protects_admin(self):
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        import identity
+        app=FastAPI()
+        app.include_router(identity.router)
+        app.add_middleware(identity.AccountGuard)
+        with TestClient(app,base_url=identity.SITE) as client:
+            self.assertEqual(client.get("/studio").status_code,200)
+            self.assertIn(guest_access.COOKIE,client.cookies)
+            response=client.get("/api/me")
+            self.assertEqual(response.status_code,200)
+            data=response.json()
+            self.assertEqual(data["user"]["role"],"guest")
+            self.assertTrue(data["access"]["enabled"])
+            self.assertEqual(data["access"]["limits"]["exports"],10)
+            self.assertEqual(data["access"]["limits"]["previews"],30)
+            self.assertEqual(client.get("/admin",follow_redirects=False).status_code,303)
+
+    def test_guest_mutations_need_same_origin_csrf(self):
+        from fastapi import FastAPI, Request
+        from fastapi.testclient import TestClient
+        import identity
+        app=FastAPI()
+        app.include_router(identity.router)
+        app.add_middleware(identity.AccountGuard)
+        @app.post("/api/jobs/demo")
+        def demo(request:Request):
+            return {"owner":request.state.user["id"]}
+        with TestClient(app,base_url=identity.SITE) as client:
+            data=client.get("/api/me").json()
+            self.assertEqual(client.post("/api/jobs/demo").status_code,403)
+            response=client.post("/api/jobs/demo",headers={
+              "Origin":identity.SITE,"X-CSRF-Token":data["csrf"]})
+            self.assertEqual(response.status_code,200)
+            self.assertEqual(response.json()["owner"],data["user"]["id"])
+
 if __name__=="__main__":
     unittest.main()
