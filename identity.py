@@ -275,7 +275,7 @@ class AccountGuard:
     if path.startswith("/api/admin") or path in ("/admin","/dashboard","/auth/logout","/api/me/trial"):
      raise
     u,csrf,issued=await run_in_threadpool(
-     guest_access.begin,request.cookies.get(guest_access.COOKIE),path in ("/api/me","/studio"))
+     guest_access.begin,request.cookies.get(guest_access.COOKIE),path in ("/api/me","/studio"),request.headers.get("user-agent",""))
     if issued:request.state.guest_cookie_new=issued
    scope.setdefault("state",{}).update(user=u,csrf=csrf)
    if path=="/api/me" and u["role"]!="guest":await run_in_threadpool(trial_guard.remember_existing,request,u)
