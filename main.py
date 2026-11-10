@@ -178,6 +178,11 @@ def ydl_options(url="", **overrides):
         }, "quiet": True, "no_warnings": False,
             "socket_timeout": 20, "retries": 1, "extractor_retries": 1,
         }
+        # Instagram uses its own branch; it must receive authenticated cookies too.
+        # Prefer Meta-specific cookies when available, preserving the shared fallback.
+        cookie_file = META_COOKIE_FILE if os.path.isfile(META_COOKIE_FILE) else COOKIE_FILE
+        if os.path.isfile(cookie_file):
+            options["cookiefile"] = cookie_file
         options.update(overrides)
         return options
     options = {
