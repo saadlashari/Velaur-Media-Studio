@@ -33,3 +33,6 @@ html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/login"],
 html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/dashboard"],
 html:not(.velaur-member) .quota-dialog .quota-plans,
 .quota-dialog .quota-plans[hidden] {display:none!important}
+
+/* Guest-first release does not offer a separate trial activation button. */
+html .web-shell [data-unlock] {display:none!important}
