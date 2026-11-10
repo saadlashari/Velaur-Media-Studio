@@ -14,7 +14,8 @@ def initialize():
         c.execute("""CREATE TABLE IF NOT EXISTS guest_sessions(
           token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id),
           csrf TEXT NOT NULL, created DOUBLE PRECISION NOT NULL,
-          expires DOUBLE PRECISION NOT NULL, seen DOUBLE PRECISION NOT NULL)""")
+          expires DOUBLE PRECISION NOT NULL, seen DOUBLE PRECISION NOT NULL,
+          device_label TEXT NOT NULL DEFAULT '')""")
         c.execute("CREATE INDEX IF NOT EXISTS guest_session_user ON guest_sessions(user_id)")
         c.execute("""CREATE TABLE IF NOT EXISTS access_invitations(
           email TEXT PRIMARY KEY, plan TEXT NOT NULL, days INTEGER NOT NULL,
@@ -24,7 +25,14 @@ def initialize():
 def _hash(value):
     return hashlib.sha256(value.encode()).hexdigest()
 
-def begin(token=None, create=True):
+def device_label(user_agent):
+    """Coarse browser and platform, not a unique device identifier."""
+    ua=(user_agent or "").lower()
+    browser=next((name for name,marker in (("Edge","edg/"),("Firefox","firefox/"),("Chrome","chrome/"),("Safari","safari/")) if marker in ua),"Browser")
+    platform="Android" if "android" in ua else "iOS" if any(x in ua for x in ("iphone","ipad","ipod")) else "Windows" if "windows" in ua else "macOS" if "mac os" in ua else "Linux" if "linux" in ua else "Unknown OS"
+    return browser+" / "+platform
+
+def begin(token=None, create=True, user_agent=""):
     """Authenticate existing guest; issue a new one only when requested."""
     import accounts as db
     now=time.time()
@@ -34,6 +42,8 @@ def begin(token=None, create=True):
             if r and r["expires"]>now:
                 u=db.get_user(c,r["user_id"])
                 if u["role"]!="guest":raise HTTPException(401,"Invalid guest session")
+                if now-r["seen"]>300:
+                    c.execute("UPDATE guest_sessions SET seen=? WHERE token_hash=?",(now,_hash(token)))
                 return u,r["csrf"],None
     if not create:raise HTTPException(401,"Guest session expired")
     raw=secrets.token_urlsafe(40)
@@ -48,8 +58,8 @@ def begin(token=None, create=True):
           (id,google_sub,email,name,role,status,created,last_login,trial_used,plan,access_kind,period_start,period_end)
           VALUES(?,?,?,?,'guest','active',?,?,1,'creator','guest',?,?)""",
           (uid,"guest:"+uid,"","Guest",now,now,now,now+s["trial_days"]*86400))
-        c.execute("""INSERT INTO guest_sessions(token_hash,user_id,csrf,created,expires,seen)
-          VALUES(?,?,?,?,?,?)""",(_hash(raw),uid,csrf,now,now+MAX_AGE,now))
+        c.execute("""INSERT INTO guest_sessions(token_hash,user_id,csrf,created,expires,seen,device_label)
+          VALUES(?,?,?,?,?,?,?)""",(_hash(raw),uid,csrf,now,now+MAX_AGE,now,device_label(user_agent)))
     with db.tx() as c:
         u=db.get_user(c,uid)
     return u,csrf,raw
