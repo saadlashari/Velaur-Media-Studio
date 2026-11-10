@@ -17,7 +17,7 @@ window.VelaurAccount = (() => {
  }
  function priceCards(){
   if(!plans)return;
-  const eligible=plans.new_trials && !profile?.access.trial_used && !profile?.access.enabled;
+  const eligible=plans.new_trials && profile?.user.role!=='guest' && !profile?.access.trial_used && !profile?.access.enabled;
   for(const [key,plan] of Object.entries(plans.plans)){
    text(key+'Price','$'+(yearly?plan.yearly:plan.monthly));
    text(key+'Interval',yearly?'/year':'/month');
@@ -30,7 +30,7 @@ window.VelaurAccount = (() => {
   if($('trialOffer'))$('trialOffer').hidden=!eligible;
   text('trialLabel',eligible?plans.trial_days+' days free':'Creator access');
   text('trialOffer',eligible?'$0 for your first '+plans.trial_days+' days':'$2/month or $20/year');
-  text('creatorTrial',eligible?'Unlock free trial':profile?'View your account':'Continue with Google');
+  text('creatorTrial',eligible?'Unlock free trial':profile?.user.role==='guest'?'Contact VELAUR LABS':profile?'View your account':'Continue with Google');
   const crossed=$('creatorPriceLine');if(crossed)crossed.classList.toggle('trial-crossed',eligible);
   text('pricingNote','No card required. Paid checkout is not available yet. Your trial does not renew automatically.');
   window.dispatchEvent(new CustomEvent("velaur:pricing", {detail:{plans:plans.plans,yearly,eligible}}));
@@ -38,7 +38,10 @@ window.VelaurAccount = (() => {
  }
  function render(){
   window.dispatchEvent(new CustomEvent("velaur:usage",{detail:profile}));
-  const member=!!profile;
+  const isGuest=profile?.user?.role==='guest';
+  document.documentElement.classList.toggle('velaur-guest',!!isGuest);
+  document.documentElement.classList.toggle('velaur-member',!!profile&&!isGuest);
+  const member=!!profile&&!isGuest;
   document.querySelectorAll('[data-member]').forEach(x=>x.hidden=!member);
   document.querySelectorAll('[data-guest]').forEach(x=>x.hidden=member);
   document.querySelectorAll('[data-access]').forEach(x=>x.hidden=!profile?.access.enabled);
@@ -46,20 +49,20 @@ window.VelaurAccount = (() => {
 
   text('accountLink',profile?'My dashboard':accountFailure?'Retry sign-in':'Continue with Google');
   if($('accountLink'))$('accountLink').href=profile?'/dashboard':'/login';
-  document.querySelectorAll('[data-logout]').forEach(x=>x.hidden=!profile);
+  document.querySelectorAll('[data-logout]').forEach(x=>x.hidden=!member);
   document.querySelectorAll('[data-admin]').forEach(x=>x.hidden=profile?.user.role!=='admin');
   const studio=$('studio'),gate=$('studioAccessGate'),enabled=!!profile?.access.enabled;
   if(studio){studio.hidden=!enabled;studio.inert=!enabled;}
   if(gate){
    gate.hidden=enabled;
-   const eligible=!!profile && !profile.access.trial_used && !!plans?.new_trials;
-   text('studioGateTitle',accountFailure?'We could not verify your access':!profile?'Your studio starts with a sign-in.':eligible?'Unlock your creative space.':'Your studio needs active access.');
-   text('studioGateMessage',accountFailure||(!profile?'Continue with Google to open your private studio, then unlock your 30-day Creator trial.':eligible?'Your account is ready. Activate your free trial to preview, trim and export.':'Check your trial status and current limits in your dashboard.'));
+   const eligible=!!profile && !isGuest && !profile.access.trial_used && !!plans?.new_trials;
+   text('studioGateTitle',accountFailure?'We could not verify your access':isGuest?'Your free access has ended.':!profile?'Your studio starts with a sign-in.':eligible?'Unlock your creative space.':'Your studio needs active access.');
+   text('studioGateMessage',accountFailure||(isGuest?'Contact VELAUR LABS to request access with your verified email.':!profile?'Continue with Google to open your private studio.':eligible?'Your account is ready. Activate your free trial to preview, trim and export.':'Check your account access.'));
    $('studioGateLogin').hidden=!!profile;
    $('studioGateUnlock').hidden=!eligible;
-   $('studioGateDashboard').hidden=!profile;
+   $('studioGateDashboard').hidden=!profile||isGuest;
   }
-  if(profile){
+  if(profile && !isGuest){
    text('accountLink','My dashboard');if($('accountLink'))$('accountLink').href='/dashboard';
    document.querySelectorAll('[data-logout]').forEach(x=>x.hidden=false);
    document.querySelectorAll('[data-admin]').forEach(x=>x.hidden=profile.user.role!=='admin');
@@ -78,7 +81,7 @@ window.VelaurAccount = (() => {
    if($('activeJobs'))$('activeJobs').title=profile.access.processing_slot_exempt?'No per-account processing cap. Jobs still share server processing capacity.':'Your plan limits simultaneous processing jobs.';
    const unlock=$('dashboardUnlock');if(unlock)unlock.hidden=profile.access.trial_used || profile.access.enabled || !plans?.new_trials;
   }
-  document.querySelectorAll('[data-hero-note]').forEach(x=>x.textContent=profile?.access.enabled?'Your workspace is ready. Check your usage in your dashboard.':profile?'Your account is ready. Explore plans or activate an available trial.':'No card required. Activate your trial after sign-in.');
+  document.querySelectorAll('[data-hero-note]').forEach(x=>x.textContent=isGuest?'Create freely within your available usage limits.':profile?.access.enabled?'Your workspace is ready. Check your usage in your dashboard.':profile?'Your account is ready.':'Open the Studio to start creating.');
   priceCards();
  }
  async function refresh(){
@@ -87,14 +90,14 @@ window.VelaurAccount = (() => {
    try{profile=await request('/api/me');csrf=profile.csrf;accountFailure='';}
    catch(error){profile=null;csrf='';accountFailure=error.status===401?'':error.message;render();if(error.status!==401)throw error;}
    render();
-   if(!profile && ['/admin','/dashboard','/studio'].includes(location.pathname))location.replace('/login?expired=1');
+   if(!profile && ['/admin','/dashboard'].includes(location.pathname))location.replace('/login?expired=1');
    return profile;
   })();
   try{return await refreshing;}finally{refreshing=null;lastRefresh=Date.now();}
  }
  async function unlock(){
   try{await ready;}catch(e){text('accountError',e.message);return;}
-  if(!profile){location.href='/login';return;}
+  if(!profile||profile.user.role==='guest'){location.href='/studio';return;}
   if(profile.access.trial_used || profile.access.enabled || !plans?.new_trials){location.href='/dashboard';return;}
   const button=$('creatorTrial')||$('dashboardUnlock');
   if(button)button.disabled=true;
