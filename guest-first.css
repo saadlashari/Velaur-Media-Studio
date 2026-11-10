@@ -1,0 +1,18 @@
+/* Guest-first visibility only. Existing VELAUR appearance is untouched. */
+html:not(.velaur-member) .site-nav a[href="/pricing"],
+html:not(.velaur-member) .site-nav a[href="/dashboard"],
+html:not(.velaur-member) .site-nav a[href="/login"],
+html:not(.velaur-member) .site-topbar .nav-login,
+html:not(.velaur-member) .site-topbar .nav-signout,
+html:not(.velaur-member) a[href="/pricing"],
+html:not(.velaur-member) a[href="/login"],
+html:not(.velaur-member) [data-unlock],
+html:not(.velaur-member) .pricing-section,
+html:not(.velaur-member) .plan-explainer,
+html:not(.velaur-member) .billing-switch,
+html:not(.velaur-member) .seo-workflow-links,
+html:not(.velaur-member) .quota-plans {
+ display:none!important;
+}
+html.velaur-guest .site-topbar .nav-login,
+html.velaur-guest .site-topbar .nav-signout {display:none!important}
