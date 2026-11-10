@@ -97,7 +97,7 @@ async def approve_guest_email(request:Request):
  days=body.get("days",30)
  why=reason(body)
  import re
- if not re.fullmatch(r"[^\\s@]+@[^\\s@]+\\.[^\\s@]+",email) or len(email)>254:
+ if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+",email) or len(email)>254:
   raise HTTPException(400,"Valid email is required")
  if plan not in db.PLANS or type(days) is not int or not 1<=days<=366:
   raise HTTPException(400,"Invalid access settings")
