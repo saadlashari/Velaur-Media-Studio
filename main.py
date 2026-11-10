@@ -24,7 +24,7 @@ from urllib.request import Request, urlopen
 
 import yt_dlp
 from fastapi import FastAPI, File, Form, HTTPException, Query, Request as WebRequest, UploadFile
-from fastapi.responses import FileResponse, PlainTextResponse, Response, StreamingResponse
+from fastapi.responses import FileResponse, PlainTextResponse, Response, StreamingResponse, RedirectResponse
 from pydantic import BaseModel
 from yt_dlp.utils import download_range_func
 import accounts as accounts
@@ -909,8 +909,17 @@ def index():
 
 @app.get("/pricing")
 @app.head("/pricing")
-def pricing_page():
-    return FileResponse(BASE / "pricing.html", headers={"Cache-Control": "no-cache"})
+def pricing_page(request: WebRequest):
+    # Public guests cannot access the hidden pricing/sign-up experience.
+    try:
+        import identity
+        member, _ = accounts.authenticate(request.cookies.get(identity.COOKIE))
+        with accounts.tx() as connection:
+            if member["role"] == "guest" or not accounts.access(connection, member)["enabled"]:
+                return RedirectResponse("/studio", status_code=303)
+    except HTTPException:
+        return RedirectResponse("/studio", status_code=303)
+    return FileResponse(BASE / "pricing.html", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/robots.txt", include_in_schema=False)
