@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse, RedirectResponse, FileResponse
 from starlette.concurrency import run_in_threadpool
 import accounts as db
 import trial_guard
+import guest_access
 
 router=APIRouter()
 SITE=os.getenv("SITE_URL","https://mediastudio.velaurlabs.com").rstrip("/")
@@ -75,10 +76,48 @@ def google_callback(request:Request,state:str="",code:str="",error:str=""):
   response.delete_cookie(BINDER,path="/",secure=True,httponly=True,samesite="lax")
   return response
  response=RedirectResponse("/dashboard",status_code=303)
+ response.delete_cookie(guest_access.COOKIE,path="/",secure=True,httponly=True,samesite="lax")
  response.set_cookie(COOKIE,token,max_age=7*86400,path="/",secure=True,httponly=True,samesite="lax")
  response.delete_cookie(BINDER,path="/",secure=True,httponly=True,samesite="lax")
  response.headers["Cache-Control"]="no-store";response.headers["Referrer-Policy"]="no-referrer"
  return response
+@router.get("/api/public/guest-access")
+def guest_access_status(request:Request):
+ u=request.state.user
+ if u["role"]!="guest":return {"guest":False}
+ with db.tx() as c:
+  return {"guest":True,"access":db.access(c,u),"usage":db.usage(c,u)}
+
+@router.post("/api/admin/invitations")
+async def approve_guest_email(request:Request):
+ actor=admin(request)
+ body=await request.json()
+ email=str(body.get("email","")).strip().lower()
+ plan=body.get("plan","creator")
+ days=body.get("days",30)
+ why=reason(body)
+ import re
+ if not re.fullmatch(r"[^\\s@]+@[^\\s@]+\\.[^\\s@]+",email) or len(email)>254:
+  raise HTTPException(400,"Valid email is required")
+ if plan not in db.PLANS or type(days) is not int or not 1<=days<=366:
+  raise HTTPException(400,"Invalid access settings")
+ with db.tx(True) as c:
+  now=time.time()
+  c.execute("""INSERT INTO access_invitations(email,plan,days,status,created,updated,approved_by)
+    VALUES(?,?,?,'approved',?,?,?) ON CONFLICT(email) DO UPDATE SET
+    plan=excluded.plan,days=excluded.days,status='approved',
+    updated=excluded.updated,approved_by=excluded.approved_by""",
+    (email,plan,days,now,now,actor["id"]))
+  db.audit(c,actor["id"],"access.email.approved",None,{"email":email,"plan":plan,"days":days,"reason":why})
+ return {"ok":True,"email":email,"plan":plan,"days":days}
+
+@router.get("/api/admin/invitations")
+def list_invitations(request:Request):
+ admin(request)
+ with db.tx() as c:
+  rows=c.execute("SELECT email,plan,days,status,created,updated FROM access_invitations ORDER BY updated DESC LIMIT 100").fetchall()
+  return {"invitations":[db.row(r) for r in rows]}
+
 @router.post("/auth/logout")
 def logout(request:Request):
  with db.tx(True) as c:
@@ -218,18 +257,28 @@ class AccountGuard:
   request=Request(scope);path=scope["path"]
   if path in ("/api/me","/api/me/trial"):
    await run_in_threadpool(trial_guard.prepare,request)
-  protected=path.startswith(("/api/me","/api/admin","/api/jobs","/api/files","/api/stream","/api/upload-export")) or path in ("/auth/logout","/dashboard","/admin","/studio")
+  protected=path.startswith(("/api/me","/api/admin","/api/jobs","/api/files","/api/stream","/api/upload-export")) or path in ("/auth/logout","/dashboard","/admin","/studio","/api/public/guest-access")
   async def safe_send(message):
    if message["type"]=="http.response.start":
     trial_guard.issue_cookie(request,message)
+    if getattr(request.state,"guest_cookie_new",None):
+     message.setdefault("headers",[]).append((b"set-cookie",guest_access.cookie_header(request.state.guest_cookie_new)))
     message.setdefault("headers",[]).extend([(b"x-content-type-options",b"nosniff"),(b"referrer-policy",b"strict-origin-when-cross-origin")])
     if protected:message["headers"].append((b"cache-control",b"no-store"))
    await send(message)
   if not protected:return await self.app(scope,receive,safe_send)
   try:
-   u,csrf=await run_in_threadpool(db.authenticate,request.cookies.get(COOKIE))
+   try:
+    u,csrf=await run_in_threadpool(db.authenticate,request.cookies.get(COOKIE))
+   except HTTPException as auth_error:
+    if auth_error.status_code!=401:raise
+    if path.startswith("/api/admin") or path in ("/admin","/dashboard","/auth/logout","/api/me/trial"):
+     raise
+    u,csrf,issued=await run_in_threadpool(
+     guest_access.begin,request.cookies.get(guest_access.COOKIE),path in ("/api/me","/studio"))
+    if issued:request.state.guest_cookie_new=issued
    scope.setdefault("state",{}).update(user=u,csrf=csrf)
-   if path=="/api/me":await run_in_threadpool(trial_guard.remember_existing,request,u)
+   if path=="/api/me" and u["role"]!="guest":await run_in_threadpool(trial_guard.remember_existing,request,u)
    if path.startswith("/api/admin") or path=="/admin":
     if u["role"]!="admin":raise HTTPException(403,"Administrator access is required.")
    if request.method not in ("GET","HEAD","OPTIONS"):
