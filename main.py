@@ -1,6 +1,7 @@
 """Velaur Media Studio: background jobs, relayed previews and reusable metadata.
 Run ONE uvicorn worker. Jobs and completed files survive an application restart.
 """
+import atexit
 import copy
 import hashlib
 import ipaddress
@@ -11,6 +12,7 @@ import re
 import shutil
 import socket
 import subprocess
+import tempfile
 import threading
 import time
 import uuid
@@ -44,6 +46,39 @@ for stale_cache in SOURCE_CACHE_DIR.iterdir():
         stale_cache.unlink(missing_ok=True)
 COOKIE_FILE = os.getenv("COOKIE_FILE", "/app/cookies.txt")
 META_COOKIE_FILE = os.getenv("META_COOKIE_FILE", "/app/meta-cookies.txt")
+
+# yt-dlp may save updated cookie jars after extraction. Never write to the
+# mounted, read-only account-cookie source. Keep a private writable runtime
+# copy per process, outside the Git working tree or Docker image.
+_instagram_cookie_lock = threading.Lock()
+_instagram_cookie_state = {}
+_instagram_cookie_dir = tempfile.mkdtemp(prefix="velaur-ig-", dir="/tmp")
+os.chmod(_instagram_cookie_dir, 0o700)
+atexit.register(shutil.rmtree, _instagram_cookie_dir, ignore_errors=True)
+
+def instagram_runtime_cookies():
+    source = META_COOKIE_FILE if os.path.isfile(META_COOKIE_FILE) else COOKIE_FILE
+    if not os.path.isfile(source):
+        return None
+    with _instagram_cookie_lock:
+        stat = os.stat(source)
+        version = (stat.st_mtime_ns, stat.st_size)
+        current = _instagram_cookie_state.get("current")
+        if current and current[0] == source and current[1] == version:
+            return current[2]
+        target = os.path.join(_instagram_cookie_dir, "cookies.txt")
+        fd, temporary = tempfile.mkstemp(prefix="cookies-", dir=_instagram_cookie_dir)
+        try:
+            with os.fdopen(fd, "wb") as destination, open(source, "rb") as original:
+                shutil.copyfileobj(original, destination)
+            os.chmod(temporary, 0o600)
+            os.replace(temporary, target)
+        finally:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
+        _instagram_cookie_state["current"] = (source, version, target)
+        return target
+
 TIKTOK_RESOLVER = os.getenv("TIKTOK_RESOLVER", "tikwm").lower()
 TIKTOK_PROXY = os.getenv("TIKTOK_PROXY", "")
 log = logging.getLogger("uvicorn.error")
@@ -180,8 +215,8 @@ def ydl_options(url="", **overrides):
         }
         # Instagram uses its own branch; it must receive authenticated cookies too.
         # Prefer Meta-specific cookies when available, preserving the shared fallback.
-        cookie_file = META_COOKIE_FILE if os.path.isfile(META_COOKIE_FILE) else COOKIE_FILE
-        if os.path.isfile(cookie_file):
+        cookie_file = instagram_runtime_cookies()
+        if cookie_file:
             options["cookiefile"] = cookie_file
         options.update(overrides)
         return options
