@@ -1,5 +1,5 @@
 # VELAUR Media Studio — Guest-first access and manual approval (implementation specification)
-Status: design only; no production changes. Feature branch: feature/guest-access-manual-approval.
+Status: feature code implemented on a separate branch; GitHub CI Python unit/HTTP middleware and JavaScript syntax checks passed. NOT deployed to Oracle production. Feature branch: feature/guest-access-manual-approval.
 
 ## User journey
 1. Visitor opens / or /studio; no required login and no public pricing page. Site navbar: brand left, centered mobile menu, right-side "Studio" or minimal action; no public Login or Pricing. Existing gradients, typography, iconography, hover and layout remain unchanged.
@@ -23,7 +23,18 @@ Status: design only; no production changes. Feature branch: feature/guest-access
 - Stage on an isolated PostgreSQL test DB; preserve Oracle live DB/volumes/cookies, run tests and rollback plan. GitHub commits alone do not deploy Oracle server.
 
 ## Current implementation status
-- Design and branch prepared only. No guest authorization middleware, DB schema, approval API or UI has yet been deployed; current live production still requires sign-in.
+- Implemented on this feature branch: backend guest session cookie and guest-specific principals, automatic Creator-period access, existing quota enforcement, admin invitations and email matching on verified Google login, session listing/revocation, guest-only navigation visibility, existing branded contact-only quota popup, guest expiry contact action, and privacy notices.
+- GitHub Actions workflow `.github/workflows/guest-access-tests.yml` runs Python compilation, isolated guest quota/session/invitation tests, HTTP middleware checks and JS syntax validation. Latest successful workflow is visible in GitHub Actions. This is NOT equivalent to a real browser or production database test.
+- Existing production still requires Google login. No deployment to VPS has been performed; avoid assuming guest access is live.
+- Deferred: robust network abuse prevention, browser-level visual regression, staged PostgreSQL migration test, testing with live production reverse proxy and export pipeline. Incognito blocking is not guaranteed.
+
+## Before live deployment (when Oracle access is available)
+1. Back up production PostgreSQL and record current Docker config/environment/mounts. Do not print or commit secrets.
+2. Resolve existing Instagram yt-dlp extraction separately, including read-only source cookies and writable runtime copy; this feature branch inherits that experimental fix.
+3. Build the feature image, start an isolated staging instance against a separate database, and exercise first-visit guest session, 30-day expiry, daily Creator quotas, preview/export ownership, popup, verified-email approval and admin session revocation.
+4. Test at desktop and mobile widths; preserve previous VELAUR styling. Ensure public prices, sign in and signup remain invisible until contact, and verified approved users can see their cards.
+5. Only after staging passes, deploy with existing network, database env, persistent download volume, secure Instagram-cookie mount and a rollback-ready previous container. Verify actual exports, Google login and guest history, not just HTTP 200.
+
 
 ## Revised explicit user requirements
 - Before guest's free allowance is reached, present NO login/signup/pricing/plan card/contact/permission prompt. Start using the Studio directly.
