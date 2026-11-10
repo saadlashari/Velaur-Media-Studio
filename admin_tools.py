@@ -77,9 +77,10 @@ def sessions(uid:str,request:Request,offset:int=0):
  from identity import COOKIE
  current=db.digest(request.cookies.get(COOKIE) or '')
  with db.tx() as c:
-  target(c,uid)
-  total=c.execute('SELECT count(*) AS n FROM sessions WHERE user_id=?',(uid,)).fetchone()['n']
-  rows=c.execute('SELECT token_hash,created,expires,seen FROM sessions WHERE user_id=? ORDER BY seen DESC LIMIT 50 OFFSET ?',(uid,offset)).fetchall()
+  person=target(c,uid)
+  table='guest_sessions' if person['role']=='guest' else 'sessions'
+  total=c.execute('SELECT count(*) AS n FROM '+table+' WHERE user_id=?',(uid,)).fetchone()['n']
+  rows=c.execute('SELECT token_hash,created,expires,seen FROM '+table+' WHERE user_id=? ORDER BY seen DESC LIMIT 50 OFFSET ?',(uid,offset)).fetchall()
   now=time.time()
   return dict(sessions=[dict(id=session_ref(r['token_hash']),created=r['created'],seen=r['seen'],expires=r['expires'],active=r['expires']>now and r['seen']>now-86400,current=r['token_hash']==current) for r in rows],next_offset=offset+50 if offset+len(rows)<total else None)
 
@@ -92,10 +93,11 @@ async def revoke(uid:str,request:Request):
  with db.tx(True) as c:
   u=target(c,uid)
   if u['role']=='admin':raise HTTPException(403,'Other administrator accounts are managed from the server.')
-  rows=c.execute('SELECT token_hash FROM sessions WHERE user_id=?',(uid,)).fetchall()
+  table='guest_sessions' if u['role']=='guest' else 'sessions'
+  rows=c.execute('SELECT token_hash FROM '+table+' WHERE user_id=?',(uid,)).fetchall()
   selected=[r['token_hash'] for r in rows if selection=='all' or session_ref(r['token_hash'])==selection]
   if selection!='all' and not selected:raise HTTPException(404,'This session no longer exists.')
-  for token in selected:c.execute('DELETE FROM sessions WHERE user_id=? AND token_hash=?',(uid,token))
+  for token in selected:c.execute('DELETE FROM '+table+' WHERE user_id=? AND token_hash=?',(uid,token))
   db.audit(c,actor['id'],'user.sessions.revoke',uid,dict(reason=why,count=len(selected)))
  return {'ok':True,'revoked':len(selected)}
 
