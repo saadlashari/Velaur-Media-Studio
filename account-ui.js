@@ -61,6 +61,7 @@ window.VelaurAccount = (() => {
    $('studioGateLogin').hidden=!!profile;
    $('studioGateUnlock').hidden=!eligible;
    $('studioGateDashboard').hidden=!profile||isGuest;
+   if($('studioGateContact'))$('studioGateContact').hidden=!isGuest||enabled;
   }
   if(profile && !isGuest){
    text('accountLink','My dashboard');if($('accountLink'))$('accountLink').href='/dashboard';
