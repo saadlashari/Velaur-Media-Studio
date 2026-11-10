@@ -11,6 +11,7 @@ html:not(.velaur-member) .pricing-section,
 html:not(.velaur-member) .plan-explainer,
 html:not(.velaur-member) .billing-switch,
 html:not(.velaur-member) .seo-workflow-links,
+html:not(.velaur-member) .member-only-pricing,
 html:not(.velaur-member) .quota-plans {
  display:none!important;
 }
