@@ -220,7 +220,16 @@ def login(claims,previous_token=None):
   if u:
    uid=u["id"];get_user(c,uid)
    c.execute("UPDATE users SET email=?,name=?,last_login=? WHERE id=?",(claims["email"],claims.get("name") or "",now,uid))
-  else:c.execute("INSERT INTO users(id,google_sub,email,name,created,last_login) VALUES(?,?,?,?,?,?)",(uid,claims["sub"],claims["email"],claims.get("name") or "",now,now))
+  else:
+   # New verified Google accounts are not automatically granted processing.
+   c.execute("INSERT INTO users(id,google_sub,email,name,created,last_login,trial_used) VALUES(?,?,?,?,?,?,1)",(uid,claims["sub"],claims["email"],claims.get("name") or "",now,now))
+  # Exact verified-email invitation activates only the approved account.
+  invitation=row(c.execute("SELECT * FROM access_invitations WHERE email=? AND status='approved'",(claims["email"].strip().lower(),)).fetchone())
+  if invitation:
+   c.execute("UPDATE users SET plan=?,access_kind='manual',period_start=?,period_end=? WHERE id=?",
+             (invitation["plan"],now,now+int(invitation["days"])*86400,uid))
+   c.execute("UPDATE access_invitations SET status='claimed',updated=? WHERE email=?",(now,claims["email"].strip().lower()))
+   audit(c,uid,"access.invitation.claimed",uid,{"plan":invitation["plan"]})
   if previous_token:c.execute("DELETE FROM sessions WHERE token_hash=?",(digest(previous_token),))
   c.execute("INSERT INTO sessions(token_hash,user_id,csrf,created,expires,seen) VALUES(?,?,?,?,?,?)",(digest(token),uid,secrets.token_urlsafe(24),now,now+7*86400,now))
   audit(c,uid,"auth.login",uid)
