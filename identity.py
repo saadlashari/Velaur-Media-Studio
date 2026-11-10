@@ -133,7 +133,8 @@ def me(request:Request):
  u=current(request)
  with db.tx() as c:return dict(user=db.user_info(u),csrf=request.state.csrf,access=db.access(c,u),usage=db.usage(c,u))
 @router.post("/api/me/trial")
-def trial(request:Request):return trial_guard.activate(request,current(request))
+def trial(request:Request):
+ raise HTTPException(403,"Free studio access is automatic for guests. Additional signed-in access requires VELAUR LABS approval.")
 @router.get("/api/me/jobs")
 def my_jobs(request:Request,offset:int=0):
  # dashboard-activity-labels-1: caller may see only their own activity.
