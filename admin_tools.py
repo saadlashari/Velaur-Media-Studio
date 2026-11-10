@@ -80,9 +80,9 @@ def sessions(uid:str,request:Request,offset:int=0):
   person=target(c,uid)
   table='guest_sessions' if person['role']=='guest' else 'sessions'
   total=c.execute('SELECT count(*) AS n FROM '+table+' WHERE user_id=?',(uid,)).fetchone()['n']
-  rows=c.execute('SELECT token_hash,created,expires,seen FROM '+table+' WHERE user_id=? ORDER BY seen DESC LIMIT 50 OFFSET ?',(uid,offset)).fetchall()
+  rows=c.execute('SELECT token_hash,created,expires,seen'+(',device_label' if person['role']=='guest' else '')+' FROM '+table+' WHERE user_id=? ORDER BY seen DESC LIMIT 50 OFFSET ?',(uid,offset)).fetchall()
   now=time.time()
-  return dict(sessions=[dict(id=session_ref(r['token_hash']),created=r['created'],seen=r['seen'],expires=r['expires'],active=r['expires']>now and r['seen']>now-86400,current=r['token_hash']==current) for r in rows],next_offset=offset+50 if offset+len(rows)<total else None)
+  return dict(sessions=[dict(id=session_ref(r['token_hash']),created=r['created'],seen=r['seen'],expires=r['expires'],active=r['expires']>now and r['seen']>now-86400,current=r['token_hash']==current,device=r['device_label'] if person['role']=='guest' else 'Verified browser session') for r in rows],next_offset=offset+50 if offset+len(rows)<total else None)
 
 @router.post('/api/admin/users/{uid}/sessions/revoke')
 async def revoke(uid:str,request:Request):
