@@ -110,6 +110,50 @@ class GuestHTTPTests(unittest.TestCase):
             self.assertEqual(data["access"]["limits"]["previews"],30)
             self.assertEqual(client.get("/admin",follow_redirects=False).status_code,303)
 
+    def test_invitation_admin_api_and_exact_verified_email(self):
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        import identity
+        import uuid
+
+        app=FastAPI()
+        app.include_router(identity.router)
+        app.add_middleware(identity.AccountGuard)
+        admin_sub="inviter-admin-"+uuid.uuid4().hex
+        admin_email="approvals-admin@example.com"
+        admin_token=db.login({"sub":admin_sub,"email":admin_email,"name":"Admin"})
+        admin_id=db.authenticate(admin_token)[0]["id"]
+        with db.tx(True) as connection:
+            connection.execute("UPDATE users SET role='admin' WHERE id=?",(admin_id,))
+
+        invited="invited-"+uuid.uuid4().hex+"@example.com"
+        with TestClient(app,base_url=identity.SITE) as client:
+            # Ordinary guest cannot issue access invitations.
+            guest=client.get("/api/me").json()
+            denied=client.post("/api/admin/invitations",json={"email":invited,"days":30,"plan":"creator","reason":"Guest request"},headers={"Origin":identity.SITE,"X-CSRF-Token":guest["csrf"]})
+            self.assertEqual(denied.status_code,403)
+            client.cookies.set(identity.COOKIE,admin_token,domain="testserver.local",path="/")
+            # An explicitly supplied Cookie header works independently of test-client domain behavior.
+            from http.cookies import SimpleCookie
+            session_header={"Cookie":identity.COOKIE+"="+admin_token}
+            admin_csrf=db.authenticate(admin_token)[1]
+            headers={"Origin":identity.SITE,"X-CSRF-Token":admin_csrf,**session_header}
+            bad=client.post("/api/admin/invitations",json={"email":"not-an-email","plan":"creator","days":30,"reason":"Guest request"},headers=headers)
+            self.assertEqual(bad.status_code,400)
+            good=client.post("/api/admin/invitations",json={"email":invited.upper(),"plan":"pro","days":45,"reason":"Guest requested extension"},headers=headers)
+            self.assertEqual(good.status_code,200,good.text)
+            self.assertEqual(good.json()["email"],invited)
+            listed=client.get("/api/admin/invitations",headers=session_header)
+            self.assertEqual(listed.status_code,200)
+            self.assertTrue(any(x["email"]==invited for x in listed.json()["invitations"]))
+        token=db.login({"sub":"invitee-"+uuid.uuid4().hex,"email":invited,"name":"Invited"})
+        user,_=db.authenticate(token)
+        with db.tx() as connection:
+            a=db.access(connection,user)
+        self.assertEqual(a["plan"],"pro")
+        self.assertTrue(a["enabled"])
+        self.assertEqual(a["access_kind"],"manual")
+
     def test_localhost_staging_origin_and_csrf(self):
         from fastapi import FastAPI, Request
         from fastapi.testclient import TestClient
