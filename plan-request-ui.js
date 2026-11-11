@@ -71,14 +71,13 @@
    const result=await A.request('/api/me/plan-request',{method:'POST',body:JSON.stringify({plan,billing:term})});
    pending={plan,billing:term,status:'pending'};
    message.textContent=result.message||'Request recorded. Please contact VELAUR LABS for manual payment.';
-   dialog.querySelector('#paymentFeedback').textContent='Your request is recorded as Pending. Opening WhatsApp for payment instructions.';
+   const feedback=dialog.querySelector('#paymentFeedback');
+   feedback.textContent='Request saved as Pending. Tap below to contact VELAUR LABS about manual payment: ';
    const link=whatsappUrl(plan,term,A.profile?.user?.email||'');
-   // User-initiated click opens the payment conversation; no payment is taken by the website.
-   const tab=window.open(link,'_blank','noopener,noreferrer');
-   if(!tab){
-    const a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open WhatsApp payment chat';a.className='small-button';
-    dialog.querySelector('#paymentFeedback').append(' ',a);
-   }
+   const a=document.createElement('a');
+   a.href=link;a.target='_blank';a.rel='noopener noreferrer';
+   a.className='small-button';a.textContent='Open WhatsApp Payment Chat';
+   feedback.append(a);
    render();
   }catch(e){dialog.querySelector('#paymentFeedback').textContent=e.message;}
   finally{working=false;submit.disabled=false;render();}
