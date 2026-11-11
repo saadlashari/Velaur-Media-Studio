@@ -113,9 +113,13 @@ async def request_plan_approval(request:Request):
   raise HTTPException(400,"Choose a valid plan and billing period.")
  with db.tx(True) as c:
   now=time.time()
-  existing=db.row(c.execute("SELECT id FROM plan_requests WHERE user_id=? AND status='pending' ORDER BY created DESC LIMIT 1",(u["id"],)).fetchone())
+  account=db.get_user(c,u["id"])
+  if db.access(c,account)["enabled"]:
+   raise HTTPException(409,"Your plan is already active.")
+  existing=db.row(c.execute("SELECT id,plan,billing FROM plan_requests WHERE user_id=? AND status='pending' ORDER BY created DESC LIMIT 1",(u["id"],)).fetchone())
   if existing:
-   c.execute("UPDATE plan_requests SET plan=?,billing=?,updated=? WHERE id=?",(plan,billing,now,existing["id"]))
+   if existing["plan"]!=plan or existing["billing"]!=billing:
+    raise HTTPException(409,"A plan request is already pending. Please contact VELAUR LABS to change it.")
    rid=existing["id"]
   else:
    import uuid
