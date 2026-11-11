@@ -155,6 +155,57 @@ class GuestHTTPTests(unittest.TestCase):
         self.assertTrue(a["enabled"])
         self.assertEqual(a["access_kind"],"manual")
 
+
+    def test_plan_request_requires_google_and_admin_grants_selected_plan(self):
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        import identity, uuid
+        app=FastAPI()
+        app.include_router(identity.router)
+        app.add_middleware(identity.AccountGuard)
+        with TestClient(app,base_url=identity.SITE) as guest:
+            profile=guest.get("/api/me").json()
+            denied=guest.post("/api/me/plan-request",json={"plan":"studio","billing":"yearly"},
+              headers={"Origin":identity.SITE,"X-CSRF-Token":profile["csrf"]})
+            self.assertEqual(denied.status_code,403)
+
+        user_token=db.login({"sub":"plan-user-"+uuid.uuid4().hex,"email":"plan-"+uuid.uuid4().hex+"@example.com","name":"Plan Tester"})
+        admin_token=db.login({"sub":"plan-admin-"+uuid.uuid4().hex,"email":"admin-"+uuid.uuid4().hex+"@example.com","name":"Plan Admin"})
+        admin_id=db.authenticate(admin_token)[0]["id"]
+        with db.tx(True) as c:c.execute("UPDATE users SET role='admin' WHERE id=?",(admin_id,))
+
+        with TestClient(app,base_url=identity.SITE) as client:
+            user_headers={"Cookie":identity.COOKIE+"="+user_token,"Origin":identity.SITE,
+             "X-CSRF-Token":db.authenticate(user_token)[1]}
+            result=client.post("/api/me/plan-request",json={"plan":"studio","billing":"yearly"},headers=user_headers)
+            self.assertEqual(result.status_code,200,result.text)
+            rid=result.json()["id"]
+            self.assertEqual(result.json()["status"],"pending")
+            uid=db.authenticate(user_token)[0]["id"]
+            with db.tx() as c:self.assertFalse(db.access(c,db.get_user(c,uid))["enabled"])
+            admin_headers={"Cookie":identity.COOKIE+"="+admin_token,"Origin":identity.SITE,
+             "X-CSRF-Token":db.authenticate(admin_token)[1]}
+            queue=client.get("/api/admin/plan-requests",headers=admin_headers)
+            self.assertEqual(queue.status_code,200)
+            self.assertTrue(any(x["id"]==rid and x["status"]=="pending" for x in queue.json()["requests"]))
+            granted=client.post("/api/admin/plan-requests/"+rid+"/decision",
+             json={"decision":"approved"},headers=admin_headers)
+            self.assertEqual(granted.status_code,200,granted.text)
+            with db.tx() as c:
+                active=db.access(c,db.get_user(c,uid))
+            self.assertTrue(active["enabled"])
+            self.assertEqual(active["plan"],"studio")
+            self.assertEqual(active["access_kind"],"manual")
+            self.assertGreater(active["expires_at"]-__import__("time").time(),360*86400)
+            repeated=client.post("/api/admin/plan-requests/"+rid+"/decision",
+             json={"decision":"approved"},headers=admin_headers)
+            self.assertEqual(repeated.status_code,409)
+
+    def test_plan_catalogue_pricing(self):
+        s=db.settings()
+        self.assertEqual([(s["plans"][k]["monthly"],s["plans"][k]["yearly"])
+          for k in ("creator","pro","studio")],[(1,10),(2,20),(3,30)])
+
     def test_localhost_staging_origin_and_csrf(self):
         from fastapi import FastAPI, Request
         from fastapi.testclient import TestClient
