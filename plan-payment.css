@@ -1,0 +1,14 @@
+/* Accessible manual-payment dialog and non-interactive plan states. */
+.velaur-payment-dialog{border:0;border-radius:22px;padding:0;width:min(94vw,510px);max-height:90vh;overflow:auto;background:#fff;color:#203559;box-shadow:0 22px 80px #1d2e5d66}
+.velaur-payment-dialog::backdrop{background:#10172bc0;backdrop-filter:blur(5px)}
+.velaur-payment-panel{padding:30px;position:relative}
+.velaur-payment-close{position:absolute;right:18px;top:12px;border:0;background:transparent;color:#44587a;font-size:29px;cursor:pointer}
+.velaur-payment-kicker{font-size:12px;font-weight:800;letter-spacing:.13em;color:#5547bf}
+.velaur-payment-panel h2{font-size:26px;line-height:1.2;margin:12px 0 15px}
+#paymentDetails{font-size:18px;font-weight:700;margin:12px 0}
+.velaur-payment-note{font-size:14px;line-height:1.6;background:#eff4fd;border-radius:12px;padding:13px}
+.velaur-payment-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.velaur-payment-actions .small-button{width:auto;min-height:43px;cursor:pointer}
+#paymentFeedback{font-size:14px;margin:14px 0;line-height:1.5}
+.request-plan-button.is-plan-status{display:inline-flex;justify-content:center;align-items:center;pointer-events:none;cursor:default!important;opacity:1!important}
+.price-card .request-plan-button{margin-top:14px}
