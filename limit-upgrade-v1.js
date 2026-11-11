@@ -45,8 +45,8 @@
   if(foot)foot.textContent=guest?'Contact VELAUR LABS to request an email-specific access approval.':'Compare plan limits or ask us about more access.';
   if(guest){
    options={...options,description:options.reset?
-    options.description+' You can wait for your daily reset or contact VELAUR LABS for additional access.':
-    'Your free allowance is exhausted. Contact VELAUR LABS for verified-email access.'};
+    'You have reached your free allowance for now. It will reset automatically at the time shown below. For additional access, contact VELAUR LABS on WhatsApp.':
+    'Your free access allowance has been used. Contact VELAUR LABS on WhatsApp to request additional access for your verified email.'};
   }
   dialog.querySelector('#quotaTitle').textContent=options.title;
   dialog.querySelector('#quotaDescription').textContent=options.description;
