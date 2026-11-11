@@ -40,7 +40,7 @@
   ensure();currentKey=options.key||'';
   const guest=window.VelaurAccount?.profile?.user?.role==='guest';
   const plans=dialog.querySelector('.quota-plans');
-  if(plans)plans.hidden=guest;
+  if(plans)plans.hidden=false;
   const foot=dialog.querySelector('.quota-footnote');
   if(foot)foot.textContent=guest?'Contact VELAUR LABS to request an email-specific access approval.':'Compare plan limits or ask us about more access.';
   if(guest){
@@ -89,7 +89,7 @@
   const active=new Set(items.map(i=>i.id));
   document.querySelectorAll('.quota-details-trigger').forEach(button=>{button.hidden=!active.has(button.dataset.limit);if(button.parentElement.classList.contains('quota-trigger-slot'))button.parentElement.hidden=button.hidden;});
   for(const item of items){const stat=document.getElementById(item.id);if(!stat)continue;let button=document.getElementById('quota-trigger-'+item.id);
-   if(!button){button=node('button','quota-details-trigger','Limit reached ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· View options');button.id='quota-trigger-'+item.id;button.dataset.limit=item.id;button.type='button';button.setAttribute('aria-haspopup','dialog');const row=stat.closest('.usage-list > div');if(row){const dd=node('dd','quota-trigger-slot');dd.append(button);row.append(dd);}else stat.after(button);button.addEventListener('click',()=>show(summary(lastProfile,reached(lastProfile).filter(i=>i.id===button.dataset.limit))));}
+   if(!button){button=node('button','quota-details-trigger','Limit reached - View plans');button.id='quota-trigger-'+item.id;button.dataset.limit=item.id;button.type='button';button.setAttribute('aria-haspopup','dialog');const row=stat.closest('.usage-list > div');if(row){const dd=node('dd','quota-trigger-slot');dd.append(button);row.append(dd);}else stat.after(button);button.addEventListener('click',()=>show(summary(lastProfile,reached(lastProfile).filter(i=>i.id===button.dataset.limit))));}
    button.hidden=false;if(button.parentElement.classList.contains('quota-trigger-slot'))button.parentElement.hidden=false;
   }
  }
