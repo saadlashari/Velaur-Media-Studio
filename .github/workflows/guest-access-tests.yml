@@ -26,6 +26,10 @@ jobs:
         run: python -m compileall -q main.py accounts.py identity.py guest_access.py admin_tools.py scripts/staging_quota_check.py staging_admin.py
       - name: Check modified JavaScript syntax
         run: |
+          node --check plan-request-ui.js
+          node --check plan-requests-admin.js
+          node --check brand-refine-v406.js
+          node --check limit-upgrade-v1.js
           node --check login-ui.js
           node tests/test_login_guest.js
           node --check account-ui.js
