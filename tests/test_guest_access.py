@@ -210,16 +210,24 @@ class GuestHTTPTests(unittest.TestCase):
           for k in ("creator","pro","studio")],[(1,10),(2,20),(3,30)])
 
     def test_instagram_429_cooldown_is_not_google_login_failure(self):
-        import main
+        # Load the pure limiter functions without importing the full media runtime.
+        import ast
+        import threading
         import time
-        self.assertTrue(main.is_instagram_rate_error(
+        tree=ast.parse((Path(__file__).resolve().parent.parent/"main.py").read_text())
+        wanted={"is_instagram_rate_error","instagram_rate_check","instagram_rate_mark"}
+        funcs=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in wanted]
+        scope={"time":time,"lock":threading.RLock(),"_instagram_rate_until":0.0,
+               "_INSTAGRAM_RATE_MESSAGE":"Instagram is temporarily limiting requests",
+               "is_instagram_source":lambda u: u.startswith("https://www.instagram.com/")}
+        exec(compile(ast.Module(body=funcs,type_ignores=[]),"<instagram-limiter>","exec"),scope)
+        self.assertTrue(scope["is_instagram_rate_error"](
             "ERROR: [Instagram] De4DD08Ixma: HTTP Error 429: Too Many Requests"))
-        self.assertFalse(main.is_instagram_rate_error("HTTP Error 404: Not Found"))
-        main.instagram_rate_mark()
-        with self.assertRaisesRegex(ValueError, "temporarily limiting requests"):
-            main.instagram_rate_check("https://www.instagram.com/reel/De4DD08Ixma/")
-        # The temporary Instagram cooldown never blocks other platforms.
-        main.instagram_rate_check("https://example.com/video")
+        self.assertFalse(scope["is_instagram_rate_error"]("HTTP Error 404: Not Found"))
+        scope["instagram_rate_mark"]()
+        with self.assertRaisesRegex(ValueError,"temporarily limiting requests"):
+            scope["instagram_rate_check"]("https://www.instagram.com/reel/De4DD08Ixma/")
+        scope["instagram_rate_check"]("https://example.com/video")
 
     def test_localhost_staging_origin_and_csrf(self):
         from fastapi import FastAPI, Request
