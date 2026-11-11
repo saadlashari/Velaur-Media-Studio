@@ -12,6 +12,19 @@ import guest_access
 
 router=APIRouter()
 SITE=os.getenv("SITE_URL","https://mediastudio.velaurlabs.com").rstrip("/")
+# Local HTTP is trusted ONLY for the explicitly enabled SQLite dev/staging
+# server via a loopback-only SSH port forward. Production never uses this.
+def allowed_mutation_origin(request):
+ origin=request.headers.get("origin","")
+ if origin==SITE:return True
+ if os.getenv("VELAUR_SQLITE_DEV")!="1":return False
+ from urllib.parse import urlsplit
+ parsed=urlsplit(origin)
+ hostname=parsed.hostname
+ if parsed.scheme!="http" or hostname not in ("localhost","127.0.0.1") or not parsed.port:
+  return False
+ return request.headers.get("host","").lower()==parsed.netloc.lower()
+
 COOKIE="__Host-velaur-session"
 BINDER="__Host-velaur-login"
 CLIENT=os.getenv("GOOGLE_CLIENT_ID","")
@@ -283,7 +296,7 @@ class AccountGuard:
    if path.startswith("/api/admin") or path=="/admin":
     if u["role"]!="admin":raise HTTPException(403,"Administrator access is required.")
    if request.method not in ("GET","HEAD","OPTIONS"):
-    if request.headers.get("origin")!=SITE or not hmac.compare_digest(request.headers.get("x-csrf-token",""),csrf):raise HTTPException(403,"Invalid request verification. Refresh the page and retry.")
+    if not allowed_mutation_origin(request) or not hmac.compare_digest(request.headers.get("x-csrf-token",""),csrf):raise HTTPException(403,"Invalid request verification. Refresh the page and retry.")
     await run_in_threadpool(db.rate,"mutate:"+u["id"],30,60)
    if path=="/api/upload-export":
     with db.tx() as c:
