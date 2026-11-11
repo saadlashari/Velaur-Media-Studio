@@ -19,15 +19,14 @@
    if(contact)contact.remove();
    const active=!!profile?.access.enabled && profile.access.plan===key;
    const canTrial=false;
-   // Active-plan status is rendered only for an authenticated, actually active plan.
-   let status=card.querySelector('[data-active-plan]');
-   if(!active){if(status)status.remove();}
-   else {if(!status){status=document.createElement('span');status.className='active-plan-status';status.dataset.activePlan=key;card.append(status);}status.textContent='Your Active Plan';}
+   // A single card action/status is owned by plan-request-ui.js.
+   card.querySelectorAll('[data-active-plan]').forEach(x=>x.remove());
    if(key==='creator'){
-    const trial=document.getElementById('creatorTrial');if(trial)trial.hidden=!canTrial;
-    line.classList.toggle('trial-crossed',canTrial);
-    const offer=document.getElementById('trialOffer');if(offer)offer.hidden=!canTrial;
-    const badge=document.getElementById('trialLabel');if(badge&&active)badge.textContent=profile.access.access_kind==='trial'?'YOUR ACTIVE TRIAL':'YOUR ACTIVE PLAN';else if(badge&&yearly)badge.textContent='YEARLY CREATOR';
+    const trial=document.getElementById('creatorTrial');if(trial)trial.hidden=true;
+    line.classList.remove('trial-crossed');
+    const offer=document.getElementById('trialOffer');if(offer)offer.hidden=true;
+    const badge=document.getElementById('trialLabel');
+    if(badge)badge.textContent='ESSENTIAL CREATOR';
    }
    card.classList.toggle('is-active-plan',active);
 
