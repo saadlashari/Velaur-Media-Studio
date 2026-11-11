@@ -131,7 +131,7 @@ class GuestHTTPTests(unittest.TestCase):
             # Ordinary guest cannot issue access invitations.
             guest=client.get("/api/me").json()
             denied=client.post("/api/admin/invitations",json={"email":invited,"days":30,"plan":"creator","reason":"Guest request"},headers={"Origin":identity.SITE,"X-CSRF-Token":guest["csrf"]})
-            self.assertEqual(denied.status_code,403)
+            self.assertEqual(denied.status_code,401)  # Guest has no admin session, so deny before CSRF checks.
             client.cookies.set(identity.COOKIE,admin_token,domain="testserver.local",path="/")
             # An explicitly supplied Cookie header works independently of test-client domain behavior.
             from http.cookies import SimpleCookie
