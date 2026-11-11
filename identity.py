@@ -101,6 +101,69 @@ def guest_access_status(request:Request):
  with db.tx() as c:
   return {"guest":True,"access":db.access(c,u),"usage":db.usage(c,u)}
 
+@router.post("/api/me/plan-request")
+async def request_plan_approval(request:Request):
+ u=current(request)
+ if u["role"]=="guest":
+  raise HTTPException(403,"Sign in with Google before requesting plan approval.")
+ body=await request.json()
+ plan=body.get("plan")
+ billing=body.get("billing")
+ if plan not in db.PLANS or billing not in ("monthly","yearly"):
+  raise HTTPException(400,"Choose a valid plan and billing period.")
+ with db.tx(True) as c:
+  now=time.time()
+  existing=db.row(c.execute("SELECT id FROM plan_requests WHERE user_id=? AND status='pending' ORDER BY created DESC LIMIT 1",(u["id"],)).fetchone())
+  if existing:
+   c.execute("UPDATE plan_requests SET plan=?,billing=?,updated=? WHERE id=?",(plan,billing,now,existing["id"]))
+   rid=existing["id"]
+  else:
+   import uuid
+   rid=uuid.uuid4().hex
+   c.execute("INSERT INTO plan_requests(id,user_id,email,plan,billing,status,created,updated) VALUES(?,?,?,?,?,'pending',?,?)",
+    (rid,u["id"],u["email"].strip().lower(),plan,billing,now,now))
+  db.audit(c,u["id"],"access.plan.requested",rid,{"plan":plan,"billing":billing})
+ return {"ok":True,"status":"pending","id":rid,"message":"Request submitted for admin approval. No payment has been collected."}
+
+@router.get("/api/me/plan-request")
+def my_plan_request(request:Request):
+ u=current(request)
+ if u["role"]=="guest":return {"request":None}
+ with db.tx() as c:
+  item=db.row(c.execute("SELECT id,plan,billing,status,created,updated FROM plan_requests WHERE user_id=? ORDER BY created DESC LIMIT 1",(u["id"],)).fetchone())
+  return {"request":item}
+
+@router.get("/api/admin/plan-requests")
+def admin_plan_requests(request:Request):
+ admin(request)
+ with db.tx() as c:
+  rows=c.execute("SELECT id,email,plan,billing,status,created,updated FROM plan_requests ORDER BY CASE WHEN status='pending' THEN 0 ELSE 1 END,updated DESC LIMIT 100").fetchall()
+  return {"requests":[db.row(r) for r in rows]}
+
+@router.post("/api/admin/plan-requests/{request_id}/decision")
+async def decide_plan_request(request_id:str,request:Request):
+ actor=admin(request)
+ body=await request.json()
+ decision=body.get("decision")
+ if decision not in ("approved","rejected"):
+  raise HTTPException(400,"Invalid decision.")
+ with db.tx(True) as c:
+  row=db.row(c.execute("SELECT * FROM plan_requests WHERE id=?",(request_id,)).fetchone())
+  if not row:raise HTTPException(404,"Plan request not found.")
+  if row["status"]!="pending":raise HTTPException(409,"Request was already reviewed.")
+  now=time.time()
+  # No checkout is implemented. Approval is a manually authorized grant.
+  # Annual grants are 365 days; monthly grants are 30 days.
+  if decision=="approved":
+   days=365 if row["billing"]=="yearly" else 30
+   c.execute("UPDATE users SET plan=?,access_kind='manual',period_start=?,period_end=? WHERE id=?",
+     (row["plan"],now,now+days*86400,row["user_id"]))
+  c.execute("UPDATE plan_requests SET status=?,updated=?,decided_by=? WHERE id=?",
+   (decision,now,actor["id"],request_id))
+  db.audit(c,actor["id"],"access.plan."+decision,row["user_id"],
+   {"request_id":request_id,"plan":row["plan"],"billing":row["billing"]})
+ return {"ok":True,"status":decision}
+
 @router.post("/api/admin/invitations")
 async def approve_guest_email(request:Request):
  actor=admin(request)
