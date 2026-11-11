@@ -1,11 +1,13 @@
 """Anonymous, quota-limited visitor sessions. Do not collect invasive device fingerprints."""
 import hashlib
+import os
 import secrets
 import time
 import uuid
 from fastapi import HTTPException
 
-COOKIE = "__Host-velaur-guest"
+DEV = os.getenv("VELAUR_SQLITE_DEV") == "1"
+COOKIE = "velaur-guest-staging" if DEV else "__Host-velaur-guest"
 MAX_AGE = 30 * 86400
 
 def initialize():
@@ -68,6 +70,6 @@ def cookie_header(raw):
     from http.cookies import SimpleCookie
     c=SimpleCookie()
     c[COOKIE]=raw
-    m=c[COOKIE];m["path"]="/";m["secure"]=True;m["httponly"]=True
+    m=c[COOKIE];m["path"]="/";m["secure"]=not DEV;m["httponly"]=True
     m["samesite"]="Lax";m["max-age"]=MAX_AGE
     return m.OutputString().encode("latin-1")
