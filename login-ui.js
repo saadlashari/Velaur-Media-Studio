@@ -19,14 +19,15 @@
   button.querySelector('span').textContent='Continue with Google';
  });
  window.VelaurAccount.ready.then(()=>{
-  if(window.VelaurAccount.profile){location.replace('/dashboard');return;}
+  // Anonymous guest sessions must NOT redirect visitors away from the Google login page.
+  const user=window.VelaurAccount.profile?.user;
+  if(user && user.role!=='guest'){location.replace('/dashboard');return;}
   // Plan settings are authoritative; avoid promising a paused trial.
   return window.VelaurAccount.request('/api/public/plans').then(data=>{
    const box=document.querySelector('.login-trial');
-   box.querySelector('strong').textContent=data.new_trials?data.trial_days+' days to find your flow.':'Your creative space awaits.';
-   box.querySelector('p').textContent=data.new_trials
-    ? 'Unlock your Creator trial after sign-in. '+data.trial_hours+' hours of exports. No card required.'
-    : 'New trials are currently paused. Sign in to check your existing access.';
+   if(!box)return;
+   box.querySelector('strong').textContent='Access by approval';
+   box.querySelector('p').textContent='Sign in with your Google account. Your approved access will appear automatically when assigned by VELAUR LABS.';
   });
  }).catch(()=>{});
 })();
