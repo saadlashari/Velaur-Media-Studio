@@ -17,7 +17,7 @@ window.VelaurAccount = (() => {
  }
  function priceCards(){
   if(!plans)return;
-  const eligible=plans.new_trials && profile?.user.role!=='guest' && !profile?.access.trial_used && !profile?.access.enabled;
+  const eligible=false;
   for(const [key,plan] of Object.entries(plans.plans)){
    text(key+'Price','$'+(yearly?plan.yearly:plan.monthly));
    text(key+'Interval',yearly?'/year':'/month');
@@ -32,7 +32,7 @@ window.VelaurAccount = (() => {
   text('trialOffer',eligible?'$0 for your first '+plans.trial_days+' days':'$2/month or $20/year');
   text('creatorTrial',eligible?'Unlock free trial':profile?.user.role==='guest'?'Contact VELAUR LABS':profile?'View your account':'Continue with Google');
   const crossed=$('creatorPriceLine');if(crossed)crossed.classList.toggle('trial-crossed',eligible);
-  text('pricingNote','No card required. Paid checkout is not available yet. Your trial does not renew automatically.');
+  text('pricingNote','Plans require admin approval. Annual plans include two months free. No automatic payment is collected.');
   window.dispatchEvent(new CustomEvent("velaur:pricing", {detail:{plans:plans.plans,yearly,eligible}}));
   window.dispatchEvent(new CustomEvent("velaur:audio",{detail:{plans:plans.plans,profile}}));
  }
@@ -56,8 +56,8 @@ window.VelaurAccount = (() => {
   if(gate){
    gate.hidden=enabled;
    const eligible=!!profile && !isGuest && !profile.access.trial_used && !!plans?.new_trials;
-   text('studioGateTitle',accountFailure?'We could not verify your access':isGuest?'Your free access has ended.':!profile?'Your studio starts with a sign-in.':eligible?'Unlock your creative space.':'Your studio needs active access.');
-   text('studioGateMessage',accountFailure||(isGuest?'Contact VELAUR LABS to request access with your verified email.':!profile?'Continue with Google to open your private studio.':eligible?'Your account is ready. Activate your free trial to preview, trim and export.':'Check your account access.'));
+   text('studioGateTitle',accountFailure?'We could not verify your access':isGuest?'Your free access has ended.':!profile?'Your studio starts with a sign-in.':eligible?'Unlock your creative space.':'Choose a plan to request access.');
+   text('studioGateMessage',accountFailure||(isGuest?'Contact VELAUR LABS to request access with your verified email.':!profile?'Continue with Google to open your private studio.':eligible?'Your account is ready. Activate your free trial to preview, trim and export.':'Open Pricing, choose a plan, and submit a request for admin approval.'));
    $('studioGateLogin').hidden=!!profile;
    $('studioGateUnlock').hidden=!eligible;
    $('studioGateDashboard').hidden=!profile||isGuest;
