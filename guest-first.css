@@ -1,13 +1,15 @@
-/* Public plan comparisons remain visible to guests. Login and admin access are separate. */
-html:not(.velaur-member) .site-nav a[href="/dashboard"],
-html:not(.velaur-member) .site-nav a[href="/login"],
-html:not(.velaur-member) .site-topbar .nav-login,
-html:not(.velaur-member) .site-topbar .nav-signout,
+/* Guest-first navigation: studio is available without login.
+   Plan comparison remains reachable from the quota popup and direct /pricing URL,
+   but pricing/sign-in are not shown in the guest top navigation. */
+html:not(.velaur-member) .web-shell .site-topbar .site-nav a[href="/pricing"],
+html:not(.velaur-member) .web-shell .site-topbar .site-nav a[href="/login"],
+html:not(.velaur-member) .web-shell .site-topbar .site-nav a[href="/dashboard"],
+html:not(.velaur-member) .web-shell .site-topbar .site-nav .nav-login,
+html:not(.velaur-member) .web-shell .site-topbar .site-nav .nav-signout,
+html:not(.velaur-member) .web-shell .site-topbar > .nav-login,
+html:not(.velaur-member) .web-shell .site-topbar > .nav-signout,
 html:not(.velaur-member) .seo-workflow-links,
-html:not(.velaur-member) .member-only-pricing {display:none!important}
-
-html.velaur-guest .site-topbar .nav-login,
-html.velaur-guest .site-topbar .nav-signout {display:none!important}
-
-/* Pricing is public. Trial activation is disabled for all new accounts. */
+html:not(.velaur-member) .member-only-pricing {
+ display:none!important;
+}
 html .web-shell [data-unlock] {display:none!important}
