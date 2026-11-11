@@ -1,29 +1,13 @@
-/* Guest-first visibility only. Existing VELAUR appearance is untouched. */
+/* Public plan comparisons remain visible to guests. Login and admin access are separate. */
 html:not(.velaur-member) .site-nav a[href="/dashboard"],
 html:not(.velaur-member) .site-nav a[href="/login"],
 html:not(.velaur-member) .site-topbar .nav-login,
 html:not(.velaur-member) .site-topbar .nav-signout,
-html:not(.velaur-member) a[href="/login"],
-html:not(.velaur-member) [data-unlock],
 html:not(.velaur-member) .seo-workflow-links,
-html:not(.velaur-member) .member-only-pricing,
- display:none!important;
-}
+html:not(.velaur-member) .member-only-pricing {display:none!important}
+
 html.velaur-guest .site-topbar .nav-login,
 html.velaur-guest .site-topbar .nav-signout {display:none!important}
 
-/* Stronger than earlier !important navbar paint rules; visibility only. */
-html:not(.velaur-member) .web-shell .site-topbar .site-nav>a[href="/login"],
-html:not(.velaur-member) .web-shell .site-topbar .site-nav>a[href="/dashboard"],
-html:not(.velaur-member) .web-shell .site-topbar .site-nav>a.nav-login:not([hidden]),
-html:not(.velaur-member) .web-shell .site-topbar .site-nav>button.nav-signout:not([hidden]),
-html:not(.velaur-member) .web-shell .site-topbar>a.nav-login:not([hidden]),
-html:not(.velaur-member) .web-shell .site-topbar>button.nav-signout:not([hidden]),
-html.velaur-guest .web-shell .site-topbar>a.nav-login:not([hidden]),
-html.velaur-guest .web-shell .site-topbar>button.nav-signout:not([hidden]),
-html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/login"],
-html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/dashboard"],
-
-/* Pricing remains public; approval requires verified Google sign-in. */
-/* Guest-first release does not offer a separate trial activation button. */
+/* Pricing is public. Trial activation is disabled for all new accounts. */
 html .web-shell [data-unlock] {display:none!important}
