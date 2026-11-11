@@ -173,7 +173,7 @@ window.VelaurAccount = (() => {
  document.querySelectorAll('[data-billing]').forEach(button=>button.addEventListener('click',()=>{
   yearly=button.dataset.billing==='yearly';
   document.querySelectorAll('[data-billing]').forEach(x=>x.setAttribute('aria-pressed',String(x===button)));
-  document.querySelectorAll('[data-hero-note]').forEach(x=>x.textContent=profile?.access.enabled?'Your workspace is ready. Check your usage in your dashboard.':profile?'Your account is ready. Explore plans or activate an available trial.':'No card required. Activate your trial after sign-in.');
+  document.querySelectorAll('[data-hero-note]').forEach(x=>x.textContent=profile?.access.enabled?'Your workspace is ready. Check your usage in your dashboard.':profile?'Choose a plan and submit an admin approval request.':'Compare plans and sign in with Google to request access.');
   priceCards();
  }));
  window.addEventListener("velaur:refresh-pricing",priceCards);
