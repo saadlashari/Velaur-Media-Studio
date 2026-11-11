@@ -1,61 +1,114 @@
-/* Public plan comparison; verified Google members submit an admin-reviewed request. */
+/* One visible control per plan: request -> requested -> active. Manual WhatsApp payment. */
 (() => {
  const prices={creator:1,pro:2,studio:3};
+ const names={creator:'Creator',pro:'Pro',studio:'Studio'};
+ const whatsappNumber='923211618331';
+ const A=window.VelaurAccount;
  const billing=()=>document.querySelector('[data-billing][aria-pressed="true"]')?.dataset.billing||'monthly';
+ const amount=(plan,term)=>prices[plan]*(term==='yearly'?10:1);
  const message=document.createElement('p');
- message.className='pricing-note';
- message.setAttribute('role','status');
- message.style.margin='18px auto';
- message.style.maxWidth='760px';
+ message.className='pricing-note';message.setAttribute('role','status');
  document.querySelector('.pricing-grid')?.after(message);
- for(const key of Object.keys(prices)){
-  const card=document.getElementById(key+'Price')?.closest('.price-card');
+ let pending=null,active=null,loggedIn=false,working=false;
+ const buttons={};
+ const dialog=document.createElement('dialog');dialog.className='velaur-payment-dialog';
+ dialog.setAttribute('aria-labelledby','paymentTitle');
+ dialog.innerHTML='<div class="velaur-payment-panel"><button type="button" class="velaur-payment-close" aria-label="Close">×</button><span class="velaur-payment-kicker">MANUAL PAYMENT</span><h2 id="paymentTitle">Complete your plan request</h2><p id="paymentDetails"></p><p class="velaur-payment-note">Payment is arranged directly with VELAUR LABS over WhatsApp. Do not pay until you have verified the recipient and payment instructions. Sending a request does not confirm payment or activate a plan.</p><p id="paymentFeedback" role="status"></p><div class="velaur-payment-actions"><button type="button" id="paymentConfirm" class="small-button">Request &amp; Continue to WhatsApp</button><button type="button" id="paymentCancel" class="small-button">Cancel</button></div></div>';
+ document.body.append(dialog);
+ const close=()=>dialog.close();
+ dialog.querySelector('.velaur-payment-close').addEventListener('click',close);
+ dialog.querySelector('#paymentCancel').addEventListener('click',close);
+ dialog.addEventListener('click',e=>{if(e.target===dialog)close();});
+ let chosen=null;
+ function whatsappUrl(plan,term,email){
+  const total=amount(plan,term);
+  const msg='Hello VELAUR LABS, I requested the '+names[plan]+' plan for VELAUR Media Studio. Billing: '+term+'. Amount: USD $'+total+'. Verified Google email: '+email+'. Please share manual payment instructions and confirm my payment before activating access.';
+  return 'https://wa.me/'+whatsappNumber+'?text='+encodeURIComponent(msg);
+ }
+ function render(){
+  for(const [plan,button] of Object.entries(buttons)){
+   const isActive=active===plan;
+   const requested=!!pending && pending.status==='pending' && pending.plan===plan && !active;
+   button.replaceChildren();
+   button.textContent=isActive?'Your Active Plan':requested?'Requested':'Request Plan';
+   button.classList.toggle('is-plan-status',isActive||requested);
+   button.disabled=working||isActive||requested||!!active||!!(pending?.status==='pending');
+   button.setAttribute('aria-disabled',String(button.disabled));
+   button.style.cursor=button.disabled?'default':'pointer';
+   button.style.opacity=isActive||requested?'1':'';
+   button.setAttribute('aria-label',isActive?'Your active '+names[plan]+' plan':requested?names[plan]+' plan requested': 'Request '+names[plan]+' plan');
+   const card=button.closest('.price-card');
+   if(card)card.classList.toggle('is-active-plan',isActive);
+  }
+ }
+ for(const plan of Object.keys(prices)){
+  const card=document.getElementById(plan+'Price')?.closest('.price-card');
   if(!card)continue;
-  const old=card.querySelector('#creatorTrial');
-  if(old)old.hidden=true;
-  const btn=document.createElement('button');
-  btn.type='button';btn.className='small-button request-plan-button';
-  btn.dataset.planRequest=key;
-  btn.textContent='Request '+key[0].toUpperCase()+key.slice(1);
-  card.append(btn);
-  btn.addEventListener('click',async()=>{
-   const A=window.VelaurAccount;
-   try{await A.ready;}catch(e){message.textContent='Account service unavailable. Please retry.';return;}
-   if(!A.profile||A.profile.user.role==='guest'){
-    try{sessionStorage.setItem('velaur:pricing-intent',key+':'+billing());}catch{}
+  card.querySelectorAll('[data-active-plan],[data-plan-contact],.request-plan-button').forEach(e=>e.remove());
+  const trial=card.querySelector('#creatorTrial');if(trial)trial.hidden=true;
+  const button=document.createElement('button');
+  button.type='button';button.className='small-button request-plan-button';
+  button.dataset.planRequest=plan;buttons[plan]=button;card.append(button);
+  button.addEventListener('click',()=>{
+   if(button.disabled)return;
+   if(!loggedIn){
+    try{sessionStorage.setItem('velaur:pricing-intent',plan+':'+billing());}catch{}
     location.href='/login';return;
    }
-   btn.disabled=true;
-   try{
-    const result=await A.request('/api/me/plan-request',{method:'POST',
-      body:JSON.stringify({plan:key,billing:billing()})});
-    message.textContent=result.message||'Request submitted. Await admin approval.';
-    message.scrollIntoView({block:'nearest',behavior:'smooth'});
-   }catch(e){message.textContent=e.message;}
-   finally{btn.disabled=false;}
+   chosen={plan,term:billing()};
+   const total=amount(plan,chosen.term);
+   dialog.querySelector('#paymentDetails').textContent=names[plan]+' — '+(chosen.term==='yearly'?'Yearly (12 months, pay for 10)':'Monthly')+' — USD $'+total+'.';
+   dialog.querySelector('#paymentFeedback').textContent='';
+   dialog.showModal();
   });
  }
- const note=document.getElementById('pricingNote');
- if(note)note.textContent='Annual plans cost 10 months for 12 months of access. No online checkout or automatic charge. Approval is manual.';
- for(const [key,price] of Object.entries(prices)){
-  const card=document.getElementById(key+'Price')?.closest('.price-card');
-  const trial=card?.querySelector('#trialOffer');
-  if(trial)trial.hidden=true;
- }
- const A=window.VelaurAccount;
- A?.ready.then(()=>{
-  if(A.profile?.user?.role==='guest')return;
-  const selected=sessionStorage.getItem('velaur:pricing-intent');
-  if(selected){
-   const [plan,interval]=selected.split(':');
-   sessionStorage.removeItem('velaur:pricing-intent');
-   if(plan in prices){
-    const switcher=document.querySelector('[data-billing="'+interval+'"]');
-    switcher?.click();
-    const btn=document.querySelector('[data-plan-request="'+plan+'"]');
-    btn?.scrollIntoView({block:'center'});
-    message.textContent='Your '+plan+' plan is selected. Click Request to submit for admin approval.';
+ dialog.querySelector('#paymentConfirm').addEventListener('click',async()=>{
+  if(!chosen||working)return;
+  const {plan,term}=chosen;
+  const submit=dialog.querySelector('#paymentConfirm');
+  working=true;submit.disabled=true;render();
+  try{
+   const result=await A.request('/api/me/plan-request',{method:'POST',body:JSON.stringify({plan,billing:term})});
+   pending={plan,billing:term,status:'pending'};
+   message.textContent=result.message||'Request recorded. Please contact VELAUR LABS for manual payment.';
+   dialog.querySelector('#paymentFeedback').textContent='Your request is recorded as Pending. Opening WhatsApp for payment instructions.';
+   const link=whatsappUrl(plan,term,A.profile?.user?.email||'');
+   // User-initiated click opens the payment conversation; no payment is taken by the website.
+   const tab=window.open(link,'_blank','noopener,noreferrer');
+   if(!tab){
+    const a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open WhatsApp payment chat';a.className='small-button';
+    dialog.querySelector('#paymentFeedback').append(' ',a);
    }
-  }
- }).catch(()=>{});
+   render();
+  }catch(e){dialog.querySelector('#paymentFeedback').textContent=e.message;}
+  finally{working=false;submit.disabled=false;render();}
+ });
+ const note=document.getElementById('pricingNote');
+ if(note)note.textContent='Yearly: pay for 10 months, receive 12. Manual WhatsApp payment. Request remains pending until admin approves.';
+ async function sync(){
+  try{
+   await A.ready;
+   loggedIn=!!A.profile && A.profile.user.role!=='guest';
+   active=A.profile?.access?.enabled && loggedIn ? A.profile.access.plan:null;
+   if(loggedIn){
+    const data=await A.request('/api/me/plan-request');
+    pending=data.request?.status==='pending'?data.request:null;
+   }else pending=null;
+   render();
+   if(loggedIn){
+    let selection=null;
+    try{selection=sessionStorage.getItem('velaur:pricing-intent');sessionStorage.removeItem('velaur:pricing-intent');}catch{}
+    if(selection){
+     const [plan,term]=selection.split(':');
+     if(plan in prices){
+      document.querySelector('[data-billing="'+term+'"]')?.click();
+      message.textContent='Your '+names[plan]+' plan is selected. Click Request Plan to see the payment instructions.';
+     }
+    }
+   }
+  }catch(e){message.textContent='Could not verify plan status. Refresh and try again.';}
+ }
+ window.addEventListener('velaur:pricing',()=>render());
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync();});
+ sync();
 })();
