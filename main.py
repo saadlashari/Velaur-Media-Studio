@@ -202,6 +202,24 @@ def is_instagram_source(url):
     host = (urlsplit(url).hostname or "").lower().rstrip(".")
     return host == "instagram.com" or host.endswith(".instagram.com")
 
+# Instagram sometimes rate-limits the shared server IP. Do not hammer it.
+_instagram_rate_until = 0.0
+_INSTAGRAM_RATE_MESSAGE = ("Instagram is temporarily limiting requests from this server (HTTP 429). "
+                           "Please try again later. Google sign-in to Media Studio does not sign in to Instagram.")
+def is_instagram_rate_error(error):
+    text = str(error).lower()
+    return ("429" in text and ("instagram" in text or "too many requests" in text))
+def instagram_rate_check(url):
+    if is_instagram_source(url):
+        with lock:
+            blocked = time.monotonic() < _instagram_rate_until
+        if blocked:
+            raise ValueError(_INSTAGRAM_RATE_MESSAGE)
+def instagram_rate_mark():
+    global _instagram_rate_until
+    with lock:
+        _instagram_rate_until = max(_instagram_rate_until, time.monotonic() + 180)
+
 def ydl_options(url="", **overrides):
     if is_instagram_source(url):
         options = {
@@ -272,6 +290,7 @@ def media_info(url, refresh=False):
         if not refresh and cached and cached[0] > time.time():
             return copy.deepcopy(cached[1])
     check_url(url)
+    instagram_rate_check(url)
     resolver_error = None
     # Avoid a known regional short-link redirect before trying the alternative route.
     if is_tiktok(url) and TIKTOK_RESOLVER == "tikwm" and not TIKTOK_PROXY:
@@ -295,6 +314,9 @@ def media_info(url, refresh=False):
                         headers["Cookie"] = cookie
                     item["http_headers"] = headers
         except Exception as exc:
+            if is_instagram_source(url) and is_instagram_rate_error(exc):
+                instagram_rate_mark()
+                raise ValueError(_INSTAGRAM_RATE_MESSAGE) from exc
             if resolver_error:
                 raise ValueError("TikTok could not be loaded. " + resolver_error
                                  + " Native TikTok access also failed from this server.") from exc
@@ -807,8 +829,12 @@ def run_export(job_id, request):
         cached = claim_cached_source(job_id, request["url"], height, output_format == "mp3")
         try:
             source, clipped = cached or download_source(job_id, request["url"], info, height, output_format == "mp3", clip)
-        except Exception:
-            # Signed source URLs can expire. Re-extract once, then let the error surface.
+        except Exception as exc:
+            if is_instagram_source(request["url"]) and is_instagram_rate_error(exc):
+                instagram_rate_mark()
+                raise ValueError(_INSTAGRAM_RATE_MESSAGE) from exc
+            # Signed source URLs can expire. Re-extract once, except when
+            # Instagram is rejecting requests; retries worsen that cooldown.
             with lock:
                 metadata_cache.pop(request["url"], None)
             info = media_info(request["url"], refresh=True)
@@ -835,7 +861,11 @@ def execute(job_id, request):
         (run_preview if jobs[job_id]["kind"] == "preview" else run_export)(job_id, request)
     except Exception as exc:
         failed_stage = jobs.get(job_id, {}).get("stage")
-        message = str(exc).replace("\x1b", "")[-1600:]
+        if is_instagram_source(request.get("url", "")) and is_instagram_rate_error(exc):
+            instagram_rate_mark()
+            message = _INSTAGRAM_RATE_MESSAGE
+        else:
+            message = str(exc).replace("\x1b", "")[-1600:]
         try:
             accounts.finish(job_id, "error")
         except Exception:
