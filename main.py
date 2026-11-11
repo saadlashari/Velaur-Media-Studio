@@ -910,15 +910,7 @@ def index():
 @app.get("/pricing")
 @app.head("/pricing")
 def pricing_page(request: WebRequest):
-    # Public guests cannot access the hidden pricing/sign-up experience.
-    try:
-        import identity
-        member, _ = accounts.authenticate(request.cookies.get(identity.COOKIE))
-        with accounts.tx() as connection:
-            if member["role"] == "guest" or not accounts.access(connection, member)["enabled"]:
-                return RedirectResponse("/studio", status_code=303)
-    except HTTPException:
-        return RedirectResponse("/studio", status_code=303)
+    # Browsing prices is public. Requests require verified Google sign-in.
     return FileResponse(BASE / "pricing.html", headers={"Cache-Control": "no-store"})
 
 
