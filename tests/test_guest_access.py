@@ -201,7 +201,7 @@ class GuestHTTPTests(unittest.TestCase):
             self.assertEqual(active["access_kind"],"manual")
             self.assertGreater(active["expires_at"]-__import__("time").time(),360*86400)
             repeated=client.post("/api/admin/plan-requests/"+rid+"/decision",
-             json={"decision":"approved"},headers=admin_headers)
+             json={"decision":"approved","payment_verified":True},headers=admin_headers)
             self.assertEqual(repeated.status_code,409)
 
     def test_plan_catalogue_pricing(self):
