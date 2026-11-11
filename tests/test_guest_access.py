@@ -209,6 +209,18 @@ class GuestHTTPTests(unittest.TestCase):
         self.assertEqual([(s["plans"][k]["monthly"],s["plans"][k]["yearly"])
           for k in ("creator","pro","studio")],[(1,10),(2,20),(3,30)])
 
+    def test_instagram_429_cooldown_is_not_google_login_failure(self):
+        import main
+        import time
+        self.assertTrue(main.is_instagram_rate_error(
+            "ERROR: [Instagram] De4DD08Ixma: HTTP Error 429: Too Many Requests"))
+        self.assertFalse(main.is_instagram_rate_error("HTTP Error 404: Not Found"))
+        main.instagram_rate_mark()
+        with self.assertRaisesRegex(ValueError, "temporarily limiting requests"):
+            main.instagram_rate_check("https://www.instagram.com/reel/De4DD08Ixma/")
+        # The temporary Instagram cooldown never blocks other platforms.
+        main.instagram_rate_check("https://example.com/video")
+
     def test_localhost_staging_origin_and_csrf(self):
         from fastapi import FastAPI, Request
         from fastapi.testclient import TestClient
