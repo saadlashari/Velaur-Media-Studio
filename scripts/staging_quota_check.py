@@ -50,13 +50,15 @@ def main():
 
     with db.tx() as c:
         limits = db.access(c,user)["limits"]
+        used = db.usage(c,user)
     kind = "preview" if args.kind=="preview" else "export"
     count = limits["previews"] if kind=="preview" else limits["mp3_exports"] if args.kind=="mp3" else limits["exports"]
+    current = used["previews_today"] if kind=="preview" else used["mp3_exports_today"] if args.kind=="mp3" else used["exports_today"]
     fmt = "mp3" if args.kind=="mp3" else "mp4"
-    # Add only enough completed synthetic jobs to meet the configured daily cap.
+    # Add only the missing records needed to meet the configured daily cap.
     if count == 0:
         raise SystemExit("The selected quota is unlimited.")
-    for _ in range(count):
+    for _ in range(max(0,count-current)):
         jid = prefix + uuid.uuid4().hex
         db.reserve(user["id"],kind,jid,output_format=fmt)
         db.finish(jid,"done")
