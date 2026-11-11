@@ -146,6 +146,16 @@ window.VelaurAccount = (() => {
    let planError;
    try{plans=await request('/api/public/plans');}catch(e){planError=e;}
    await refresh();render();
+   // Resume a plan selection after Google OAuth returns to /dashboard.
+   if(location.pathname==='/dashboard' && profile?.user?.role!=='guest'){
+    try{
+     if(sessionStorage.getItem('velaur:pricing-intent')){
+      location.replace('/pricing');
+      return profile;
+     }
+    }catch{}
+   }
+
    if(planError)text('accountError','Plan information could not be loaded. '+planError.message);
    if(location.search.includes('login_error=1'))text('accountError','Google sign-in was cancelled or could not be verified. Please try again.');
    await jobs();
