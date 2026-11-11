@@ -8,6 +8,8 @@
 !/*.jpeg
 !/*.webp
 !/requirements-production.txt
+!/scripts/
+!/scripts/staging_quota_check.py
 
 **/.* 
 **/*.key
