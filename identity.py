@@ -151,6 +151,8 @@ async def decide_plan_request(request_id:str,request:Request):
  decision=body.get("decision")
  if decision not in ("approved","rejected"):
   raise HTTPException(400,"Invalid decision.")
+ if decision=="approved" and body.get("payment_verified") is not True:
+  raise HTTPException(400,"Confirm manual payment receipt before granting access.")
  with db.tx(True) as c:
   row=db.row(c.execute("SELECT * FROM plan_requests WHERE id=?",(request_id,)).fetchone())
   if not row:raise HTTPException(404,"Plan request not found.")
@@ -165,7 +167,7 @@ async def decide_plan_request(request_id:str,request:Request):
   c.execute("UPDATE plan_requests SET status=?,updated=?,decided_by=? WHERE id=?",
    (decision,now,actor["id"],request_id))
   db.audit(c,actor["id"],"access.plan."+decision,row["user_id"],
-   {"request_id":request_id,"plan":row["plan"],"billing":row["billing"]})
+   {"request_id":request_id,"plan":row["plan"],"billing":row["billing"],"payment_verified":decision=="approved"})
  return {"ok":True,"status":decision}
 
 @router.post("/api/admin/invitations")
