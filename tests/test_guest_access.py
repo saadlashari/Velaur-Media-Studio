@@ -110,6 +110,26 @@ class GuestHTTPTests(unittest.TestCase):
             self.assertEqual(data["access"]["limits"]["previews"],30)
             self.assertEqual(client.get("/admin",follow_redirects=False).status_code,303)
 
+    def test_localhost_staging_origin_and_csrf(self):
+        from fastapi import FastAPI, Request
+        from fastapi.testclient import TestClient
+        import identity
+        app=FastAPI()
+        app.include_router(identity.router)
+        app.add_middleware(identity.AccountGuard)
+
+        @app.post("/api/jobs/demo")
+        def demo(request:Request):
+            return {"owner":request.state.user["id"]}
+
+        with TestClient(app,base_url="http://localhost:8012") as client:
+            profile=client.get("/api/me").json()
+            self.assertEqual(profile["user"]["role"],"guest")
+            good={"Origin":"http://localhost:8012","X-CSRF-Token":profile["csrf"]}
+            self.assertEqual(client.post("/api/jobs/demo",headers=good).status_code,200)
+            self.assertEqual(client.post("/api/jobs/demo",headers={"Origin":"http://attacker.com:8012","X-CSRF-Token":profile["csrf"]}).status_code,403)
+            self.assertEqual(client.post("/api/jobs/demo",headers={"Origin":"http://localhost:8012","X-CSRF-Token":"bad"}).status_code,403)
+
     def test_guest_mutations_need_same_origin_csrf(self):
         from fastapi import FastAPI, Request
         from fastapi.testclient import TestClient
