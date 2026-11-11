@@ -25,6 +25,13 @@ def initialize():
           email TEXT PRIMARY KEY, plan TEXT NOT NULL, days INTEGER NOT NULL,
           status TEXT NOT NULL, created DOUBLE PRECISION NOT NULL,
           updated DOUBLE PRECISION NOT NULL, approved_by TEXT NOT NULL)""")
+        c.execute("""CREATE TABLE IF NOT EXISTS plan_requests(
+          id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id),
+          email TEXT NOT NULL, plan TEXT NOT NULL, billing TEXT NOT NULL,
+          status TEXT NOT NULL, created DOUBLE PRECISION NOT NULL,
+          updated DOUBLE PRECISION NOT NULL, decided_by TEXT NOT NULL DEFAULT '')""")
+        c.execute("CREATE INDEX IF NOT EXISTS plan_requests_user ON plan_requests(user_id,status)")
+
 
 def _hash(value):
     return hashlib.sha256(value.encode()).hexdigest()
