@@ -6,9 +6,9 @@ from contextlib import contextmanager
 from fastapi import HTTPException
 
 PLANS = {
- "creator": dict(name="Creator", monthly=2, yearly=20, exports=10, previews=30, active=1, upload_gb=1, seconds=36000, height=1080, source_seconds=10800),
- "pro": dict(name="Pro", monthly=5, yearly=50, exports=25, previews=75, active=1, upload_gb=2, seconds=108000, height=1080, source_seconds=10800),
- "studio": dict(name="Studio", monthly=10, yearly=100, exports=50, previews=150, active=2, upload_gb=4, seconds=270000, height=2160, source_seconds=10800),
+ "creator": dict(name="Creator", monthly=1, yearly=10, exports=10, previews=30, active=1, upload_gb=1, seconds=36000, height=1080, source_seconds=10800),
+ "pro": dict(name="Pro", monthly=2, yearly=20, exports=25, previews=75, active=1, upload_gb=2, seconds=108000, height=1080, source_seconds=10800),
+ "studio": dict(name="Studio", monthly=3, yearly=30, exports=50, previews=150, active=2, upload_gb=4, seconds=270000, height=2160, source_seconds=10800),
 }
 for _plan, _audio_limit in (("creator",30),("pro",75),("studio",0)):
  PLANS[_plan]["mp3_exports"] = _audio_limit
@@ -76,6 +76,17 @@ def initialize():
  trial_guard.initialize()
  import guest_access
  guest_access.initialize()
+
+ # Update catalogue prices on existing persisted settings without overwriting quotas.
+ with tx(True) as c:
+  current=settings(c)
+  changed=False
+  for key, monthly in (("creator",1),("pro",2),("studio",3)):
+   if key in current.get("plans",{}):
+    plan=current["plans"][key]
+    if plan.get("monthly")!=monthly or plan.get("yearly")!=monthly*10:
+     plan["monthly"]=monthly;plan["yearly"]=monthly*10;changed=True
+  if changed:c.execute("UPDATE app_settings SET value=? WHERE id=1",(json.dumps(current),))
 
 def ensure_audio_schema():
  # Additive migration; all existing jobs, settings and accounts are preserved.
