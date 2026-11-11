@@ -8,6 +8,7 @@ from pathlib import Path
 
 _TEST_DIR = tempfile.TemporaryDirectory(prefix="velaur-guest-test-")
 os.environ["VELAUR_SQLITE_DEV"] = "1"
+os.environ["VELAUR_LOCAL_HTTP_TEST"] = "1"
 os.environ["DATABASE_URL"] = "sqlite:///" + str(Path(_TEST_DIR.name) / "test.sqlite3")
 
 import accounts as db
