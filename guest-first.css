@@ -1,25 +1,18 @@
 /* Guest-first visibility only. Existing VELAUR appearance is untouched. */
-html:not(.velaur-member) .site-nav a[href="/pricing"],
 html:not(.velaur-member) .site-nav a[href="/dashboard"],
 html:not(.velaur-member) .site-nav a[href="/login"],
 html:not(.velaur-member) .site-topbar .nav-login,
 html:not(.velaur-member) .site-topbar .nav-signout,
-html:not(.velaur-member) a[href="/pricing"],
 html:not(.velaur-member) a[href="/login"],
 html:not(.velaur-member) [data-unlock],
-html:not(.velaur-member) .pricing-section,
-html:not(.velaur-member) .plan-explainer,
-html:not(.velaur-member) .billing-switch,
 html:not(.velaur-member) .seo-workflow-links,
 html:not(.velaur-member) .member-only-pricing,
-html:not(.velaur-member) .quota-plans {
  display:none!important;
 }
 html.velaur-guest .site-topbar .nav-login,
 html.velaur-guest .site-topbar .nav-signout {display:none!important}
 
 /* Stronger than earlier !important navbar paint rules; visibility only. */
-html:not(.velaur-member) .web-shell .site-topbar .site-nav>a[href="/pricing"],
 html:not(.velaur-member) .web-shell .site-topbar .site-nav>a[href="/login"],
 html:not(.velaur-member) .web-shell .site-topbar .site-nav>a[href="/dashboard"],
 html:not(.velaur-member) .web-shell .site-topbar .site-nav>a.nav-login:not([hidden]),
@@ -28,11 +21,9 @@ html:not(.velaur-member) .web-shell .site-topbar>a.nav-login:not([hidden]),
 html:not(.velaur-member) .web-shell .site-topbar>button.nav-signout:not([hidden]),
 html.velaur-guest .web-shell .site-topbar>a.nav-login:not([hidden]),
 html.velaur-guest .web-shell .site-topbar>button.nav-signout:not([hidden]),
-html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/pricing"],
 html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/login"],
 html.velaur-guest .web-shell .site-topbar .site-nav>a[href="/dashboard"],
-html:not(.velaur-member) .quota-dialog .quota-plans,
-.quota-dialog .quota-plans[hidden] {display:none!important}
 
+/* Pricing remains public; approval requires verified Google sign-in. */
 /* Guest-first release does not offer a separate trial activation button. */
 html .web-shell [data-unlock] {display:none!important}
