@@ -188,8 +188,11 @@ class GuestHTTPTests(unittest.TestCase):
             queue=client.get("/api/admin/plan-requests",headers=admin_headers)
             self.assertEqual(queue.status_code,200)
             self.assertTrue(any(x["id"]==rid and x["status"]=="pending" for x in queue.json()["requests"]))
-            granted=client.post("/api/admin/plan-requests/"+rid+"/decision",
+            not_paid=client.post("/api/admin/plan-requests/"+rid+"/decision",
              json={"decision":"approved"},headers=admin_headers)
+            self.assertEqual(not_paid.status_code,400)
+            granted=client.post("/api/admin/plan-requests/"+rid+"/decision",
+             json={"decision":"approved","payment_verified":True},headers=admin_headers)
             self.assertEqual(granted.status_code,200,granted.text)
             with db.tx() as c:
                 active=db.access(c,db.get_user(c,uid))
