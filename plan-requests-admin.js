@@ -9,7 +9,7 @@
  panel.className='admin-panel';
  const title=document.createElement('h2');title.textContent='Pending plan approvals';
  const hint=document.createElement('p');
- hint.textContent='These requests are from verified Google accounts. Approval grants access immediately. No online payment is collected.';
+ hint.textContent='These requests are from verified Google accounts. Only approve after verifying manual payment receipt through WhatsApp. Approval grants access immediately; no online checkout is implemented.';
  const refreshButton=document.createElement('button');
  refreshButton.type='button';refreshButton.className='admin-button secondary';refreshButton.textContent='Refresh requests';
  const status=document.createElement('p');status.setAttribute('role','status');status.className='admin-muted';
@@ -32,11 +32,11 @@
     const reject=document.createElement('button');reject.type='button';reject.className='admin-button secondary';reject.textContent='Reject';
     for(const [btn,decision] of [[approve,'approved'],[reject,'rejected']]){
      btn.addEventListener('click',async()=>{
-      if(!confirm((decision==='approved'?'Approve':'Reject')+' the '+item.plan+' request for '+item.email+'?'))return;
+      if(!confirm((decision==='approved'?'Have you independently confirmed the manual payment was received? Approve':'Reject')+' the '+item.plan+' request for '+item.email+'?'))return;
       approve.disabled=true;reject.disabled=true;
       try{
        await A.request('/api/admin/plan-requests/'+encodeURIComponent(item.id)+'/decision',
-        {method:'POST',body:JSON.stringify({decision})});
+        {method:'POST',body:JSON.stringify({decision,payment_verified:decision==='approved'})});
        status.textContent='Request '+decision+' for '+item.email+'.';
        await refresh();
       }catch(e){status.textContent=e.message;approve.disabled=false;reject.disabled=false;}
